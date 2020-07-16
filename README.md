@@ -1,1 +1,1 @@
-# thesis_Project_ManageIT
+# thesis-Project-ManageIT
