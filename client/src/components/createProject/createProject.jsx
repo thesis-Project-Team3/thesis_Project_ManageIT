@@ -5,7 +5,7 @@ class CreateProject extends Component {
   state = {};
   render() {
     return (
-      <div>
+      <div className="create-project">
         <form>
           <legend className="section_title">Create a New Project</legend>
           <label htmlFor="title">Title</label>

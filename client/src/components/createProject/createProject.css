@@ -1,25 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Cabin');
 
-* {
-  box-sizing: border-box;
+.create-project {
+  font-family: 'Courier New', Courier, monospace;
 }
 
-body {
-  color: black;
-  padding: 0;
-  margin: 0;
-  background: linear-gradient(-45deg, #2177a0);
-}
-
-form {
-  font-family: 'Cabin', serif;
+.create-project form {
   max-width: 500px;
   margin: 0 auto;
   padding: 100px 20px;
 }
 
-legend {
-  font-family: 'Courier New', Courier, monospace;
+.create-project legend {
   font-weight: bold;
   text-align: center;
   text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
@@ -30,9 +21,8 @@ legend {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-input,
+.create-project input,
 textarea {
-  font-family: 'Courier New', Courier, monospace;
   font-size: 18px;
   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2),
     0px 1px 1px rgba(255, 255, 255, 0.3);
@@ -44,10 +34,9 @@ textarea {
   border: 1px solid rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
-  color: black;
 }
 
-input[type='submit'] {
+.create-project input[type='submit'] {
   font-size: 20px;
   background: #166387;
   border: 1px solid #044c6e;
@@ -55,11 +44,11 @@ input[type='submit'] {
     0px 4px 0px rgba(6, 82, 117, 1);
 }
 
-input[type='submit']:hover {
+.create-project input[type='submit']:hover {
   cursor: pointer;
 }
 
-input:focus,
+.create-project input:focus,
 textarea:focus {
   box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.3);
   border: 1px solid white;
@@ -67,7 +56,7 @@ textarea:focus {
   resize: none;
 }
 
-label {
+.create-project label {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: block;
   margin-bottom: 13px;

@@ -5,7 +5,7 @@ class UpdateProject extends Component {
   state = {};
   render() {
     return (
-      <div>
+      <div className="update-project">
         <form>
           <legend className="section_title">
             Add a Feature to an Existing Project
