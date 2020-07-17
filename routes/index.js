@@ -1,3 +1,3 @@
 module.exports = {
-  testRoutes: require('./testRoutes'),
+  projectRoutes: require('./projectRoutes'),
 };

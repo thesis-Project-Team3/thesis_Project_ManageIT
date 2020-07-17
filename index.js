@@ -25,8 +25,8 @@ app.use(express.static('uploads'));
 app.use(express.static('client/dist'));
 app.use(bodyParser.json());
 
-//test Route
-app.use('/test', routes.testRoutes);
+//project Route
+app.use('/project', routes.projectRoutes);
 
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/client/public/index.html');

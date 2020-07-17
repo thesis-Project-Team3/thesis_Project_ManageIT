@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Cabin');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
 .create-project {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Montserrat', Courier, monospace;
 }
 
 .create-project form {
