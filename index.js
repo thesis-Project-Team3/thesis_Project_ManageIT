@@ -28,12 +28,6 @@ app.use(bodyParser.json());
 //test Route
 app.use('/test', routes.testRoutes);
 
-// //post Route
-// app.use('/api/posts', routes.postRoutes);
-
-// //image Route
-// app.use('/api/image', routes.imageRoutes);
-
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/client/public/index.html');
 });
