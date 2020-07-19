@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 
 
 class Meetings extends Component {
+
     state = {}
+
+
     render() { 
+                                            
         return (<div>
             <form>
             <legend className="section_title">

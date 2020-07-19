@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
 const routes = require('./routes');
 const bodyParser = require('body-parser');
+// const ProjectSchema = require('./models/projectSchema')
 require('dotenv').config();
 const cors = require('cors');
 
@@ -20,13 +21,17 @@ connection.once('open', () => {
   console.log('MongoDB connected');
 });
 
+
 app.use(cors());
 app.use(express.static('uploads'));
 app.use(express.static('client/dist'));
 app.use(bodyParser.json());
 
+// app.post("/form", (req,res)=>{
+//   ProjectSchema.create([req.body])
+// })
 //test Route
-app.use('/test', routes.testRoutes);
+app.use('/', routes.testRoutes);
 
 // //post Route
 // app.use('/api/posts', routes.postRoutes);

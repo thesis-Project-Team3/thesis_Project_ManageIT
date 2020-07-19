@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from './components/sidebar.jsx'
+// import Sidebar from './components/sidebar.jsx'
 import './App.css';
 import CreateProject from './components/createProject/createProject.jsx'
 import UpdateProject from './components/updateProject/updateProject.jsx'
