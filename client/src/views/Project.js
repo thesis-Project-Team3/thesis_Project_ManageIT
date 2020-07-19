@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 // import Datetime from 'react-datetime';
 // import ReactDatetime from "react-datetime";
 // reactstrap components
@@ -19,13 +20,24 @@ import {
 
 class Project extends React.Component {
   state = {
-    newProject: { title: '', description: '', date: '' },
+    newProject: { title: '', description: '', deadline: '' },
   };
 
   handleChange = ({ currentTarget: input }) => {
     const newProject = { ...this.state.newProject };
     newProject[input.name] = input.value;
     this.setState({ newProject });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:5000/project/create', this.state.newProject)
+      .then((response) => {
+        console.log(response.data);
+      })
+
+      .catch((err) => console.log('Error', err));
   };
 
   render() {
@@ -159,10 +171,10 @@ class Project extends React.Component {
                                 type="datetime-local"
                                 className="form-control datetimepicker"
                                 min="2020-07-18T08:30"
-                                value={newProject.date}
+                                value={newProject.deadline}
                                 onChange={this.handleChange}
-                                id="date"
-                                name="date"
+                                id="deadline"
+                                name="deadline"
                               />
                             </FormGroup>
                           </CardBody>
@@ -172,7 +184,12 @@ class Project extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleSubmit}
+                  >
                     Submit
                   </Button>
                 </CardFooter>
