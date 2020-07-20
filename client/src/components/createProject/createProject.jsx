@@ -16,7 +16,7 @@ class CreateProject extends Component {
     e.preventDefault()
     console.log(this.state)
 
-  axios.post('http://localhost:3000/', this.state)
+  axios.post('http://localhost:3000/project/update', this.state)
     .then(()=>{
       console.log('data sent')
     })

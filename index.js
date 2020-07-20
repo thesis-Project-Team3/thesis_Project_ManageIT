@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 5000;
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 // const ProjectSchema = require('./models/projectSchema')
+const path = require('path')
 require('dotenv').config();
 const cors = require('cors');
 
@@ -23,15 +24,17 @@ connection.once('open', () => {
 
 
 app.use(cors());
-app.use(express.static('uploads'));
-app.use(express.static('client/dist'));
+// app.use(express.static('uploads'));
+// app.use(express.static('build/index.html'));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
+app.use(express.urlencoded({extended:false}))
 
 // app.post("/form", (req,res)=>{
 //   ProjectSchema.create([req.body])
 // })
 //test Route
-app.use('/', routes.testRoutes);
+app.use('/project', routes.testRoutes);
 
 // //post Route
 // app.use('/api/posts', routes.postRoutes);
@@ -40,7 +43,8 @@ app.use('/', routes.testRoutes);
 // app.use('/api/image', routes.imageRoutes);
 
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/client/public/index.html');
+  // res.sendFile(__dirname + '/build/index.html');
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {

@@ -2,17 +2,21 @@ const mongoose = require('mongoose')
 
 
 
-const UserSchema= new mongoose.Schema({
-    Title: {
+const UpdateSchema= new mongoose.Schema({
+    Department: {
         type: String
     },
-    Description:{
+
+    description:{
         type:String
     },
-    Date:{
-        type:Date
-    } 
+    date:{
+        type:String
+    },
+    selectValue:{
+        type: String
+    }
 })
-const Project = mongoose.model("project", UserSchema);
+const Project = mongoose.model("project", UpdateSchema);
 
 module.exports = Project;

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import './updateProject.css';
 
 class UpdateProject extends Component {
+  constructor(props){
+    super(props)
+  }
   state = {};
   render() {
     return (
