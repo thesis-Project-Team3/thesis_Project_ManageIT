@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000;
 const routes = require("./routes");
 const bodyParser = require("body-parser");
+const path = require("path");
 require("dotenv").config();
 const cors = require("cors");
+
 // Connection to DB
 const uri = process.env.URI;
 mongoose.connect(uri, {
@@ -20,8 +22,9 @@ connection.once("open", () => {
 });
 
 app.use(cors());
-app.use(express.static("uploads"));
-app.use(express.static("client/dist"));
+// app.use(express.static('uploads'));
+// app.use(express.static('build/index.html'));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(bodyParser.json());
 
 //test Route
@@ -35,7 +38,8 @@ app.use("/deleteHeadDepartment", routes.deleteHeadDepartment);
 // app.use('/api/image', routes.imageRoutes);
 
 app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/client/public/index.html");
+  // res.sendFile(__dirname + '/build/index.html');
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(PORT, () => {
