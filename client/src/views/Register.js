@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  CardImg,
+  // CardImg,
   CardTitle,
   Label,
   FormGroup,
@@ -17,7 +17,7 @@ import {
   InputGroupText,
   InputGroup,
   Container,
-  // Row,
+  Row,
   Col
 } from "reactstrap";
 
@@ -34,7 +34,7 @@ class Register extends React.Component {
         <div className="content">
           <Container>
             {/* <Row> */}
-              {/* <Col className="ml-auto" md="5">
+            {/* <Col className="ml-auto" md="5">
                 <div className="info-area info-horizontal mt-5">
                   <div className="icon icon-warning">
                     <i className="tim-icons icon-wifi" />
@@ -72,53 +72,66 @@ class Register extends React.Component {
                   </div>
                 </div>
               </Col> */}
-              <Col className="mr-auto" lg="5" md="7">
+            <Col className="mr-auto" lg="8" md="6">
               <Form className="form">
                 <Card className="card-register card-white">
                   <CardHeader>
-                    <CardImg
+                  <img
                       alt="..."
                       src={require("./card-primary.png")}
                     />
                     <CardTitle tag="h1">Register</CardTitle>
                   </CardHeader>
                   <CardBody>
-                    
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="tim-icons icon-single-02" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input placeholder="Full Name" type="text" />
-                      </InputGroup>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="tim-icons icon-email-85" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input placeholder="Email" type="text" />
-                      </InputGroup>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="tim-icons icon-lock-circle" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input placeholder="Password" type="text" />
-                      </InputGroup>
-                      <FormGroup check className="text-left">
-                        <Label check>
-                          <Input type="checkbox" />
-                          <span className="form-check-sign" />I agree to the{" "}
-                          <a href="#pablo" onClick={e => e.preventDefault()}>
-                            terms and conditions
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="tim-icons icon-badge" />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input placeholder="Department" type="text" />
+                    </InputGroup>
+                    <Row>
+                      <Col lg="6" md="4">
+                        <InputGroup>
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              <i className="tim-icons icon-single-02" />
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input placeholder="Username" type="text" />
+                        </InputGroup>
+                      </Col>
+                      <Col lg="6" md="4">
+                        <InputGroup>
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              <i className="tim-icons icon-email-85" />
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input placeholder="Email" type="text" />
+                        </InputGroup>
+                      </Col>
+                    </Row>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="tim-icons icon-lock-circle" />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input placeholder="Password" type="text" />
+                    </InputGroup>
+                    <FormGroup check className="text-left">
+                      <Label check>
+                        <Input type="checkbox" />
+                        <span className="form-check-sign" />I agree to the{" "}
+                        <a href="#pablo" onClick={e => e.preventDefault()}>
+                          terms and conditions
                           </a>
                           .
                         </Label>
-                      </FormGroup>
-                  
+                    </FormGroup>
+
                   </CardBody>
                   <CardFooter>
                     <Button
@@ -132,8 +145,8 @@ class Register extends React.Component {
                     </Button>
                   </CardFooter>
                 </Card>
-                </Form>
-              </Col>
+              </Form>
+            </Col>
             {/* </Row> */}
           </Container>
         </div>

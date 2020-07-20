@@ -6,10 +6,13 @@ import Notifications from "views/Notifications.js";
 // import Rtl from "views/Rtl.js";
 import TableList from "views/TableList.js";
 import Project from "views/Project.js";
-import Login from "views/Login.js";
+// import Login from "views/Login.js";
 import Register from "views/Register.js";
+import RemoveEmployee from "views/RemoveEmployee.js";
+import RemoveHead from "views/RemoveHead.js";
 import UpdateProject from "views/UpdateProject.js";
-import ScheduledMeeting from "views/ScheduledMeeting.js";
+import ScheduleMeeting from "views/ScheduleMeeting.js";
+import Meetings from "views/Meetings.js";
 import UserProfile from "views/UserProfile.js";
 
 var routes = [
@@ -45,6 +48,14 @@ var routes = [
     component: UpdateProject,
     layout: "/admin"
   },
+  {
+    path: "/ScheduleMeeting",
+    name: "Schedule Meeting",
+    rtlName: "اجتماع مجدول",
+    icon: "tim-icons icon-time-alarm",
+    component: ScheduleMeeting,
+    layout: "/admin"
+  },
   // {
   //   path: "/icons",
   //   name: "Icons",
@@ -78,29 +89,45 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/scheduled-meeting",
-    name: "Scheduled Meeting",
+    path: "/meetings",
+    name: "Meetings",
     rtlName: "اجتماع مجدول",
-    icon: "tim-icons icon-time-alarm",
-    component: ScheduledMeeting,
+    icon: "tim-icons icon-bullet-list-67",
+    component: Meetings,
     layout: "/admin"
   },
-  {
-    path: "/Login",
-    name: "Login",
-    rtlName: "ل",
-    icon: "tim-icons icon-time-alarm",
-    component: Login,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/Login",
+  //   name: "Login",
+  //   rtlName: "ل",
+  //   icon: "tim-icons icon-time-alarm",
+  //   component: Login,
+  //   layout: "/"
+  // },
   {
     path: "/Register",
-    name: "Register",
+    name: "Add Employee",
     rtlName: "ل",
-    icon: "tim-icons icon-time-alarm",
+    icon: "tim-icons icon-simple-add",
     component: Register,
     layout: "/admin"
-  }
+  },
+  {
+    path: "/RemoveEmployee",
+    name: "Remove Employee",
+    rtlName: "ل",
+    icon: "tim-icons icon-simple-delete",
+    component: RemoveEmployee,
+    layout: "/admin"
+  },
+  {
+    path: "/RemoveHead",
+    name: "Remove Head of Department",
+    rtlName: "ل",
+    icon: "tim-icons icon-simple-delete",
+    component: RemoveHead,
+    layout: "/admin"
+  },
   // {
   //   path: "/rtl-support",
   //   name: "RTL Support",
