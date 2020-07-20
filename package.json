@@ -52,6 +52,8 @@
     "typescript": "3.8.3"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^4.19.1",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8"
   }
