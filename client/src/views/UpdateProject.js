@@ -1,5 +1,6 @@
-import React from "react";
-import Select from "react-select";
+import React from 'react';
+import Select from 'react-select';
+import axios from 'axios';
 import {
   Button,
   Card,
@@ -12,16 +13,31 @@ import {
   Form,
   Input,
   Row,
-  Col
-} from "reactstrap";
+  Col,
+} from 'reactstrap';
 
 class UpdateProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       singleSelect: null,
-      multipleSelect: null
+      multipleSelect: null,
+      projects: [],
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get('http://localhost:5000/project/create/')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          projects: response.data,
+        });
+        // console.log(this.state.classesList);
+      })
+
+      .catch((err) => console.log('Error', err));
   }
   render() {
     return (
@@ -55,15 +71,15 @@ class UpdateProject extends React.Component {
                             classNamePrefix="react-select"
                             name="singleSelect"
                             value={this.state.singleSelect}
-                            onChange={value =>
+                            onChange={(value) =>
                               this.setState({ singleSelect: value })
                             }
                             options={[
-                              { value: "1", label: "Project 1" },
-                              { value: "2", label: "Project 2" },
-                              { value: "3", label: "Project 3" },
-                              { value: "4", label: "Project 4" },
-                              { value: "5", label: "Project 5" },
+                              { value: '1', label: 'Project 1' },
+                              { value: '2', label: 'Project 2' },
+                              { value: '3', label: 'Project 3' },
+                              { value: '4', label: 'Project 4' },
+                              { value: '5', label: 'Project 5' },
                             ]}
                             placeholder="Single Select"
                           />
@@ -151,9 +167,14 @@ class UpdateProject extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label class="label-control">Do it before : </label>
-                              <input type="datetime-local" class="form-control datetimepicker"
-                                min="2020-07-18T08:30" />
+                              <label className="label-control">
+                                Do it before :{' '}
+                              </label>
+                              <input
+                                type="datetime-local"
+                                className="form-control datetimepicker"
+                                min="2020-07-18T08:30"
+                              />
                             </FormGroup>
                           </CardBody>
                         </Card>
@@ -177,7 +198,7 @@ class UpdateProject extends React.Component {
                     <div className="block block-two" />
                     <div className="block block-three" />
                     <div className="block block-four" />
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
                         className="avatar"
@@ -185,11 +206,11 @@ class UpdateProject extends React.Component {
                       />
                       <h5 className="title">Mohamed Amine Oueslati</h5>
                     </a>
-                    <p className="description">Accounting Department Employee</p>
+                    <p className="description">
+                      Accounting Department Employee
+                    </p>
                   </div>
-                  <div className="card-description">
-                    ME .......
-                  </div>
+                  <div className="card-description">ME .......</div>
                 </CardBody>
                 <CardFooter>
                   <div className="button-container">

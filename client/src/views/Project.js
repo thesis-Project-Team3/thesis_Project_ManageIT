@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import axios from 'axios';
 // import Datetime from 'react-datetime';
 // import ReactDatetime from "react-datetime";
 // reactstrap components
@@ -14,11 +15,39 @@ import {
   Form,
   Input,
   Row,
-  Col
-} from "reactstrap";
+  Col,
+} from 'reactstrap';
 
 class Project extends React.Component {
+  state = {
+    newProject: {
+      title: '',
+      description: '',
+      deadline: '',
+      status: 'in progress',
+      progress: 'sent to the head of the department',
+    },
+  };
+
+  handleChange = ({ currentTarget: input }) => {
+    const newProject = { ...this.state.newProject };
+    newProject[input.name] = input.value;
+    this.setState({ newProject });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:5000/project/create', this.state.newProject)
+      .then((response) => {
+        console.log(response.data);
+      })
+
+      .catch((err) => console.log('Error', err));
+  };
+
   render() {
+    const { newProject } = this.state;
     return (
       <>
         <div className="content">
@@ -48,6 +77,10 @@ class Project extends React.Component {
                           <Input
                             placeholder="Project Title"
                             type="text"
+                            value={newProject.title}
+                            onChange={this.handleChange}
+                            id="title"
+                            name="title"
                           />
                         </FormGroup>
                       </Col>
@@ -124,6 +157,10 @@ class Project extends React.Component {
                             placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
+                            value={newProject.description}
+                            onChange={this.handleChange}
+                            id="description"
+                            name="description"
                           />
                         </FormGroup>
                       </Col>
@@ -133,9 +170,18 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                            <label class="label-control">Do it before : </label>
-                            <input type="datetime-local" class="form-control datetimepicker" 
-                            min="2020-07-18T08:30" />
+                              <label className="label-control">
+                                Do it before :{' '}
+                              </label>
+                              <input
+                                type="datetime-local"
+                                className="form-control datetimepicker"
+                                min="2020-07-18T08:30"
+                                value={newProject.deadline}
+                                onChange={this.handleChange}
+                                id="deadline"
+                                name="deadline"
+                              />
                             </FormGroup>
                           </CardBody>
                         </Card>
@@ -144,7 +190,12 @@ class Project extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleSubmit}
+                  >
                     Submit
                   </Button>
                 </CardFooter>
@@ -159,7 +210,7 @@ class Project extends React.Component {
                     <div className="block block-two" />
                     <div className="block block-three" />
                     <div className="block block-four" />
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
                         className="avatar"
@@ -167,11 +218,11 @@ class Project extends React.Component {
                       />
                       <h5 className="title">Mohamed Amine Oueslati</h5>
                     </a>
-                    <p className="description">Accounting Department Employee</p>
+                    <p className="description">
+                      Accounting Department Employee
+                    </p>
                   </div>
-                  <div className="card-description">
-                    ME .......
-                  </div>
+                  <div className="card-description">ME .......</div>
                 </CardBody>
                 <CardFooter>
                   <div className="button-container">
