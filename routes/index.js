@@ -1,3 +1,4 @@
 module.exports = {
-  testRoutes: require('./testRoutes'),
+  projectRoutes: require('./projectRoutes'),
+  authRoutes: require('./authRoutes'),
 };
