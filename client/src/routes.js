@@ -7,6 +7,7 @@ import TableList from 'views/TableList.js';
 import Project from 'views/Project.js';
 // import Login from "views/Login.js";
 import Register from 'views/Register.js';
+import RegisterHead from 'views/RegisterHead.js';
 import RemoveEmployee from 'views/RemoveEmployee.js';
 import RemoveHead from 'views/RemoveHead.js';
 import UpdateProject from 'views/UpdateProject.js';
@@ -101,8 +102,16 @@ var routes = [
   //   rtlName: "ل",
   //   icon: "tim-icons icon-time-alarm",
   //   component: Login,
-  //   layout: "/"
+  //   layout: "/admin"
   // },
+  {
+    path: '/RegisterHead',
+    name: 'Add Head of Department',
+    rtlName: 'ل',
+    icon: 'tim-icons icon-simple-add',
+    component: RegisterHead,
+    layout: '/admin',
+  },
   {
     path: '/Register',
     name: 'Add Employee',
