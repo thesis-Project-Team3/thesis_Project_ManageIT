@@ -20,7 +20,13 @@ import {
 
 class Project extends React.Component {
   state = {
-    newProject: { title: '', description: '', deadline: '' },
+    newProject: {
+      title: '',
+      description: '',
+      deadline: '',
+      status: 'in progress',
+      progress: 'sent to the head of the department',
+    },
   };
 
   handleChange = ({ currentTarget: input }) => {

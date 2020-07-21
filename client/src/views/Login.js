@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -14,17 +15,40 @@ import {
   InputGroupText,
   InputGroup,
   Container,
-  Col
-} from "reactstrap";
+  Col,
+} from 'reactstrap';
 
 class Login extends React.Component {
+  state = { loginInformations: { email: '', password: '' } };
   componentDidMount() {
-    document.body.classList.toggle("login-page");
+    document.body.classList.toggle('login-page');
   }
   componentWillUnmount() {
-    document.body.classList.toggle("login-page");
+    document.body.classList.toggle('login-page');
   }
+
+  handleChange = ({ currentTarget: input }) => {
+    const loginInformations = { ...this.state.loginInformations };
+    loginInformations[input.name] = input.value;
+    this.setState({ loginInformations });
+  };
+
+  // handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   axios
+  //     .post(
+  //       'http://localhost:5000/project/create',
+  //       this.state.loginInformations
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+
+  //     .catch((err) => console.log('Error', err));
+  // };
+
   render() {
+    const { loginInformations } = this.state;
     return (
       <>
         <div className="content">
@@ -33,10 +57,7 @@ class Login extends React.Component {
               <Form className="form">
                 <Card className="card-login card-white">
                   <CardHeader>
-                    <img
-                      alt="..."
-                      src={require("./card-primary.png")}
-                    />
+                    <img alt="..." src={require('./card-primary.png')} />
                     <CardTitle tag="h1">Log in</CardTitle>
                   </CardHeader>
                   <CardBody>
@@ -46,7 +67,14 @@ class Login extends React.Component {
                           <i className="tim-icons icon-email-85" />
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input placeholder="Email" type="text" />
+                      <Input
+                        placeholder="Email"
+                        type="text"
+                        name="email"
+                        id="email"
+                        value={loginInformations.email}
+                        onChange={this.handleChange}
+                      />
                     </InputGroup>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
@@ -54,7 +82,14 @@ class Login extends React.Component {
                           <i className="tim-icons icon-lock-circle" />
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input placeholder="Password" type="text" />
+                      <Input
+                        placeholder="Password"
+                        type="text"
+                        name="password"
+                        id="password"
+                        value={loginInformations.password}
+                        onChange={this.handleChange}
+                      />
                     </InputGroup>
                   </CardBody>
                   <CardFooter>
@@ -63,7 +98,7 @@ class Login extends React.Component {
                       className="mb-3"
                       color="primary"
                       href="#pablo"
-                      onClick={e => e.preventDefault()}
+                      onClick={(e) => e.preventDefault()}
                       size="lg"
                     >
                       Get Started
@@ -73,7 +108,7 @@ class Login extends React.Component {
                         <a
                           className="link footer-link"
                           href="#pablo"
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                         >
                           Create Account
                         </a>
@@ -84,7 +119,7 @@ class Login extends React.Component {
                         <a
                           className="link footer-link"
                           href="#pablo"
-                          onClick={e => e.preventDefault()}
+                          onClick={(e) => e.preventDefault()}
                         >
                           Need Help?
                         </a>
