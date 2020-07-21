@@ -56,7 +56,7 @@ class UserProfile extends React.Component {
                           <label htmlFor="exampleInputEmail1">
                             Email address
                           </label>
-                          <Input placeholder="wesamin1991@gmail.com" type="email" />
+                          <Input defaultValue="wesamin1991@gmail.com" type="email" />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -123,7 +123,7 @@ class UserProfile extends React.Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md="8">
+                      <Col lg="10" md="8">
                         <FormGroup>
                           <label>About Me</label>
                           <Input

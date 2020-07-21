@@ -30,7 +30,7 @@ class UpdateProject extends React.Component {
     axios
       .get('http://localhost:5000/project/create/')
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         this.setState({
           projects: response.data,
         });
@@ -63,7 +63,7 @@ class UpdateProject extends React.Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg="5" md="6" sm="3" className="pr-md-1">
+                      <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
                           <label>Choose a Project</label>
                           <Select
@@ -167,12 +167,12 @@ class UpdateProject extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label class="label-control">
+                              <label className="label-control">
                                 Do it before :{' '}
                               </label>
                               <input
                                 type="datetime-local"
-                                class="form-control datetimepicker"
+                                className="form-control datetimepicker"
                                 min="2020-07-18T08:30"
                               />
                             </FormGroup>
