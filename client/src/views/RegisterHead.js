@@ -21,7 +21,7 @@ import {
   Col
 } from "reactstrap";
 
-class Register extends React.Component {
+class RegisterHead extends React.Component {
   componentDidMount() {
     document.body.classList.toggle("register-page");
   }
@@ -80,7 +80,7 @@ class Register extends React.Component {
                       alt="..."
                       src={require("./card-primary.png")}
                     />
-                    <CardTitle tag="h1">Add Employee</CardTitle>
+                    <CardTitle tag="h1">Add Head of Department</CardTitle>
                   </CardHeader>
                   <CardBody>
                     <InputGroup>
@@ -155,4 +155,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default RegisterHead;

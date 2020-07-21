@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import React from 'react';
 import axios from 'axios';
-
-=======
-import React from "react";
 import { Link } from "react-router-dom";
->>>>>>> 32d3fd8a32313234176678bb293393c9d13c4c98
 // reactstrap components
 import {
   Button,
@@ -104,13 +99,10 @@ class Login extends React.Component {
                       block
                       className="mb-3"
                       color="primary"
-<<<<<<< HEAD
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
-=======
                       // href="/admin/dashboard"
                       // onClick={e => e.preventDefault()}
->>>>>>> 32d3fd8a32313234176678bb293393c9d13c4c98
                       size="lg"
                     >
                       Get Started
