@@ -1,6 +1,6 @@
-import React from "react";
-import Select from "react-select";
-import axios from 'axios'
+import React from 'react';
+import Select from 'react-select';
+import axios from 'axios';
 import {
   Button,
   Card,
@@ -13,38 +13,52 @@ import {
   Form,
   Input,
   Row,
-  Col
-} from "reactstrap";
+  Col,
+} from 'reactstrap';
 
 class UpdateProject extends React.Component {
-    state = { 
-      Department: null,
-      description:"",
-      date:"",
-      selectValue:''
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      singleSelect: null,
+      multipleSelect: null,
+      projects: [],
     };
-  
+  }
 
-handleChange = e => {
-this.setState({ [e.target.name]: e.target.value })
-console.log(this.state)
-}
+// handleChange = e => {
+// this.setState({ [e.target.name]: e.target.value })
+// console.log(this.state)
+// }
 
-handleChange1=(e) => {
-    this.setState({ selectValue: e.value }, ()=>{console.log(this.state)});
+// handleChange1=(e) => {
+//     this.setState({ selectValue: e.value }, ()=>{console.log(this.state)});
     
-}
+// }
 
-  submit = e =>{
-    e.preventDefault()
-    axios.post('http://localhost:5000/project/update', this.state)
-    .then(()=>{
-      console.log('data sent')
-    })
-    .catch(()=>{
-      console.log('error')
-    })
+  // submit = e =>{
+  //   e.preventDefault()
+  //   axios.post('http://localhost:5000/project/update', this.state)
+  //   .then(()=>{
+  //     console.log('data sent')
+  //   })
+  //   .catch(()=>{
+  //     console.log('error')
+  //   })
+  // }
+
+  componentDidMount() {
+    axios
+      .get('http://localhost:5000/project/create/')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          projects: response.data,
+        });
+        
+      })
+
+      .catch((err) => console.log('Error', err));
   }
   render() {
     return (
@@ -69,94 +83,33 @@ handleChange1=(e) => {
                             type="text"
                             name="department"
                             value = {this.state.department}
-                            onChange={this.handleChange
-                            }
                           />
                         </FormGroup>
                       </Col>
                       <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
                           <label>Choose a Project</label>
-                          <Select  value={this.state.selectValue}
-                            onChange={this.handleChange1
-                            }
+                          <Select  value={this.state.selectValue}                           
                             className="react-select primary"
                             classNamePrefix="react-select"
-                            name="selecting"
+                            name="singleSelect"
+                            value={this.state.singleSelect}
+                            onChange={(value) =>
+                              this.setState({ singleSelect: value })
+                            }
                             options={[
-                              { value: "1", label: "Project 1"  },
-                              { value: "2", label: "Project 2" },
-                              { value: "3", label: "Project 3" },
-                              { value: "4", label: "Project 4" },
-                              { value: "5", label: "Project 5" },
+                              { value: '1', label: 'Project 1' },
+                              { value: '2', label: 'Project 2' },
+                              { value: '3', label: 'Project 3' },
+                              { value: '4', label: 'Project 4' },
+                              { value: '5', label: 'Project 5' },
                             ]}
                             placeholder="Single Select"
                           />
                         </FormGroup>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
-                          <Input
-                            defaultValue="Mohamed Amine"
-                            placeholder="First Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Oueslati"
-                            placeholder="Last Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="15 Avenue"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Yesminet"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Ben Arous"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" defaultValue="2096" />
-                        </FormGroup>
-                      </Col>
-                    </Row> */}
+                
                     <Row>
                       <Col md="11">
                         <FormGroup>
@@ -168,9 +121,7 @@ handleChange1=(e) => {
                             rows="10"
                             type="textarea"
                             name= "description"
-                            value={this.state.description}
-                            onChange={this.handleChange
-                            }
+                            value={this.state.description}                         
                           />
                         </FormGroup>
                       </Col>
@@ -180,10 +131,14 @@ handleChange1=(e) => {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label className="label-control">Do it before : </label>
-                              <input type="datetime-local" className="form-control datetimepicker"
-                                min="2020-07-18T08:30" name= "date" value= {this.state.date} onChange={this.handleChange
-                                }/>
+                              <label className="label-control">
+                                Do it before :{' '}
+                              </label>
+                              <input
+                                type="datetime-local"
+                                className="form-control datetimepicker"
+                                min="2020-07-18T08:30"
+                              />
                             </FormGroup>
                           </CardBody>
                         </Card>
@@ -207,7 +162,7 @@ handleChange1=(e) => {
                     <div className="block block-two" />
                     <div className="block block-three" />
                     <div className="block block-four" />
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
                         className="avatar"
@@ -215,11 +170,11 @@ handleChange1=(e) => {
                       />
                       <h5 className="title">Mohamed Amine Oueslati</h5>
                     </a>
-                    <p className="description">Accounting Department Employee</p>
+                    <p className="description">
+                      Accounting Department Employee
+                    </p>
                   </div>
-                  <div className="card-description">
-                    ME .......
-                  </div>
+                  <div className="card-description">ME .......</div>
                 </CardBody>
                 <CardFooter>
                   <div className="button-container">

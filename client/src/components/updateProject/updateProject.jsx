@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './updateProject.css';
 
 class UpdateProject extends Component {
+<<<<<<< HEAD
   constructor(props){
     super(props)
   }
@@ -9,6 +10,12 @@ class UpdateProject extends Component {
   render() {
     return (
       <div>
+=======
+  state = {};
+  render() {
+    return (
+      <div className="update-project">
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
         <form>
           <legend className="section_title">
             Add a Feature to an Existing Project
@@ -33,4 +40,8 @@ class UpdateProject extends Component {
   }
 }
 
+<<<<<<< HEAD
 export default UpdateProject;
+=======
+export default UpdateProject;
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1

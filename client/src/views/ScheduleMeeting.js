@@ -17,16 +17,41 @@ import {
   Row,
   Col
 } from "reactstrap";
+import axios from "axios";
 
 class ScheduleMeeting extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          singleSelect: null,
-          multipleSelect: null,
-          tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
+           subject:"",
+          // singleSelect: null,
+          date:"",
+          employees: [],
+          // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
         };
       }
+      handleChange = e =>{
+        this.setState({ [e.target.id]: e.target.value
+        ,[e.target.id]: e.target.value}, ()=>{console.log(this.state)})
+        
+      }
+      handleChange1=(e) => {
+       
+    this.setState({ employees: e }, ()=>{console.log(this.state)});
+      }
+
+ 
+      submit = e =>{
+        e.preventDefault()
+        axios.post('http://localhost:5000/meeting/create',this.state)
+           .then(()=>{
+          console.log('data sent')
+          })
+          .catch(()=>{
+          console.log('error')
+          })
+          }
+      
   render() {
     return (
       <>
@@ -57,6 +82,12 @@ class ScheduleMeeting extends React.Component {
                           <Input
                             placeholder="Subject for the meeting"
                             type="text"
+                            value={this.state.subject}
+                            onChange={this.handleChange}
+                            id="subject"
+                            // onChange={value =>
+                            //   this.setState({ subject: value })
+                            // }
                           />
                         </FormGroup>
                       </Col>
@@ -72,16 +103,14 @@ class ScheduleMeeting extends React.Component {
                             name="multipleSelect"
                             closeMenuOnSelect={false}
                             isMulti
-                            value={this.state.multipleSelect}
-                            onChange={value =>
-                              this.setState({ multipleSelect: value })
-                            }
+                            value={this.state.employees}
+                            // onChange={value =>
+                            //   this.setState({ employees: value })
+                            // }
+                            onChange={this.handleChange1}
+                            // id="employees"
                             options={[
-                            //   {
-                            //     value: "",
-                            //     label: " Multiple Options",
-                            //     isDisabled: true
-                            //   },
+  
                               { value: "2", label: "Mohamed Amine Oueslati " },
                               { value: "3", label: "Oussema Sferi" },
                               { value: "4", label: "Ranoua Lachheb" },
@@ -99,9 +128,13 @@ class ScheduleMeeting extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                            <label class="label-control">Date : </label>
-                            <input type="datetime-local" class="form-control datetimepicker" 
-                            min="2020-07-18T08:30" />
+                            <label className="label-control">Date : </label>
+                            <input type="datetime-local" className="form-control datetimepicker" 
+                            min="2020-07-18T08:30"
+                           value={this.state.date}
+                           onChange={this.handleChange}
+                           id="date"
+                            />
                             </FormGroup>
                           </CardBody>
                         </Card>
@@ -110,8 +143,8 @@ class ScheduleMeeting extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
-                    Submit
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.submit}>
+                    Submit 
                   </Button>
                 </CardFooter>
               </Card>
