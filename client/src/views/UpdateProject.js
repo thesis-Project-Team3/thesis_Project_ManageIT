@@ -74,7 +74,7 @@ handleChange1=(e) => {
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg="5" md="6" sm="3" className="pr-md-1">
+                      <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
                           <label>Choose a Project</label>
                           <Select  value={this.state.selectValue}

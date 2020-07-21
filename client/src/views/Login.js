@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 // reactstrap components
 import {
   Button,
@@ -58,16 +58,19 @@ class Login extends React.Component {
                     </InputGroup>
                   </CardBody>
                   <CardFooter>
+                  <Link to={"/admin/dashboard"} >
                     <Button
+                    // to="/admin/dashboard"
                       block
                       className="mb-3"
                       color="primary"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
+                      // href="/admin/dashboard"
+                      // onClick={e => e.preventDefault()}
                       size="lg"
                     >
                       Get Started
                     </Button>
+                    </Link>
                     <div className="pull-left">
                       <h6>
                         <a

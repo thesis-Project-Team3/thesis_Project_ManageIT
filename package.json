@@ -1,8 +1,9 @@
 {
-  "name": "manageIT",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "black-dashboard-react",
+  "version": "1.1.0",
+  "private": true,
+  "homepage": "https://demos.creative-tim.com/black-dashboard-react/#/admin/dashboard",
+ 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
