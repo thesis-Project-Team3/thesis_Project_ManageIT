@@ -23,7 +23,14 @@ import {
 } from 'reactstrap';
 
 class Register extends React.Component {
-  state = { RegisterInformations: { email: '', password: '' } };
+  state = {
+    RegisterInformations: {
+      department: '',
+      fullname: '',
+      email: '',
+      password: '',
+    },
+  };
   componentDidMount() {
     document.body.classList.toggle('register-page');
   }
@@ -39,7 +46,7 @@ class Register extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:5000/user', this.state.RegisterInformations)
+      .post('http://localhost:5000/users', this.state.RegisterInformations)
       .then((response) => {
         console.log(response.data);
       })
@@ -105,37 +112,46 @@ class Register extends React.Component {
                           <i className="tim-icons icon-badge" />
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input placeholder="Department" type="text" />
+                      <Input
+                        placeholder="Department"
+                        type="text"
+                        name="department"
+                        id="department"
+                        value={RegisterInformations.department}
+                        onChange={this.handleChange}
+                      />
                     </InputGroup>
-                    <Row>
-                      <Col lg="6" md="4">
-                        <InputGroup>
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-single-02" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input placeholder="Username" type="text" />
-                        </InputGroup>
-                      </Col>
-                      <Col lg="6" md="4">
-                        <InputGroup>
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-email-85" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            placeholder="Email"
-                            type="text"
-                            name="email"
-                            id="email"
-                            value={RegisterInformations.email}
-                            onChange={this.handleChange}
-                          />
-                        </InputGroup>
-                      </Col>
-                    </Row>
+
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="tim-icons icon-single-02" />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="Fullname"
+                        type="text"
+                        name="fullname"
+                        id="fullname"
+                        value={RegisterInformations.fullname}
+                        onChange={this.handleChange}
+                      />
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="tim-icons icon-email-85" />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="Email"
+                        type="text"
+                        name="email"
+                        id="email"
+                        value={RegisterInformations.email}
+                        onChange={this.handleChange}
+                      />
+                    </InputGroup>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -144,14 +160,14 @@ class Register extends React.Component {
                       </InputGroupAddon>
                       <Input
                         placeholder="Password"
-                        type="text"
+                        type="password"
                         name="password"
                         id="password"
                         value={RegisterInformations.password}
                         onChange={this.handleChange}
                       />
                     </InputGroup>
-                    <FormGroup check className="text-left">
+                    {/* <FormGroup check className="text-left">
                       <Label check>
                         <Input type="checkbox" />
                         <span className="form-check-sign" />I agree to the{' '}
@@ -160,7 +176,7 @@ class Register extends React.Component {
                         </a>
                         .
                       </Label>
-                    </FormGroup>
+                    </FormGroup> */}
                   </CardBody>
                   <CardFooter>
                     <Button

@@ -35,12 +35,14 @@ class Login extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
     axios
-      .post('http://localhost:5000/auth/login', this.state.loginInformations)
+      .post('http://localhost:5000/auth/', this.state.loginInformations)
       .then((response) => {
         console.log(response.data);
+        localStorage.setItem('token', response.data);
+        this.props.history.push('/admin/dashboard');
       })
-
       .catch((err) => console.log('Error', err));
   };
 
