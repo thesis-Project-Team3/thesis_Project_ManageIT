@@ -5,7 +5,7 @@ import Notifications from 'views/Notifications.js';
 // import Rtl from "views/Rtl.js";
 import TableList from 'views/TableList.js';
 import Project from 'views/Project.js';
-// import Login from "views/Login.js";
+import Login from 'views/Login.js';
 import Register from 'views/Register.js';
 import RemoveEmployee from 'views/RemoveEmployee.js';
 import RemoveHead from 'views/RemoveHead.js';
@@ -95,14 +95,14 @@ var routes = [
     component: Meetings,
     layout: '/admin',
   },
-  // {
-  //   path: "/Login",
-  //   name: "Login",
-  //   rtlName: "ل",
-  //   icon: "tim-icons icon-time-alarm",
-  //   component: Login,
-  //   layout: "/"
-  // },
+  {
+    path: '/Login',
+    name: 'Login',
+    rtlName: 'ل',
+    icon: 'tim-icons icon-time-alarm',
+    component: Login,
+    layout: '/admin',
+  },
   {
     path: '/Register',
     name: 'Add Employee',

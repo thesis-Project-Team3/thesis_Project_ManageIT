@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import React from 'react';
 import axios from 'axios';
-
-=======
-import React from "react";
-import { Link } from "react-router-dom";
->>>>>>> 32d3fd8a32313234176678bb293393c9d13c4c98
 // reactstrap components
 import {
   Button,
@@ -25,6 +19,7 @@ import {
 
 class Login extends React.Component {
   state = { loginInformations: { email: '', password: '' } };
+
   componentDidMount() {
     document.body.classList.toggle('login-page');
   }
@@ -38,19 +33,16 @@ class Login extends React.Component {
     this.setState({ loginInformations });
   };
 
-  // handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   axios
-  //     .post(
-  //       'http://localhost:5000/project/create',
-  //       this.state.loginInformations
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
+  handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:5000/auth/login', this.state.loginInformations)
+      .then((response) => {
+        console.log(response.data);
+      })
 
-  //     .catch((err) => console.log('Error', err));
-  // };
+      .catch((err) => console.log('Error', err));
+  };
 
   render() {
     const { loginInformations } = this.state;
@@ -98,24 +90,16 @@ class Login extends React.Component {
                     </InputGroup>
                   </CardBody>
                   <CardFooter>
-                  <Link to={"/admin/dashboard"} >
                     <Button
-                    // to="/admin/dashboard"
                       block
                       className="mb-3"
                       color="primary"
-<<<<<<< HEAD
                       href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-=======
-                      // href="/admin/dashboard"
-                      // onClick={e => e.preventDefault()}
->>>>>>> 32d3fd8a32313234176678bb293393c9d13c4c98
+                      onClick={this.handleSubmit}
                       size="lg"
                     >
                       Get Started
                     </Button>
-                    </Link>
                     <div className="pull-left">
                       <h6>
                         <a
