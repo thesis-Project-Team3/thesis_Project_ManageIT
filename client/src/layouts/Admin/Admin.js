@@ -124,7 +124,6 @@ class Admin extends React.Component {
               brandText={this.getBrandText(this.props.location.pathname)}
               toggleSidebar={this.toggleSidebar}
               sidebarOpened={this.state.sidebarOpened}
-              user={this.state.user}
             />
             <Switch>
               {this.getRoutes(routes)}

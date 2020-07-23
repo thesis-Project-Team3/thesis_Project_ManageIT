@@ -4,7 +4,7 @@ const Joi = require('joi');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  fulltName: {
+  fullname: {
     type: String,
   },
   email: {

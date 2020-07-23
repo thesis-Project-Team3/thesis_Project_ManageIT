@@ -24,4 +24,24 @@ router.post('/', async (req, res) => {
   res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email']));
 });
 
+router.get('/', (req, res) => {
+  User.find({}, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+router.get('/:id', (req, res) => {
+  User.find({ _id: req.params.id }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 module.exports = router;
