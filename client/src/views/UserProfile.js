@@ -37,6 +37,7 @@ class UserProfile extends React.Component {
       .catch((err) => console.log('Error', err));
   }
   render() {
+    const { profileInformations } = this.state;
     return (
       <>
         <div className="content">
@@ -53,9 +54,7 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue={
-                              this.state.profileInformations.department
-                            }
+                            defaultValue={profileInformations.department}
                             disabled
                             placeholder="Department"
                             type="text"
@@ -67,9 +66,7 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>Fullname</label>
                           <Input
-                            defaultValue={
-                              this.state.profileInformations.fullname
-                            }
+                            defaultValue={profileInformations.fullname}
                             placeholder="Fullname"
                             type="text"
                           />
@@ -82,7 +79,7 @@ class UserProfile extends React.Component {
                             Email address
                           </label>
                           <Input
-                            defaultValue={this.state.profileInformations.email}
+                            defaultValue={profileInformations.email}
                             type="email"
                             disabled
                           />
@@ -172,13 +169,10 @@ class UserProfile extends React.Component {
                         className="avatar"
                         src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
                       />
-                      <h5 className="title">
-                        {this.state.profileInformations.fullname}
-                      </h5>
+                      <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      {this.state.profileInformations.department} Department
-                      Employee
+                      {profileInformations.department} Department Employee
                     </p>
                   </div>
                   <div className="card-description">ME .......</div>

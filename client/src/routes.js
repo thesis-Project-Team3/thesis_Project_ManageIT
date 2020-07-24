@@ -1,3 +1,4 @@
+import jwtDecode from 'jwt-decode';
 import Dashboard from 'views/Dashboard.js';
 // import Icons from "views/Icons.js";
 // import Map from "views/Map.js";
@@ -105,7 +106,7 @@ var routes = [
   },
   {
     path: '/Register',
-    name: 'Add Employee',
+    name: 'Add a new head of department',
     rtlName: 'ل',
     icon: 'tim-icons icon-simple-add',
     component: Register,
@@ -136,4 +137,26 @@ var routes = [
   //   layout: "/rtl"
   // }
 ];
+
+// if (jwtDecode(localStorage.getItem('token'))) {
+//   routes = [
+//     {
+//       path: '/user-profile',
+//       name: 'User Profile',
+//       rtlName: 'ملف تعريفي للمستخدم',
+//       icon: 'tim-icons icon-single-02',
+//       component: UserProfile,
+//       layout: '/admin',
+//     },
+//     {
+//       path: '/Login',
+//       name: 'Login',
+//       rtlName: 'ل',
+//       icon: 'tim-icons icon-time-alarm',
+//       component: Login,
+//       layout: '/admin',
+//     },
+//   ];
+// }
+
 export default routes;

@@ -83,7 +83,7 @@ class Login extends React.Component {
                       </InputGroupAddon>
                       <Input
                         placeholder="Password"
-                        type="text"
+                        type="password"
                         name="password"
                         id="password"
                         value={loginInformations.password}
@@ -102,28 +102,6 @@ class Login extends React.Component {
                     >
                       Get Started
                     </Button>
-                    <div className="pull-left">
-                      <h6>
-                        <a
-                          className="link footer-link"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Create Account
-                        </a>
-                      </h6>
-                    </div>
-                    <div className="pull-right">
-                      <h6>
-                        <a
-                          className="link footer-link"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Need Help?
-                        </a>
-                      </h6>
-                    </div>
                   </CardFooter>
                 </Card>
               </Form>

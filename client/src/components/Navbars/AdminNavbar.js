@@ -72,7 +72,7 @@ class AdminNavbar extends React.Component {
   //this is a function for logging out the user
   logout = () => {
     localStorage.removeItem('token');
-    window.location = '/';
+    window.location = '/login';
   };
   render() {
     return (
