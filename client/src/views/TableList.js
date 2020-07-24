@@ -1,6 +1,6 @@
 
 import React from "react";
-
+import axios from 'axios';
 // reactstrap components
 import {
   Card,
@@ -13,7 +13,32 @@ import {
 } from "reactstrap";
 
 class Tables extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state= {
+      projects: []
+    }
+  }
+  componentDidMount() {
+    axios
+      .get('http://localhost:5000/project/create/')
+      .then((response) => { 
+        var projects = response.data
+        console.log(projects)
+        this.setState({projects})
+      })
+  }
+
   render() {
+    var ProjectHistory = this.state.projects.map((proj,i)=>{
+      return (<tr key={i}>
+        <td>{proj.title}</td>
+        <td>{proj.description}</td>
+        <td>{proj.deadline.slice(0,10)}</td>
+        <td className="text-center">$36,738</td>
+        <th>{proj.status}</th>
+      </tr>)
+    })
     return (
       <>
         <div className="content">
@@ -29,67 +54,19 @@ class Tables extends React.Component {
                       <tr>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Duration</th>
+                        <th>Do before</th>
                         <th className="text-center">Cost</th>
                         <th>Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>New Project</td>
-                        <td>describe your project</td>
-                        <td>10 JUNE - 10 JULY</td>
-                        <td className="text-center">$36,738</td>
-                        <th>ON Progress</th>
-                      </tr>
-                      <tr>
-                        <td>New Project</td>
-                        <td>describe your project</td>
-                        <td>10 JUNE - 10 JULY</td>
-                        <td className="text-center">$36,738</td>
-                        <th>ON Progress</th>
-                      </tr>
-                      <tr>
-                        <td>New Project</td>
-                        <td>describe your project</td>
-                        <td>10 JUNE - 10 JULY</td>
-                        <td className="text-center">$36,738</td>
-                        <th>ON Progress</th>
-                      </tr>
-                      <tr>
-                        <td>New Project</td>
-                        <td>describe your project</td>
-                        <td>10 JUNE - 10 JULY</td>
-                        <td className="text-center">$36,738</td>
-                        <th>ON Progress</th>
-                      </tr>
-                      <tr>
-                        <td>New Project</td>
-                        <td>describe your project</td>
-                        <td>10 JUNE - 10 JULY</td>
-                        <td className="text-center">$36,738</td>
-                        <th>ON Progress</th>
-                      </tr>
-                      <tr>
-                        <td>New Project</td>
-                        <td>describe your project</td>
-                        <td>10 JUNE - 10 JULY</td>
-                        <td className="text-center">$36,738</td>
-                        <th>ON Progress</th>
-                      </tr>
-                      <tr>
-                        <td>New Project</td>
-                        <td>describe your project</td>
-                        <td>10 JUNE - 10 JULY</td>
-                        <td className="text-center">$36,738</td>
-                        <th>ON Progress</th>
-                      </tr>
+                      {ProjectHistory}
                     </tbody>
                   </Table>
                 </CardBody>
               </Card>
             </Col>
-            <Col md="12">
+            {/* <Col md="12">
               <Card className="card-plain">
                 <CardHeader>
                   <CardTitle tag="h4">Table on Plain Background</CardTitle>
@@ -152,7 +129,7 @@ class Tables extends React.Component {
                   </Table>
                 </CardBody>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </>

@@ -10,15 +10,15 @@ import {
   CardFooter,
   // CardImg,
   CardTitle,
-  Label,
-  FormGroup,
+  // Label,
+  // FormGroup,
   Form,
   Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
   Container,
-  Row,
+  // Row,
   Col,
 } from 'reactstrap';
 

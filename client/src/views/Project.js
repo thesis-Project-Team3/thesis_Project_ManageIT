@@ -177,6 +177,7 @@ class Project extends React.Component {
                                 type="datetime-local"
                                 className="form-control datetimepicker"
                                 min="2020-07-18T08:30"
+                                defaultValue="2020-08-18T12:30"
                                 value={newProject.deadline}
                                 onChange={this.handleChange}
                                 id="deadline"
