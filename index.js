@@ -1,11 +1,17 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000;
-const routes = require('./routes');
-const bodyParser = require('body-parser');
-require('dotenv').config();
-const cors = require('cors');
+const routes = require("./routes");
+const bodyParser = require("body-parser");
+const path = require("path");
+const logger = require("morgan");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const passport = require("passport");
+
+require("dotenv").config();
+const cors = require("cors");
 
 // Connection to DB
 const uri = process.env.URI;
@@ -16,28 +22,57 @@ mongoose.connect(uri, {
 });
 
 const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('MongoDB connected');
+connection.once("open", () => {
+  console.log("MongoDB connected");
 });
 
 app.use(cors());
-app.use(express.static('uploads'));
-app.use(express.static('client/dist'));
+// app.use(express.static('uploads'));
+// app.use(express.static('build/index.html'));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(bodyParser.json());
+//creating or deleting heads of department Routes
+app.use("/CreateNewHeadDepartment", routes.CreateNewHeadDepartment);
+app.use("/deleteHeadDepartment", routes.deleteHeadDepartment);
+app.use('/deleteEmployee',routes.deleteEmployee)
+//project Route
+app.use("/project", routes.projectRoutes);
 
-//test Route
-app.use('/test', routes.testRoutes);
+//auth Route
+app.use("/auth", routes.authRoutes);
 
-// //post Route
-// app.use('/api/posts', routes.postRoutes);
-
-// //image Route
-// app.use('/api/image', routes.imageRoutes);
-
-app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/client/public/index.html');
+app.get("*", (req, res) => {
+  // res.sendFile(__dirname + '/build/index.html');
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(PORT, () => {
-  console.log('App is listetning on PORT', PORT);
+  console.log("App is listetning on PORT", PORT);
 });
+
+//Session
+// app.use(
+//   session({
+//     name: 'sessionId',
+//     secret: 'mysecretkey',
+//     saveUninitialized: false, //don't create session for not logged in users
+//     resave: false, // don't save session if unmodified
+//     // where to store session data
+//     store: new MongoStore({
+//       mongooseConnection: mongoose.connection,
+//       ttl: 60 * 60 * 24 * 1, //1 day
+//     }),
+//     cookie: {
+//       secure: false,
+//       httpOnly: false, // if true, will disallow js from reading cookie data
+//       expires: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
+//     },
+//   })
+// );
+
+// Passport Config
+
+// require('./config/passport')(passport);
+// //Passport init (must be after establishing the session above)
+// app.use(passport.initialize());
+// app.use(passport.session);
