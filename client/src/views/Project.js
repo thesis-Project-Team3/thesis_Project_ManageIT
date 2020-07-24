@@ -15,6 +15,7 @@ import {
   FormGroup,
   Form,
   Input,
+  Label,
   Row,
   Col,
 } from 'reactstrap';
@@ -22,6 +23,7 @@ import {
 class Project extends React.Component {
   state = {
     newProject: {
+      department: '',
       title: '',
       description: '',
       deadline: '',
@@ -44,6 +46,7 @@ class Project extends React.Component {
           },
           () => console.log(this.state.profileInformations)
         );
+        this.state.newProject.department = this.state.profileInformations.department
       })
       .catch((err) => console.log('Error', err));
   }
@@ -188,18 +191,16 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label className="label-control">
-                                Do it before :{' '}
-                              </label>
-                              <input
-                                type="datetime-local"
-                                className="form-control datetimepicker"
-                                min="2020-07-18T08:30"
-                                defaultValue="2020-08-18T12:30"
+                              <Label className="label-control">Do it before :</Label>
+                              <Input
                                 value={newProject.deadline}
                                 onChange={this.handleChange}
+                                className="form-control datetimepicker"
+                                type="date"
                                 id="deadline"
                                 name="deadline"
+                                min="2020-07-18"
+                                placeholder="date placeholder"
                               />
                             </FormGroup>
                           </CardBody>

@@ -1,54 +1,31 @@
 import React from 'react';
-// import Select from 'react-select';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import $ from "jquery";
 import {
   Button,
   Card,
   CardHeader,
   // CardTitle,
+  CustomInput,
   CardBody,
-  Label,
   CardFooter,
   CardText,
   FormGroup,
+  // FormText,
   Form,
   Input,
+  Label,
   Row,
   Col,
 } from 'reactstrap';
-// import { InvalidatedProjectKind } from 'typescript';
 
-class UpdateProject extends React.Component {
+class ProjectInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      singleSelect: null,
-      projects: [],
-      description: "",
-      deadline: "",
-      profileInformations: "",
+      info: '',
+      profileInformations: ''
     };
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    var title = this.state.singleSelect
-    var description = $("#inputDescription").val()
-    var deadline = $("#inputDate").val()
-    console.log(title, description, deadline)
-    axios
-      .post("http://localhost:5000/project/update", {
-        title,
-        description,
-        deadline
-      })
-    // .then((res) => {
-    //   const description = res.data[0].description;
-    //   this.setState({ description });
-    //   console.log(res.data)
-    // });
   }
 
   componentDidMount() {
@@ -66,28 +43,20 @@ class UpdateProject extends React.Component {
         );
       })
       .catch((err) => console.log('Error', err));
+    //-------------------------------
 
-    // ---------------------------
-    // var arr = []
     axios
-      .get('http://localhost:5000/project/create/')
+      .post('http://localhost:5000/project/index')
       .then((response) => {
-        // response.data.map((proj, i) => {
-        //   arr.push({ value: i.toString(), label: proj.title })
-        //   return arr
-        // })
-        this.setState({ projects: response.data })
+        var info = response.data[0]
+        this.setState({ info })
       })
+
       .catch((err) => console.log('Error', err));
-    // this.setState({ projects: arr })
   }
+
   render() {
     const { profileInformations } = this.state;
-    var options = this.state.projects.map((project, key) => {
-      return (
-        <option key={key} value={project.title}>{project.title}</option>
-      )
-    })
     return (
       <>
         <div className="content">
@@ -95,7 +64,7 @@ class UpdateProject extends React.Component {
             <Col md="8">
               <Card>
                 <CardHeader>
-                  <h5 className="title">Update a Project</h5>
+                  <h5 className="title">Project Info</h5>
                 </CardHeader>
                 <CardBody>
                   <Form>
@@ -104,25 +73,22 @@ class UpdateProject extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue={profileInformations.department}
+                            Value={this.state.info.department}
                             disabled
-                            placeholder="Department"
                             type="text"
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg="6" md="6" sm="3" className="pr-md-1">
+                      <Col className="px-md-1" md="6">
                         <FormGroup>
-                          <Label for="singleSelect">Choose a Project :</Label>
-                          <Input type="select" name="singleSelect"
-                            onChange={(value) => {
-                              this.setState({ singleSelect: value.currentTarget.value })
-                            }
-                            }
-                            id="inputSelect"
-                            required>
-                            {options}
-                          </Input>
+                          <label>Title</label>
+                          <Input
+                            type="text"
+                            value={this.state.info.title}
+                            disabled
+                            id="title"
+                            name="title"
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -132,10 +98,12 @@ class UpdateProject extends React.Component {
                           <label>Project Description</label>
                           <Input
                             cols="100"
-                            id="inputDescription"
-                            placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
+                            value={this.state.info.description}
+                            disabled
+                            id="description"
+                            name="description"
                           />
                         </FormGroup>
                       </Col>
@@ -145,23 +113,37 @@ class UpdateProject extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <Label for="exampleDate">Do it before :</Label>
+                              <Label className="label-control">Deadline :</Label>
                               <Input
+                                value={this.state.info.deadline}
+                                className="form-control datetimepicker"
+                                disabled
                                 type="date"
-                                name="date"
-                                id="inputDate"
-                                placeholder="date placeholder"
-                                min="2020-07-18"
+                                id="deadline"
+                                name="deadline"
                               />
                             </FormGroup>
                           </CardBody>
                         </Card>
                       </Col>
                     </Row>
+                    <Row>
+                      <Col className="pr-md-1" md="10">
+                        <FormGroup>
+                          <Label for="exampleFile">Upload your files :</Label>
+                          <CustomInput type="file" id="exampleFile" name="customFile" />
+                        </FormGroup>
+                      </Col>
+                    </Row>
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleClick.bind(this)}>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleSubmit}
+                  >
                     Submit
                   </Button>
                 </CardFooter>
@@ -212,4 +194,4 @@ class UpdateProject extends React.Component {
   }
 }
 
-export default UpdateProject;
+export default ProjectInfo;

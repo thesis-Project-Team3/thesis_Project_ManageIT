@@ -1,6 +1,7 @@
 module.exports = {
   projectRoutes: require('./projectRoutes'),
   updateRoutes: require('./updateRoutes'),
+  infoRoutes: require('./infoRoutes'),
   userRoutes: require('./userRoutes'),
   authRoutes: require('./authRoutes'),
   CreateNewHeadDepartment: require("./CreateNewHeadDepartment"),

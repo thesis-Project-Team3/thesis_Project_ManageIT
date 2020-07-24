@@ -15,6 +15,7 @@ import {
   CardText,
   FormGroup,
   Form,
+  Label,
   Input,
   Row,
   Col,
@@ -121,11 +122,14 @@ class ScheduleMeeting extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label className="label-control">Date : </label>
-                              <input
-                                type="datetime-local"
+                              <Label className="label-control">Date :</Label>
+                              <Input
                                 className="form-control datetimepicker"
-                                min="2020-07-18T08:30"
+                                type="date"
+                                id="deadline"
+                                name="deadline"
+                                min="2020-07-18"
+                                placeholder="date placeholder"
                               />
                             </FormGroup>
                           </CardBody>

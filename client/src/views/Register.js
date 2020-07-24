@@ -103,7 +103,7 @@ class Register extends React.Component {
                 <Card className="card-register card-white">
                   <CardHeader>
                     <img alt="..." src={require('./card-primary.png')} />
-                    <CardTitle tag="h1">Add a new head of department</CardTitle>
+                    <CardTitle tag="h1">Add a New Employee</CardTitle>
                   </CardHeader>
                   <CardBody>
                     <InputGroup>

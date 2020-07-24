@@ -6,6 +6,7 @@ import Notifications from 'views/Notifications.js';
 // import Rtl from "views/Rtl.js";
 import TableList from 'views/TableList.js';
 import Project from 'views/Project.js';
+import ProjectInfo from 'views/ProjectInfo.js';
 import Login from 'views/Login.js';
 import Register from 'views/Register.js';
 import RegisterHead from 'views/RegisterHead.js';
@@ -90,6 +91,14 @@ var routes = [
     layout: '/admin',
   },
   {
+    path: '/project-Info',
+    name: 'Project Info',
+    rtlName: 'أرشيف المشاريع',
+    icon: 'tim-icons icon-notes',
+    component: ProjectInfo,
+    layout: '/admin',
+  },
+  {
     path: '/meetings',
     name: 'Meetings',
     rtlName: 'اجتماع مجدول',
@@ -115,7 +124,7 @@ var routes = [
   },
   {
     path: '/Register',
-    name: 'Add a new head of department',
+    name: 'Add a New Employee',
     rtlName: 'ل',
     icon: 'tim-icons icon-simple-add',
     component: Register,

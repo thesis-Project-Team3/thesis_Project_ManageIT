@@ -43,7 +43,7 @@ app.use('/deleteEmployee', routes.deleteEmployee)
 //project Route
 app.use('/project', routes.projectRoutes);
 app.use('/project', routes.updateRoutes);
-
+app.use('/project', routes.infoRoutes);
 //user Route
 app.use('/users', routes.userRoutes);
 //auth Route
