@@ -1,17 +1,30 @@
 const express = require("express");
 const deleteHeadDepartment = express.Router();
 var nodemailer = require("nodemailer");
-const { getMaxListeners } = require("../../models/userSchema");
+require("dotenv").config();
+const db = require("../../models/userSchema");
 deleteHeadDepartment.post("/", async (req, res) => {
+  var check;
+  const email = req.body.email;
+  await db.findOne({ email }, (err, docs) => {
+    if (docs && docs.role === req.body.role) {
+      check = "exist&Match";
+    }
+    if (!docs) {
+      check = "notExisted";
+    }
+    return;
+  });
   const output = `<div><p>Sir Mr :<h5>${req.body.name}</h5></p>
   Sorry to inform you but we no longer need your services
+  <P>Reasons : ${req.body.message}</P>
   </div>
   `;
   let transporter = await nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "boulawdhenadam7@gmail.com",
-      pass: "Hustle1234",
+      user: process.env.CEO_EMAIL,
+      pass: process.env.CEO_EMAIL_PASSWORD,
     },
     tls: {
       rejectUnauthorized: false,
@@ -19,17 +32,27 @@ deleteHeadDepartment.post("/", async (req, res) => {
   });
 
   let options = {
-    from: `"ManageIT CEO :smile:" <boulawdhenadam7@gmail.com>`,
+    from: `"ManageIT CEO :)"`,
     to: req.body.email,
     subject: "Inform ✔",
     html: output,
   };
-  transporter.sendMail(options, (err, info) => {
-    if (err) {
-      console.log("message failed");
+  if (check === "exist&Match") {
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log("message failed");
+      } else {
+        console.log("Message sent: %s", info.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      }
+    });
+  }
+  await db.findOne({ email }, async (err, docs) => {
+    if (docs.role === req.body.role) {
+      await db.deleteOne(docs);
     } else {
-      console.log("Message sent: %s", info.messageId);
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      console.log("removing user failed!!");
+      res.send("removing user failed!!");
     }
   });
 });

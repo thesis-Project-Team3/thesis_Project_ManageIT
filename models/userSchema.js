@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -19,13 +19,13 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    default: 'member',
+    default: "member",
   },
   position: {
     type: String,
   },
   dateOfBirth: {
-    type: Date,
+    type: String,
   },
   phoneNumber: {
     type: Number,
@@ -52,12 +52,12 @@ userSchema.methods.validPassword = function (password) {
 };
 
 userSchema.methods.isMember = function () {
-  return this.role === 'member';
+  return this.role === "member";
 };
 userSchema.methods.isAuthor = function () {
-  return this.role === 'author';
+  return this.role === "author";
 };
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model("user", userSchema);
 
 module.exports = User;
