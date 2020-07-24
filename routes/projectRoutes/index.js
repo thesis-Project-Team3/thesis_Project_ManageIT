@@ -1,8 +1,10 @@
+const auth = require('../../middleware/auth');
 const express = require('express');
 const router = express.Router();
 const Project = require('../../models/projectSchema');
+const admin = require('../../middleware/admin');
 
-router.post('/create', (req, res) => {
+router.post('/create', [auth, admin], (req, res) => {
   var project = new Project(req.body);
   project.save(function (err, result) {
     if (err) {
