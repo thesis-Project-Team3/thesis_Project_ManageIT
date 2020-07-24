@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -18,17 +19,42 @@ import {
   InputGroup,
   Container,
   Row,
-  Col
-} from "reactstrap";
+  Col,
+} from 'reactstrap';
 
 class Register extends React.Component {
+  state = {
+    RegisterInformations: {
+      department: '',
+      fullname: '',
+      email: '',
+      password: '',
+    },
+  };
   componentDidMount() {
-    document.body.classList.toggle("register-page");
+    document.body.classList.toggle('register-page');
   }
   componentWillUnmount() {
-    document.body.classList.toggle("register-page");
+    document.body.classList.toggle('register-page');
   }
+  handleChange = ({ currentTarget: input }) => {
+    const RegisterInformations = { ...this.state.RegisterInformations };
+    RegisterInformations[input.name] = input.value;
+    this.setState({ RegisterInformations });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:5000/users', this.state.RegisterInformations)
+      .then((response) => {
+        console.log(response.data);
+      })
+
+      .catch((err) => console.log('Error', err));
+  };
   render() {
+    const { RegisterInformations } = this.state;
     return (
       <>
         <div className="content">
@@ -76,11 +102,8 @@ class Register extends React.Component {
               <Form className="form">
                 <Card className="card-register card-white">
                   <CardHeader>
-                  <img
-                      alt="..."
-                      src={require("./card-primary.png")}
-                    />
-                    <CardTitle tag="h1">Register</CardTitle>
+                    <img alt="..." src={require('./card-primary.png')} />
+                    <CardTitle tag="h1">Add a new head of department</CardTitle>
                   </CardHeader>
                   <CardBody>
                     <InputGroup>
@@ -89,56 +112,78 @@ class Register extends React.Component {
                           <i className="tim-icons icon-badge" />
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input placeholder="Department" type="text" />
+                      <Input
+                        placeholder="Department"
+                        type="text"
+                        name="department"
+                        id="department"
+                        value={RegisterInformations.department}
+                        onChange={this.handleChange}
+                      />
                     </InputGroup>
-                    <Row>
-                      <Col lg="6" md="4">
-                        <InputGroup>
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-single-02" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input placeholder="Username" type="text" />
-                        </InputGroup>
-                      </Col>
-                      <Col lg="6" md="4">
-                        <InputGroup>
-                          <InputGroupAddon addonType="prepend">
-                            <InputGroupText>
-                              <i className="tim-icons icon-email-85" />
-                            </InputGroupText>
-                          </InputGroupAddon>
-                          <Input placeholder="Email" type="text" />
-                        </InputGroup>
-                      </Col>
-                    </Row>
+
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="tim-icons icon-single-02" />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="Fullname"
+                        type="text"
+                        name="fullname"
+                        id="fullname"
+                        value={RegisterInformations.fullname}
+                        onChange={this.handleChange}
+                      />
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="tim-icons icon-email-85" />
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="Email"
+                        type="text"
+                        name="email"
+                        id="email"
+                        value={RegisterInformations.email}
+                        onChange={this.handleChange}
+                      />
+                    </InputGroup>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
                           <i className="tim-icons icon-lock-circle" />
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input placeholder="Password" type="text" />
+                      <Input
+                        placeholder="Password"
+                        type="password"
+                        name="password"
+                        id="password"
+                        value={RegisterInformations.password}
+                        onChange={this.handleChange}
+                      />
                     </InputGroup>
-                    <FormGroup check className="text-left">
+                    {/* <FormGroup check className="text-left">
                       <Label check>
                         <Input type="checkbox" />
-                        <span className="form-check-sign" />I agree to the{" "}
-                        <a href="#pablo" onClick={e => e.preventDefault()}>
+                        <span className="form-check-sign" />I agree to the{' '}
+                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
                           terms and conditions
-                          </a>
-                          .
-                        </Label>
-                    </FormGroup>
-
+                        </a>
+                        .
+                      </Label>
+                    </FormGroup> */}
                   </CardBody>
                   <CardFooter>
                     <Button
                       className="btn-round"
                       color="primary"
                       href="#pablo"
-                      onClick={e => e.preventDefault()}
+                      onClick={this.handleSubmit}
                       size="lg"
                     >
                       Get Started

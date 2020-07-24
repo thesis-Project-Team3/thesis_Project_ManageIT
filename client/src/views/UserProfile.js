@@ -1,6 +1,6 @@
-
-import React from "react";
-
+import React from 'react';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 // reactstrap components
 import {
   Button,
@@ -13,11 +13,31 @@ import {
   Form,
   Input,
   Row,
-  Col
-} from "reactstrap";
+  Col,
+} from 'reactstrap';
 
 class UserProfile extends React.Component {
+  state = {
+    profileInformations: '',
+  };
+  componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .get(`http://localhost:5000/users/${user._id}`)
+      .then((response) => {
+        // console.log(response.data);
+        this.setState(
+          {
+            profileInformations: response.data[0],
+          },
+          () => console.log(this.state.profileInformations)
+        );
+      })
+      .catch((err) => console.log('Error', err));
+  }
   render() {
+    const { profileInformations } = this.state;
     return (
       <>
         <div className="content">
@@ -34,60 +54,45 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue="Accounting"
+                            defaultValue={profileInformations.department}
                             disabled
                             placeholder="Department"
                             type="text"
                           />
                         </FormGroup>
                       </Col>
-                      <Col className="px-md-1" md="3">
+
+                      <Col className="pr-md-1" md="6">
                         <FormGroup>
-                          <label>Username</label>
+                          <label>Fullname</label>
                           <Input
-                            defaultValue="Wesamin"
-                            placeholder="Username"
+                            defaultValue={profileInformations.fullname}
+                            placeholder="Fullname"
                             type="text"
                           />
                         </FormGroup>
                       </Col>
+
                       <Col className="pl-md-1" md="4">
                         <FormGroup>
                           <label htmlFor="exampleInputEmail1">
                             Email address
                           </label>
-                          <Input defaultValue="wesamin1991@gmail.com" type="email" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
                           <Input
-                            defaultValue="Mohamed Amine"
-                            placeholder="First Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Oueslati"
-                            placeholder="Last Name"
-                            type="text"
+                            defaultValue={profileInformations.email}
+                            type="email"
+                            disabled
                           />
                         </FormGroup>
                       </Col>
                     </Row>
+
                     <Row>
                       <Col md="12">
                         <FormGroup>
                           <label>Address</label>
                           <Input
-                            defaultValue="15 Avenue"
+                            defaultValue=""
                             placeholder="Home Address"
                             type="text"
                           />
@@ -99,7 +104,7 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>City</label>
                           <Input
-                            defaultValue="Yesminet"
+                            defaultValue=""
                             placeholder="City"
                             type="text"
                           />
@@ -109,7 +114,7 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>Country</label>
                           <Input
-                            defaultValue="Ben Arous"
+                            defaultValue=""
                             placeholder="Country"
                             type="text"
                           />
@@ -118,7 +123,11 @@ class UserProfile extends React.Component {
                       <Col className="pl-md-1" md="4">
                         <FormGroup>
                           <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" defaultValue="2096" />
+                          <Input
+                            placeholder="ZIP Code"
+                            type="number"
+                            defaultValue=""
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -154,19 +163,19 @@ class UserProfile extends React.Component {
                     <div className="block block-two" />
                     <div className="block block-three" />
                     <div className="block block-four" />
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
+                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
                         alt="..."
                         className="avatar"
                         src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
                       />
-                      <h5 className="title">Mohamed Amine Oueslati</h5>
+                      <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
-                    <p className="description">Accounting Department Employee</p>
+                    <p className="description">
+                      {profileInformations.department} Department Employee
+                    </p>
                   </div>
-                  <div className="card-description">
-                    ME .......
-                  </div>
+                  <div className="card-description">ME .......</div>
                 </CardBody>
                 <CardFooter>
                   <div className="button-container">

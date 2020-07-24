@@ -1,3 +1,4 @@
+import jwtDecode from 'jwt-decode';
 import Dashboard from 'views/Dashboard.js';
 // import Icons from "views/Icons.js";
 // import Map from "views/Map.js";
@@ -5,7 +6,7 @@ import Notifications from 'views/Notifications.js';
 // import Rtl from "views/Rtl.js";
 import TableList from 'views/TableList.js';
 import Project from 'views/Project.js';
-// import Login from "views/Login.js";
+import Login from 'views/Login.js';
 import Register from 'views/Register.js';
 import RemoveEmployee from 'views/RemoveEmployee.js';
 import RemoveHead from 'views/RemoveHead.js';
@@ -95,17 +96,17 @@ var routes = [
     component: Meetings,
     layout: '/admin',
   },
-  // {
-  //   path: "/Login",
-  //   name: "Login",
-  //   rtlName: "ل",
-  //   icon: "tim-icons icon-time-alarm",
-  //   component: Login,
-  //   layout: "/"
-  // },
+  {
+    path: '/Login',
+    name: 'Login',
+    rtlName: 'ل',
+    icon: 'tim-icons icon-time-alarm',
+    component: Login,
+    layout: '/admin',
+  },
   {
     path: '/Register',
-    name: 'Add Employee',
+    name: 'Add a new head of department',
     rtlName: 'ل',
     icon: 'tim-icons icon-simple-add',
     component: Register,
@@ -136,4 +137,26 @@ var routes = [
   //   layout: "/rtl"
   // }
 ];
+
+// if (jwtDecode(localStorage.getItem('token'))) {
+//   routes = [
+//     {
+//       path: '/user-profile',
+//       name: 'User Profile',
+//       rtlName: 'ملف تعريفي للمستخدم',
+//       icon: 'tim-icons icon-single-02',
+//       component: UserProfile,
+//       layout: '/admin',
+//     },
+//     {
+//       path: '/Login',
+//       name: 'Login',
+//       rtlName: 'ل',
+//       icon: 'tim-icons icon-time-alarm',
+//       component: Login,
+//       layout: '/admin',
+//     },
+//   ];
+// }
+
 export default routes;

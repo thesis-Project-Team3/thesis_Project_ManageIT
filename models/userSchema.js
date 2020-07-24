@@ -1,25 +1,30 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  firstName: {
-    type: String,
-  },
-  lastName: {
+  fullname: {
     type: String,
   },
   email: {
     type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 255,
     unique: true,
-    lowercase: true,
   },
   password: {
     type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 1024,
   },
   role: {
     type: String,
-    default: 'member',
+  },
+  department: {
+    type: String,
   },
   position: {
     type: String,
@@ -30,34 +35,29 @@ const userSchema = new Schema({
   phoneNumber: {
     type: Number,
   },
+  isAdmin: Boolean,
 });
 
-// methods ======================
-// we have two type of methods: 'methods', and 'statics'.
-// 'methods' are private to instances of the object User, which allows the use of 'this' keyword.
-// 'statics' are attached to the user object, so that you don't need an instance of the object created with the keyword 'new' to actually call the function.
-
-// generating a hash
-// passwords are not saved to the database as is. Instead, they are hashed first, then saved.
-// hashes are always the same for the same password given the same "salt".
-userSchema.statics.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+userSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { _id: this._id, email: this.email, isAdmin: this.isAdmin },
+    'jwtPrivateKey'
+  );
+  return token;
 };
 
-// checking if password is valid
-// this method takes the password, hashes it, and compares it to the user's own password
-// when the two hashes are equal, it means the passwords match
-userSchema.methods.validPassword = function (password) {
-  return bcrypt.compareSync(password, this.password);
-};
+const User = mongoose.model('User', userSchema);
 
-userSchema.methods.isMember = function () {
-  return this.role === 'member';
-};
-userSchema.methods.isAuthor = function () {
-  return this.role === 'author';
-};
+function validateUser(user) {
+  const schema = {
+    email: Joi.string().min(5).max(255).required().email(),
+    password: Joi.string().min(5).max(255).required(),
+    fullname: Joi.string().required(),
+    department: Joi.string().required(),
+  };
 
-const User = mongoose.model('user', userSchema);
+  return Joi.validate(user, schema);
+}
 
-module.exports = User;
+exports.User = User;
+exports.validate = validateUser;
