@@ -1,5 +1,7 @@
 import React from "react";
 import Select from "react-select";
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 // import Datetime from 'react-datetime';
 // import ReactDatetime from "react-datetime";
 // reactstrap components
@@ -25,9 +27,29 @@ class ScheduleMeeting extends React.Component {
       singleSelect: null,
       multipleSelect: null,
       tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"],
+      profileInformations: "",
     };
   }
+
+  componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .get(`http://localhost:5000/users/${user._id}`)
+      .then((response) => {
+        // console.log(response.data);
+        this.setState(
+          {
+            profileInformations: response.data[0],
+          },
+          () => console.log(this.state.profileInformations)
+        );
+      })
+      .catch((err) => console.log('Error', err));
+  }
+
   render() {
+    const { profileInformations } = this.state;
     return (
       <>
         <div className="content">
@@ -44,7 +66,7 @@ class ScheduleMeeting extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue="Accounting"
+                            defaultValue={profileInformations.department}
                             disabled
                             placeholder="Department"
                             type="text"
@@ -134,10 +156,10 @@ class ScheduleMeeting extends React.Component {
                         className="avatar"
                         src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
                       />
-                      <h5 className="title">Mohamed Amine Oueslati</h5>
+                      <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      Accounting Department Employee
+                      {profileInformations.department} Department Employee
                     </p>
                   </div>
                   <div className="card-description">ME .......</div>
