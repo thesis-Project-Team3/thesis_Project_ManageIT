@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 // reactstrap components
 import {
   Button,
@@ -98,6 +99,8 @@ class Login extends React.Component {
                       color="primary"
                       href="#pablo"
                       onClick={this.handleSubmit}
+                      // href="/admin/dashboard"
+                      // onClick={e => e.preventDefault()}
                       size="lg"
                     >
                       Get Started
