@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 //project Route
 app.use('/project', routes.projectRoutes);
-
+app.use('/project', routes.updateRoutes);
 //auth Route
 app.use('/auth', routes.authRoutes);
 
