@@ -1,0 +1,145 @@
+<<<<<<< HEAD
+@import url("https://fonts.googleapis.com/css?family=Cabin");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: black;
+  padding: 0;
+  margin: 0;
+}
+
+form {
+  font-family: "Cabin", serif;
+=======
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.update-project {
+  font-family: 'Montserrat', Courier, monospace;
+}
+
+.update-project form {
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 100px 20px;
+}
+
+<<<<<<< HEAD
+legend {
+  font-family: "Courier New", Courier, monospace;
+=======
+.update-project legend {
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  font-size: 25px;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+<<<<<<< HEAD
+input,
+textarea {
+  font-family: "Courier New", Courier, monospace;
+=======
+.update-project input,
+textarea {
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+  font-size: 18px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  width: 100%;
+  display: block;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+<<<<<<< HEAD
+  color: black;
+}
+
+input[type="submit"] {
+=======
+}
+
+.update-project input[type='submit'] {
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+  font-size: 20px;
+  background: #166387;
+  border: 1px solid #044c6e;
+  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.2),
+    0px 4px 0px rgba(6, 82, 117, 1);
+}
+
+<<<<<<< HEAD
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+
+input:focus,
+=======
+.update-project input[type='submit']:hover {
+  cursor: pointer;
+}
+
+.update-project input:focus,
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+textarea:focus {
+  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.3);
+  border: 1px solid white;
+  background: rgba(0, 0, 0, 0.1);
+  resize: none;
+}
+
+<<<<<<< HEAD
+label {
+=======
+.update-project label {
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  display: block;
+  margin-bottom: 13px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+<<<<<<< HEAD
+select {
+=======
+.update-project select {
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+  height: auto;
+  margin: 0;
+  background: none;
+  width: 100%;
+<<<<<<< HEAD
+  color: black;
+=======
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+  font-size: 18px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  width: 100%;
+  display: block;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+<<<<<<< HEAD
+  color: black;
+=======
+  font-family: 'Courier New', Courier, monospace;
+>>>>>>> 9b9c37ebb75061b25e48dd472c9aa969e6a053d1
+}
