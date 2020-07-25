@@ -20,7 +20,7 @@ ReactDOM.render(
       <Route
         exact
         path="/login"
-        render={(props) => <CreateProject {...props} />}
+        render={(props) => <Login {...props} />}
       />
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />

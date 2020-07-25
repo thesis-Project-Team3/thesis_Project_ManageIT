@@ -1,4 +1,4 @@
-// import jwtDecode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import Dashboard from "views/Dashboard.js";
 // import Icons from "views/Icons.js";
 // import Map from "views/Map.js";
@@ -237,6 +237,14 @@ if (
       layout: '/admin',
     },
     {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
+      layout: '/admin',
+    },
+    {
       path: '/meetings',
       name: 'Meetings',
       rtlName: 'اجتماع مجدول',
@@ -345,6 +353,14 @@ if (
       layout: '/admin',
     },
     {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
+      layout: '/admin',
+    },
+    {
       path: '/meetings',
       name: 'Meetings',
       rtlName: 'اجتماع مجدول',
@@ -394,6 +410,14 @@ if (
       rtlName: 'تحديث مشروع',
       icon: 'tim-icons icon-pencil',
       component: UpdateProject,
+      layout: '/admin',
+    },
+    {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
       layout: '/admin',
     },
     {
