@@ -498,11 +498,11 @@ if (
 } else if (!user) {
   routes = [
     {
-      path: '/Login',
-      name: 'Login',
-      rtlName: 'ل',
-      icon: 'tim-icons icon-time-alarm',
-      component: Login,
+      path: '/dashboard',
+      name: 'Dashboard',
+      rtlName: 'لوحة القيادة',
+      icon: 'tim-icons icon-chart-pie-36',
+      component: Dashboard,
       layout: '/admin',
     },
   ];
