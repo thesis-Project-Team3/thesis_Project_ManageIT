@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import axios from 'axios';
+import $ from "jquery";
 import {
   Button,
   Card,
@@ -15,29 +16,51 @@ import {
   Row,
   Col,
 } from 'reactstrap';
+// import { InvalidatedProjectKind } from 'typescript';
 
 class UpdateProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       singleSelect: null,
-      multipleSelect: null,
       projects: [],
+      description: "",
+      deadline:""
     };
   }
 
+  handleClick(e) {
+    e.preventDefault();
+    var title = this.state.singleSelect.label
+    var description = $("#inputDescription").val()
+    var deadline = $("#inputDate").val()
+    console.log(title,description,deadline)
+    axios
+      .post("http://localhost:5000/project/update", {
+        title,
+        description,
+        deadline
+      })
+      // .then((res) => {
+      //   const description = res.data[0].description;
+      //   this.setState({ description });
+      //   console.log(res.data)
+      // });
+    }
+
   componentDidMount() {
+    var arr = []
     axios
       .get('http://localhost:5000/project/create/')
       .then((response) => {
-        console.log(response.data);
-        this.setState({
-          projects: response.data,
-        });
-        // console.log(this.state.classesList);
+        response.data.map((proj,i)=>{
+          arr.push({ value: i.toString(), label: proj.title })
+          return arr
+        })
       })
-
       .catch((err) => console.log('Error', err));
+      console.log(arr)
+      this.setState({projects: arr})
   }
   render() {
     return (
@@ -71,90 +94,21 @@ class UpdateProject extends React.Component {
                             classNamePrefix="react-select"
                             name="singleSelect"
                             value={this.state.singleSelect}
-                            onChange={(value) =>
+                            onChange={(value) => 
                               this.setState({ singleSelect: value })
                             }
-                            options={[
-                              { value: '1', label: 'Project 1' },
-                              { value: '2', label: 'Project 2' },
-                              { value: '3', label: 'Project 3' },
-                              { value: '4', label: 'Project 4' },
-                              { value: '5', label: 'Project 5' },
-                            ]}
-                            placeholder="Single Select"
+                            options={this.state.projects}   
                           />
                         </FormGroup>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
-                          <Input
-                            defaultValue="Mohamed Amine"
-                            placeholder="First Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Oueslati"
-                            placeholder="Last Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="15 Avenue"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Yesminet"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Ben Arous"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" defaultValue="2096" />
-                        </FormGroup>
-                      </Col>
-                    </Row> */}
                     <Row>
                       <Col md="11">
                         <FormGroup>
                           <label>Project Description</label>
                           <Input
                             cols="100"
-                            // defaultValue=""
+                            id= "inputDescription"
                             placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
@@ -172,7 +126,9 @@ class UpdateProject extends React.Component {
                               </label>
                               <input
                                 type="datetime-local"
+                                id= "inputDate"
                                 className="form-control datetimepicker"
+                                defaultValue="2020-08-18T12:30"
                                 min="2020-07-18T08:30"
                               />
                             </FormGroup>
@@ -183,7 +139,7 @@ class UpdateProject extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleClick.bind(this)}>
                     Submit
                   </Button>
                 </CardFooter>

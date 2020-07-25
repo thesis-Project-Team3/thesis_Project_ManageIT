@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // reactstrap components
 import {
   Button,
@@ -20,6 +20,7 @@ import {
 
 class Login extends React.Component {
   state = { loginInformations: { email: '', password: '' } };
+
   componentDidMount() {
     document.body.classList.toggle('login-page');
   }
@@ -33,19 +34,18 @@ class Login extends React.Component {
     this.setState({ loginInformations });
   };
 
-  // handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   axios
-  //     .post(
-  //       'http://localhost:5000/project/create',
-  //       this.state.loginInformations
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-
-  //     .catch((err) => console.log('Error', err));
-  // };
+  handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      axios
+        .post('http://localhost:5000/auth/', this.state.loginInformations)
+        .then((response) => {
+          console.log(response.data);
+          localStorage.setItem('token', response.data);
+          window.location = '/admin/dashboard';
+        });
+    } catch (ex) { }
+  };
 
   render() {
     const { loginInformations } = this.state;
@@ -84,7 +84,7 @@ class Login extends React.Component {
                       </InputGroupAddon>
                       <Input
                         placeholder="Password"
-                        type="text"
+                        type="password"
                         name="password"
                         id="password"
                         value={loginInformations.password}
@@ -93,43 +93,18 @@ class Login extends React.Component {
                     </InputGroup>
                   </CardBody>
                   <CardFooter>
-                  <Link to={"/admin/dashboard"} >
                     <Button
-                    // to="/admin/dashboard"
                       block
                       className="mb-3"
                       color="primary"
                       href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={this.handleSubmit}
                       // href="/admin/dashboard"
                       // onClick={e => e.preventDefault()}
                       size="lg"
                     >
                       Get Started
                     </Button>
-                    </Link>
-                    <div className="pull-left">
-                      <h6>
-                        <a
-                          className="link footer-link"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Create Account
-                        </a>
-                      </h6>
-                    </div>
-                    <div className="pull-right">
-                      <h6>
-                        <a
-                          className="link footer-link"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Need Help?
-                        </a>
-                      </h6>
-                    </div>
                   </CardFooter>
                 </Card>
               </Form>

@@ -1,5 +1,10 @@
 const express = require("express");
 const app = express();
+// const config = require('config');
+// if (!config.get('jwtPrivateKey')) {
+//   console.error('FATAL ERROR: jwtPrivateKey is not defined');
+//   process.exit(1);
+// }
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000;
 const routes = require("./routes");
@@ -34,13 +39,16 @@ app.use(bodyParser.json());
 //creating or deleting heads of department Routes
 app.use("/CreateNewHeadDepartment", routes.CreateNewHeadDepartment);
 app.use("/deleteHeadDepartment", routes.deleteHeadDepartment);
-app.use('/deleteEmployee',routes.deleteEmployee)
+app.use("/deleteEmployee", routes.deleteEmployee);
 //project Route
 app.use("/project", routes.projectRoutes);
+app.use("/project", routes.updateRoutes);
 
+//user Route
+app.use("/users", routes.userRoutes);
 //auth Route
 app.use("/auth", routes.authRoutes);
-
+app.use("/getAllTheUsers", routes.getAllTheUsers);
 app.get("*", (req, res) => {
   // res.sendFile(__dirname + '/build/index.html');
   res.sendFile(path.join(__dirname, "build", "index.html"));
