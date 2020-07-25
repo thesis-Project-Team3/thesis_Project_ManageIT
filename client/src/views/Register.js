@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import Select from 'react-select';
 // reactstrap components
 import {
   Button,
@@ -37,6 +37,13 @@ class Register extends React.Component {
   componentWillUnmount() {
     document.body.classList.toggle('register-page');
   }
+
+  handleChangeSelect = (e) => {
+    const RegisterInformations = { ...this.state.RegisterInformations };
+    RegisterInformations.department = e.value;
+    this.setState({ RegisterInformations });
+  };
+
   handleChange = ({ currentTarget: input }) => {
     const RegisterInformations = { ...this.state.RegisterInformations };
     RegisterInformations[input.name] = input.value;
@@ -98,6 +105,7 @@ class Register extends React.Component {
                   </div>
                 </div>
               </Col> */}
+
             <Col className="mr-auto" lg="8" md="6">
               <Form className="form">
                 <Card className="card-register card-white">
@@ -106,21 +114,42 @@ class Register extends React.Component {
                     <CardTitle tag="h1">Add a new head of department</CardTitle>
                   </CardHeader>
                   <CardBody>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="tim-icons icon-badge" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        placeholder="Department"
-                        type="text"
-                        name="department"
-                        id="department"
-                        value={RegisterInformations.department}
-                        onChange={this.handleChange}
-                      />
-                    </InputGroup>
+                    <Row>
+                      <Col lg="10" md="10" sm="3">
+                        <FormGroup>
+                          <label>Employees</label>
+                          <Select
+                            className="react-select info"
+                            classNamePrefix="react-select"
+                            placeholder="Choose Department"
+                            name="department"
+                            id="department"
+                            value={this.state.department}
+                            onChange={this.handleChangeSelect}
+                            options={[
+                              {
+                                value: 'financial',
+                                label: 'Financial Department',
+                              },
+                              {
+                                value: 'accounting',
+                                label: 'Accounting Department',
+                              },
+                              {
+                                value: 'marketing',
+                                label: 'Marketing Department',
+                              },
+                              {
+                                value: 'human_ressources',
+                                label: 'Human Ressources Department',
+                              },
+                              { value: 'methods', label: 'Methods Department' },
+                              { value: 'it', label: 'IT Department' },
+                            ]}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
 
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
