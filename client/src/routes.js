@@ -4,17 +4,18 @@ import Dashboard from "views/Dashboard.js";
 // import Map from "views/Map.js";
 import Notifications from "views/Notifications.js";
 // import Rtl from "views/Rtl.js";
-import TableList from "views/TableList.js";
-import Project from "views/Project.js";
-import Login from "views/Login.js";
-import Register from "views/Register.js";
-import RegisterHead from "views/RegisterHead.js";
-import RemoveEmployee from "views/RemoveEmployee.js";
-import RemoveHead from "views/RemoveHead.js";
-import UpdateProject from "views/UpdateProject.js";
-import ScheduleMeeting from "views/ScheduleMeeting.js";
-import Meetings from "views/Meetings.js";
-import UserProfile from "views/UserProfile.js";
+import TableList from 'views/TableList.js';
+import Project from 'views/Project.js';
+import ProjectInfo from 'views/ProjectInfo.js';
+import Login from 'views/Login.js';
+import Register from 'views/Register.js';
+import RegisterHead from 'views/RegisterHead.js';
+import RemoveEmployee from 'views/RemoveEmployee.js';
+import RemoveHead from 'views/RemoveHead.js';
+import UpdateProject from 'views/UpdateProject.js';
+import ScheduleMeeting from 'views/ScheduleMeeting.js';
+import Meetings from 'views/Meetings.js';
+import UserProfile from 'views/UserProfile.js';
 
 var routes = [
   {
@@ -90,10 +91,18 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/meetings",
-    name: "Meetings",
-    rtlName: "اجتماع مجدول",
-    icon: "tim-icons icon-bullet-list-67",
+    path: '/project-Info',
+    name: 'Project Info',
+    rtlName: 'أرشيف المشاريع',
+    icon: 'tim-icons icon-notes',
+    component: ProjectInfo,
+    layout: '/admin',
+  },
+  {
+    path: '/meetings',
+    name: 'Meetings',
+    rtlName: 'اجتماع مجدول',
+    icon: 'tim-icons icon-bullet-list-67',
     component: Meetings,
     layout: "/admin",
   },
@@ -114,10 +123,10 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/Register",
-    name: "Add a new head of department",
-    rtlName: "ل",
-    icon: "tim-icons icon-simple-add",
+    path: '/Register',
+    name: 'Add a New Employee',
+    rtlName: 'ل',
+    icon: 'tim-icons icon-simple-add',
     component: Register,
     layout: "/admin",
   },

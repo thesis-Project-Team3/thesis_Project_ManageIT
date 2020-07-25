@@ -1,6 +1,7 @@
 import React from 'react';
-import Select from 'react-select';
+// import Select from 'react-select';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import $ from "jquery";
 import {
   Button,
@@ -8,6 +9,7 @@ import {
   CardHeader,
   // CardTitle,
   CardBody,
+  Label,
   CardFooter,
   CardText,
   FormGroup,
@@ -25,44 +27,67 @@ class UpdateProject extends React.Component {
       singleSelect: null,
       projects: [],
       description: "",
-      deadline:""
+      deadline: "",
+      profileInformations: "",
     };
   }
 
   handleClick(e) {
     e.preventDefault();
-    var title = this.state.singleSelect.label
+    var title = this.state.singleSelect
     var description = $("#inputDescription").val()
     var deadline = $("#inputDate").val()
-    console.log(title,description,deadline)
+    console.log(title, description, deadline)
     axios
       .post("http://localhost:5000/project/update", {
         title,
         description,
         deadline
       })
-      // .then((res) => {
-      //   const description = res.data[0].description;
-      //   this.setState({ description });
-      //   console.log(res.data)
-      // });
-    }
+    // .then((res) => {
+    //   const description = res.data[0].description;
+    //   this.setState({ description });
+    //   console.log(res.data)
+    // });
+  }
 
   componentDidMount() {
-    var arr = []
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .get(`http://localhost:5000/users/${user._id}`)
+      .then((response) => {
+        // console.log(response.data);
+        this.setState(
+          {
+            profileInformations: response.data[0],
+          },
+          () => console.log(this.state.profileInformations)
+        );
+      })
+      .catch((err) => console.log('Error', err));
+
+    // ---------------------------
+    // var arr = []
     axios
       .get('http://localhost:5000/project/create/')
       .then((response) => {
-        response.data.map((proj,i)=>{
-          arr.push({ value: i.toString(), label: proj.title })
-          return arr
-        })
+        // response.data.map((proj, i) => {
+        //   arr.push({ value: i.toString(), label: proj.title })
+        //   return arr
+        // })
+        this.setState({ projects: response.data })
       })
       .catch((err) => console.log('Error', err));
-      console.log(arr)
-      this.setState({projects: arr})
+    // this.setState({ projects: arr })
   }
   render() {
+    const { profileInformations } = this.state;
+    var options = this.state.projects.map((project, key) => {
+      return (
+        <option key={key} value={project.title}>{project.title}</option>
+      )
+    })
     return (
       <>
         <div className="content">
@@ -79,7 +104,7 @@ class UpdateProject extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue="Accounting"
+                            defaultValue={profileInformations.department}
                             disabled
                             placeholder="Department"
                             type="text"
@@ -88,17 +113,16 @@ class UpdateProject extends React.Component {
                       </Col>
                       <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
-                          <label>Choose a Project</label>
-                          <Select
-                            className="react-select primary"
-                            classNamePrefix="react-select"
-                            name="singleSelect"
-                            value={this.state.singleSelect}
-                            onChange={(value) => 
-                              this.setState({ singleSelect: value })
+                          <Label for="singleSelect">Choose a Project :</Label>
+                          <Input type="select" name="singleSelect"
+                            onChange={(value) => {
+                              this.setState({ singleSelect: value.currentTarget.value })
                             }
-                            options={this.state.projects}   
-                          />
+                            }
+                            id="inputSelect"
+                            required>
+                            {options}
+                          </Input>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -108,7 +132,7 @@ class UpdateProject extends React.Component {
                           <label>Project Description</label>
                           <Input
                             cols="100"
-                            id= "inputDescription"
+                            id="inputDescription"
                             placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
@@ -121,15 +145,13 @@ class UpdateProject extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label className="label-control">
-                                Do it before :{' '}
-                              </label>
-                              <input
-                                type="datetime-local"
-                                id= "inputDate"
-                                className="form-control datetimepicker"
-                                defaultValue="2020-08-18T12:30"
-                                min="2020-07-18T08:30"
+                              <Label for="exampleDate">Do it before :</Label>
+                              <Input
+                                type="date"
+                                name="date"
+                                id="inputDate"
+                                placeholder="date placeholder"
+                                min="2020-07-18"
                               />
                             </FormGroup>
                           </CardBody>
@@ -160,10 +182,10 @@ class UpdateProject extends React.Component {
                         className="avatar"
                         src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
                       />
-                      <h5 className="title">Mohamed Amine Oueslati</h5>
+                      <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      Accounting Department Employee
+                      {profileInformations.department} Department Employee
                     </p>
                   </div>
                   <div className="card-description">ME .......</div>

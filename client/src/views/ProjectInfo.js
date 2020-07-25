@@ -1,71 +1,32 @@
-import React from "react";
-import Select from "react-select";
+import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-// import Datetime from 'react-datetime';
-// import ReactDatetime from "react-datetime";
-// reactstrap components
 import {
   Button,
   Card,
   CardHeader,
   // CardTitle,
+  CustomInput,
   CardBody,
   CardFooter,
   CardText,
   FormGroup,
+  // FormText,
   Form,
-  Label,
   Input,
+  Label,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 
-class ScheduleMeeting extends React.Component {
+class ProjectInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-       options: [],
-      usersData: [],
-      profileInformations: "",
-      subject: "",
-      // singleSelect: null,
-      date: "",
-      employees: [],
-      // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
+      info: '',
+      profileInformations: ''
     };
   }
-    handleChange = (e) => {
-    this.setState(
-      { [e.target.id]: e.target.value, [e.target.id]: e.target.value },
-      () => {
-        console.log(this.state);
-      }
-    );
-  };
-   handleChange1 = (e) => {
-    this.setState({ employees: e }, () => {});
-  };
-
-  makeOptions() {
-    const { usersData, options } = this.state;
-    for (let i = 0; i < usersData.length; i++) {
-      options.push({ value: i, label: usersData[i].fullname });
-    }
-  }
-
-  submit = e => {
-    e.preventDefault()
-    axios.post('http://localhost:5000/meeting/create', this.state)
-      .then(() => {
-        console.log('data sent')
-      })
-      .catch(() => {
-        console.log('error')
-      })
-  }
-
-
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -82,17 +43,16 @@ class ScheduleMeeting extends React.Component {
         );
       })
       .catch((err) => console.log('Error', err));
-    // handling Select Options
-     // const { options } = this.state;
-    fetch("http://localhost:5000/getAllTheUsers")
-      .then((res) => res.json())
-      .then((usersData) => {
-        this.setState({ usersData });
-        console.log(this.state.usersData);
-        this.makeOptions();
+    //-------------------------------
+
+    axios
+      .post('http://localhost:5000/project/index')
+      .then((response) => {
+        var info = response.data[0]
+        this.setState({ info })
       })
-      // .then(() => this.makeOptions)
-      .catch((err) => console.log(err));
+
+      .catch((err) => console.log('Error', err));
   }
 
   render() {
@@ -104,7 +64,7 @@ class ScheduleMeeting extends React.Component {
             <Col md="8">
               <Card>
                 <CardHeader>
-                  <h5 className="title">Schedule a Meeting</h5>
+                  <h5 className="title">Project Info</h5>
                 </CardHeader>
                 <CardBody>
                   <Form>
@@ -113,41 +73,38 @@ class ScheduleMeeting extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue={profileInformations.department}
+                            Value={this.state.info.department}
                             disabled
-                            placeholder="Department"
                             type="text"
                           />
                         </FormGroup>
                       </Col>
                       <Col className="px-md-1" md="6">
                         <FormGroup>
-                          <label>Subject</label>
+                          <label>Title</label>
                           <Input
-                            placeholder="Subject for the meeting"
                             type="text"
-                            value={this.state.subject}
-                            onChange={this.handleChange}
-                            id="subject"
+                            value={this.state.info.title}
+                            disabled
+                            id="title"
+                            name="title"
                           />
                         </FormGroup>
                       </Col>
                     </Row>
                     <Row>
-                      <Col lg="10" md="10" sm="3">
+                      <Col md="11">
                         <FormGroup>
-                          <label>Employees</label>
-                          <Select
-                            className="react-select info"
-                            classNamePrefix="react-select"
-                            placeholder="Choose Employee"
-                            name="multipleSelect"
-                            closeMenuOnSelect={false}
-                            isMulti
-                            value={this.state.employees}
-                            onChange={this.handleChange1}
-                            options={this.state.options}
-                          ></Select>
+                          <label>Project Description</label>
+                          <Input
+                            cols="100"
+                            rows="10"
+                            type="textarea"
+                            value={this.state.info.description}
+                            disabled
+                            id="description"
+                            name="description"
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -156,26 +113,37 @@ class ScheduleMeeting extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <Label className="label-control">Date :</Label>
+                              <Label className="label-control">Deadline :</Label>
                               <Input
+                                value={this.state.info.deadline}
                                 className="form-control datetimepicker"
+                                disabled
                                 type="date"
-                                id="date"
+                                id="deadline"
                                 name="deadline"
-                                min="2020-07-18"
-                                value={this.state.date}
-                                onChange={this.handleChange}
-                                placeholder="date placeholder"
                               />
                             </FormGroup>
                           </CardBody>
                         </Card>
                       </Col>
                     </Row>
+                    <Row>
+                      <Col className="pr-md-1" md="10">
+                        <FormGroup>
+                          <Label for="exampleFile">Upload your files :</Label>
+                          <CustomInput type="file" id="exampleFile" name="customFile" />
+                        </FormGroup>
+                      </Col>
+                    </Row>
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.submit}>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleSubmit}
+                  >
                     Submit
                   </Button>
                 </CardFooter>
@@ -226,4 +194,4 @@ class ScheduleMeeting extends React.Component {
   }
 }
 
-export default ScheduleMeeting;
+export default ProjectInfo;

@@ -1,5 +1,7 @@
-import React from "react";
-import axios from "axios";
+
+import React from 'react';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 // import Datetime from 'react-datetime';
 // import ReactDatetime from "react-datetime";
 // reactstrap components
@@ -14,6 +16,7 @@ import {
   FormGroup,
   Form,
   Input,
+  Label,
   Row,
   Col,
 } from "reactstrap";
@@ -21,14 +24,33 @@ import {
 class Project extends React.Component {
   state = {
     newProject: {
-      title: "",
-      description: "",
-      deadline: "",
-      status: "in progress",
-      progress: "sent to the head of the department",
+      department: '',
+      title: '',
+      description: '',
+      deadline: '',
+      status: 'in progress',
+      progress: 'sent to the head of the department',
     },
+    profileInformations: '',
   };
 
+  componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .get(`http://localhost:5000/users/${user._id}`)
+      .then((response) => {
+        // console.log(response.data);
+        this.setState(
+          {
+            profileInformations: response.data[0],
+          },
+          () => console.log(this.state.profileInformations)
+        );
+        this.state.newProject.department = this.state.profileInformations.department
+      })
+      .catch((err) => console.log('Error', err));
+  }
   handleChange = ({ currentTarget: input }) => {
     const newProject = { ...this.state.newProject };
     newProject[input.name] = input.value;
@@ -47,7 +69,7 @@ class Project extends React.Component {
   };
 
   render() {
-    const { newProject } = this.state;
+    const { newProject, profileInformations } = this.state;
     return (
       <>
         <div className="content">
@@ -64,7 +86,7 @@ class Project extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue="Accounting"
+                            defaultValue={profileInformations.department}
                             disabled
                             placeholder="Department"
                             type="text"
@@ -170,17 +192,24 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label className="label-control">
-                                Do it before :{" "}
-                              </label>
-                              <input
-                                type="datetime-local"
-                                className="form-control datetimepicker"
-                                min="2020-07-18T08:30"
+
+//                               <label className="label-control">
+//                                 Do it before :{" "}
+//                               </label>
+//                               <input
+//                                 type="datetime-local"
+//                                 className="form-control datetimepicker"
+//                                 min="2020-07-18T08:30"
+                              <Label className="label-control">Do it before :</Label>
+                              <Input
                                 value={newProject.deadline}
                                 onChange={this.handleChange}
+                                className="form-control datetimepicker"
+                                type="date"
                                 id="deadline"
                                 name="deadline"
+                                min="2020-07-18"
+                                placeholder="date placeholder"
                               />
                             </FormGroup>
                           </CardBody>
@@ -216,10 +245,10 @@ class Project extends React.Component {
                         className="avatar"
                         src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
                       />
-                      <h5 className="title">Mohamed Amine Oueslati</h5>
+                      <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      Accounting Department Employee
+                      {profileInformations.department} Department Employee
                     </p>
                   </div>
                   <div className="card-description">ME .......</div>
