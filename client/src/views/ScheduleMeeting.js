@@ -25,12 +25,39 @@ class ScheduleMeeting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      singleSelect: null,
-      multipleSelect: null,
-      tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"],
       profileInformations: "",
+      subject: "",
+      // singleSelect: null,
+      date: "",
+      employees: [],
+      // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
     };
   }
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+      , [e.target.id]: e.target.value
+    }, () => { console.log(this.state) })
+
+  }
+  handleChange1 = (e) => {
+
+    this.setState({ employees: e }, () => { console.log(this.state) });
+  }
+
+
+  submit = e => {
+    e.preventDefault()
+    axios.post('http://localhost:5000/meeting/create', this.state)
+      .then(() => {
+        console.log('data sent')
+      })
+      .catch(() => {
+        console.log('error')
+      })
+  }
+
+
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -80,6 +107,9 @@ class ScheduleMeeting extends React.Component {
                           <Input
                             placeholder="Subject for the meeting"
                             type="text"
+                            value={this.state.subject}
+                            onChange={this.handleChange}
+                            id="subject"
                           />
                         </FormGroup>
                       </Col>
@@ -95,10 +125,12 @@ class ScheduleMeeting extends React.Component {
                             name="multipleSelect"
                             closeMenuOnSelect={false}
                             isMulti
-                            value={this.state.multipleSelect}
-                            onChange={(value) =>
-                              this.setState({ multipleSelect: value })
-                            }
+                            value={this.state.employees}
+                            // onChange={value =>
+                            //   this.setState({ employees: value })
+                            // }
+                            onChange={this.handleChange1}
+                            // id="employees"
                             options={[
                               //   {
                               //     value: "",
@@ -126,9 +158,11 @@ class ScheduleMeeting extends React.Component {
                               <Input
                                 className="form-control datetimepicker"
                                 type="date"
-                                id="deadline"
+                                id="date"
                                 name="deadline"
                                 min="2020-07-18"
+                                value={this.state.date}
+                                onChange={this.handleChange}
                                 placeholder="date placeholder"
                               />
                             </FormGroup>
@@ -139,7 +173,7 @@ class ScheduleMeeting extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.submit}>
                     Submit
                   </Button>
                 </CardFooter>

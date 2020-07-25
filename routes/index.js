@@ -8,5 +8,6 @@ module.exports = {
   deleteHeadDepartment: require("./deleteHeadDepartment"),
   projectRoutes: require("./projectRoutes"),
   authRoutes: require("./authRoutes"),
-  deleteEmployee: require("./deleteEmployee/deleteEmployee")
+  deleteEmployee: require("./deleteEmployee/deleteEmployee"),
+  meetingRoutes: require('./meetingRoutes')
 };
