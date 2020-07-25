@@ -11,14 +11,14 @@ import {
   // CardImg,
   CardTitle,
   // Label,
-  // FormGroup,
+  FormGroup,
   Form,
   Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
   Container,
-  // Row,
+  Row,
   Col,
 } from 'reactstrap';
 

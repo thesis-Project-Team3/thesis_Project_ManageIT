@@ -128,11 +128,16 @@ class ProjectInfo extends React.Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col className="pr-md-1" md="10">
+                      <Col className="pr-md-1" md="6">
                         <FormGroup>
                           <Label for="exampleFile">Upload your files :</Label>
                           <CustomInput type="file" id="exampleFile" name="customFile" />
                         </FormGroup>
+                      </Col>
+                      <Col className="pr-md-1" md="4">
+                        <Button className="btn-fill" color="primary" type="submit" onClick={(e) => e.preventDefault()}>
+                          Upload
+                  </Button>
                       </Col>
                     </Row>
                   </Form>
