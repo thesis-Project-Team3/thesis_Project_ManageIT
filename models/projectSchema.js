@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const projectSchema = new Schema({
-  Reference: {
+  department: {
     type: String,
   },
   title: {
@@ -18,7 +18,7 @@ const projectSchema = new Schema({
     type: Date,
   },
   deadline: {
-    type: Date,
+    type: String,
   },
   progress: {
     type: String,
