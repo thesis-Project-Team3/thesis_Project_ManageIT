@@ -25,6 +25,8 @@ class ScheduleMeeting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+       options: [],
+      usersData: [],
       profileInformations: "",
       subject: "",
       // singleSelect: null,
@@ -33,18 +35,24 @@ class ScheduleMeeting extends React.Component {
       // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
     };
   }
-  handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-      , [e.target.id]: e.target.value
-    }, () => { console.log(this.state) })
+    handleChange = (e) => {
+    this.setState(
+      { [e.target.id]: e.target.value, [e.target.id]: e.target.value },
+      () => {
+        console.log(this.state);
+      }
+    );
+  };
+   handleChange1 = (e) => {
+    this.setState({ employees: e }, () => {});
+  };
 
+  makeOptions() {
+    const { usersData, options } = this.state;
+    for (let i = 0; i < usersData.length; i++) {
+      options.push({ value: i, label: usersData[i].fullname });
+    }
   }
-  handleChange1 = (e) => {
-
-    this.setState({ employees: e }, () => { console.log(this.state) });
-  }
-
 
   submit = e => {
     e.preventDefault()
@@ -74,6 +82,17 @@ class ScheduleMeeting extends React.Component {
         );
       })
       .catch((err) => console.log('Error', err));
+    // handling Select Options
+     // const { options } = this.state;
+    fetch("http://localhost:5000/getAllTheUsers")
+      .then((res) => res.json())
+      .then((usersData) => {
+        this.setState({ usersData });
+        console.log(this.state.usersData);
+        this.makeOptions();
+      })
+      // .then(() => this.makeOptions)
+      .catch((err) => console.log(err));
   }
 
   render() {
@@ -126,26 +145,9 @@ class ScheduleMeeting extends React.Component {
                             closeMenuOnSelect={false}
                             isMulti
                             value={this.state.employees}
-                            // onChange={value =>
-                            //   this.setState({ employees: value })
-                            // }
                             onChange={this.handleChange1}
-                            // id="employees"
-                            options={[
-                              //   {
-                              //     value: "",
-                              //     label: " Multiple Options",
-                              //     isDisabled: true
-                              //   },
-                              { value: "2", label: "Mohamed Amine Oueslati " },
-                              { value: "3", label: "Oussema Sferi" },
-                              { value: "4", label: "Ranoua Lachheb" },
-                              { value: "5", label: "Adam Boulawdhen" },
-                              { value: "6", label: "Hamza Ouni " },
-                              { value: "7", label: "Khaled Hbaieb" },
-                              { value: "8", label: "Ahmed Fenni " },
-                            ]}
-                          />
+                            options={this.state.options}
+                          ></Select>
                         </FormGroup>
                       </Col>
                     </Row>

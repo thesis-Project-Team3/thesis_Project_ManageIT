@@ -1,3 +1,4 @@
+
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
@@ -18,7 +19,7 @@ import {
   Label,
   Row,
   Col,
-} from 'reactstrap';
+} from "reactstrap";
 
 class Project extends React.Component {
   state = {
@@ -59,12 +60,12 @@ class Project extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:5000/project/create', this.state.newProject)
+      .post("http://localhost:5000/project/create", this.state.newProject)
       .then((response) => {
         console.log(response.data);
       })
 
-      .catch((err) => console.log('Error', err));
+      .catch((err) => console.log("Error", err));
   };
 
   render() {
@@ -191,6 +192,14 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
+
+//                               <label className="label-control">
+//                                 Do it before :{" "}
+//                               </label>
+//                               <input
+//                                 type="datetime-local"
+//                                 className="form-control datetimepicker"
+//                                 min="2020-07-18T08:30"
                               <Label className="label-control">Do it before :</Label>
                               <Input
                                 value={newProject.deadline}
