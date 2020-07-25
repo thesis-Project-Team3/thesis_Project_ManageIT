@@ -193,13 +193,13 @@ class Project extends React.Component {
                           <CardBody>
                             <FormGroup>
 
-//                               <label className="label-control">
+                              {/* //                               <label className="label-control">
 //                                 Do it before :{" "}
 //                               </label>
 //                               <input
 //                                 type="datetime-local"
 //                                 className="form-control datetimepicker"
-//                                 min="2020-07-18T08:30"
+//                                 min="2020-07-18T08:30" */}
                               <Label className="label-control">Do it before :</Label>
                               <Input
                                 value={newProject.deadline}
