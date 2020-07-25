@@ -14,6 +14,6 @@ const meetingSchema = new Schema({
   },
 });
 
-const Project = mongoose.model('meeting', meetingSchema);
+const Meeting = mongoose.model('meeting', meetingSchema);
 
 module.exports = Meeting;

@@ -1,5 +1,5 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 // import Datetime from 'react-datetime';
 // import ReactDatetime from "react-datetime";
 // reactstrap components
@@ -16,16 +16,16 @@ import {
   Input,
   Row,
   Col,
-} from 'reactstrap';
+} from "reactstrap";
 
 class Project extends React.Component {
   state = {
     newProject: {
-      title: '',
-      description: '',
-      deadline: '',
-      status: 'in progress',
-      progress: 'sent to the head of the department',
+      title: "",
+      description: "",
+      deadline: "",
+      status: "in progress",
+      progress: "sent to the head of the department",
     },
   };
 
@@ -38,12 +38,12 @@ class Project extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:5000/project/create', this.state.newProject)
+      .post("http://localhost:5000/project/create", this.state.newProject)
       .then((response) => {
         console.log(response.data);
       })
 
-      .catch((err) => console.log('Error', err));
+      .catch((err) => console.log("Error", err));
   };
 
   render() {
@@ -171,13 +171,12 @@ class Project extends React.Component {
                           <CardBody>
                             <FormGroup>
                               <label className="label-control">
-                                Do it before :{' '}
+                                Do it before :{" "}
                               </label>
                               <input
                                 type="datetime-local"
                                 className="form-control datetimepicker"
                                 min="2020-07-18T08:30"
-                                defaultValue="2020-08-18T12:30"
                                 value={newProject.deadline}
                                 onChange={this.handleChange}
                                 id="deadline"

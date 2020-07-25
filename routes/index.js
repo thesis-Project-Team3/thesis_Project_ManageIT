@@ -1,11 +1,10 @@
 module.exports = {
   projectRoutes: require('./projectRoutes'),
   updateRoutes: require('./updateRoutes'),
-  userRoutes: require('./userRoutes'),
+  userRoutes: require('./userRoutes/index'),
   authRoutes: require('./authRoutes'),
   CreateNewHeadDepartment: require("./CreateNewHeadDepartment"),
   deleteHeadDepartment: require("./deleteHeadDepartment"),
-  projectRoutes: require("./projectRoutes"),
-  authRoutes: require("./authRoutes"),
-  deleteEmployee: require("./deleteEmployee/deleteEmployee")
+  deleteEmployee: require("./deleteEmployee/deleteEmployee"),
+  getAllTheUsers:require("./userRoutes/getAllTheUsers")
 };
