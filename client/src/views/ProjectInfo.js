@@ -1,18 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-// import Datetime from 'react-datetime';
-// import ReactDatetime from "react-datetime";
-// reactstrap components
 import {
   Button,
   Card,
   CardHeader,
   // CardTitle,
+  CustomInput,
   CardBody,
   CardFooter,
   CardText,
   FormGroup,
+  // FormText,
   Form,
   Input,
   Label,
@@ -20,17 +19,14 @@ import {
   Col,
 } from 'reactstrap';
 
-class Project extends React.Component {
-  state = {
-    newProject: {
-      title: '',
-      description: '',
-      deadline: '',
-      status: 'in progress',
-      progress: 'sent to the head of the department',
-    },
-    profileInformations: '',
-  };
+class ProjectInfo extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      info: '',
+      profileInformations: ''
+    };
+  }
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -38,36 +34,29 @@ class Project extends React.Component {
     axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState(
           {
             profileInformations: response.data[0],
           },
           () => console.log(this.state.profileInformations)
         );
-        this.state.newProject.department = this.state.profileInformations.department;
       })
+      .catch((err) => console.log('Error', err));
+    //-------------------------------
+
+    axios
+      .post('http://localhost:5000/project/index')
+      .then((response) => {
+        var info = response.data[0]
+        this.setState({ info })
+      })
+
       .catch((err) => console.log('Error', err));
   }
-  handleChange = ({ currentTarget: input }) => {
-    const newProject = { ...this.state.newProject };
-    newProject[input.name] = input.value;
-    this.setState({ newProject });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post('http://localhost:5000/project/create', this.state.newProject)
-      .then((response) => {
-        console.log(response.data);
-      })
-
-      .catch((err) => console.log('Error', err));
-  };
 
   render() {
-    const { newProject, profileInformations } = this.state;
+    const { profileInformations } = this.state;
     return (
       <>
         <div className="content">
@@ -75,7 +64,7 @@ class Project extends React.Component {
             <Col md="8">
               <Card>
                 <CardHeader>
-                  <h5 className="title">Create a New Project</h5>
+                  <h5 className="title">Project Info</h5>
                 </CardHeader>
                 <CardBody>
                   <Form>
@@ -84,9 +73,8 @@ class Project extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue={profileInformations.department}
+                            Value={this.state.info.department}
                             disabled
-                            placeholder="Department"
                             type="text"
                           />
                         </FormGroup>
@@ -95,90 +83,25 @@ class Project extends React.Component {
                         <FormGroup>
                           <label>Title</label>
                           <Input
-                            placeholder="Project Title"
                             type="text"
-                            value={newProject.title}
-                            onChange={this.handleChange}
+                            value={this.state.info.title}
+                            disabled
                             id="title"
                             name="title"
                           />
                         </FormGroup>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
-                          <Input
-                            defaultValue="Mohamed Amine"
-                            placeholder="First Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Oueslati"
-                            placeholder="Last Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="15 Avenue"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Yesminet"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Ben Arous"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" defaultValue="2096" />
-                        </FormGroup>
-                      </Col>
-                    </Row> */}
                     <Row>
                       <Col md="11">
                         <FormGroup>
                           <label>Project Description</label>
                           <Input
                             cols="100"
-                            // defaultValue=""
-                            placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
-                            value={newProject.description}
-                            onChange={this.handleChange}
+                            value={this.state.info.description}
+                            disabled
                             id="description"
                             name="description"
                           />
@@ -190,29 +113,31 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              {/* //                               <label className="label-control">
-//                                 Do it before :{" "}
-//                               </label>
-//                               <input
-//                                 type="datetime-local"
-//                                 className="form-control datetimepicker"
-//                                 min="2020-07-18T08:30" */}
-                              <Label className="label-control">
-                                Do it before :
-                              </Label>
+                              <Label className="label-control">Deadline :</Label>
                               <Input
-                                value={newProject.deadline}
-                                onChange={this.handleChange}
+                                value={this.state.info.deadline}
                                 className="form-control datetimepicker"
+                                disabled
                                 type="date"
                                 id="deadline"
                                 name="deadline"
-                                min="2020-07-18"
-                                placeholder="date placeholder"
                               />
                             </FormGroup>
                           </CardBody>
                         </Card>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="pr-md-1" md="6">
+                        <FormGroup>
+                          <Label for="exampleFile">Upload your files :</Label>
+                          <CustomInput type="file" id="exampleFile" name="customFile" />
+                        </FormGroup>
+                      </Col>
+                      <Col className="pr-md-1" md="4">
+                        <Button className="btn-fill" color="primary" type="submit" onClick={(e) => e.preventDefault()}>
+                          Upload
+                  </Button>
                       </Col>
                     </Row>
                   </Form>
@@ -274,4 +199,4 @@ class Project extends React.Component {
   }
 }
 
-export default Project;
+export default ProjectInfo;

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // reactstrap components
 import {
   Button,
@@ -44,7 +44,7 @@ class Login extends React.Component {
           localStorage.setItem('token', response.data);
           window.location = '/admin/dashboard';
         });
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
   render() {

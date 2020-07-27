@@ -13,6 +13,7 @@
     "chart.js": "2.9.3",
     "classnames": "2.2.6",
     "history": "4.10.1",
+    "jquery": "^3.5.1",
     "jwt-decode": "^2.2.0",
     "node-sass": "4.13.1",
     "perfect-scrollbar": "1.5.0",
@@ -26,7 +27,7 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",
-    "reactstrap": "8.4.1"
+    "reactstrap": "8.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,9 +39,6 @@
     "minify-sass": "node-sass client/src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.min.css --output-style compressed",
     "map-sass": "node-sass client/src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.css --source-map true"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -48,10 +46,10 @@
     "not op_mini all"
   ],
   "optionalDependencies": {
-    "@types/googlemaps": "3.39.3",
+    "@types/googlemaps": "3.39.9",
     "@types/markerclustererplus": "2.1.33",
-    "eslint-plugin-flowtype": "3.13.0",
-    "typescript": "3.8.3"
+    "eslint-plugin-flowtype": "5.2.0",
+    "typescript": "3.9.7"
   },
   "devDependencies": {
     "gulp": "4.0.2",

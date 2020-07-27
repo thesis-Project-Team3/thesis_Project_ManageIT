@@ -1,12 +1,15 @@
 import React from 'react';
-import Select from 'react-select';
+// import Select from 'react-select';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import $ from 'jquery';
 import {
   Button,
   Card,
   CardHeader,
   // CardTitle,
   CardBody,
+  Label,
   CardFooter,
   CardText,
   FormGroup,
@@ -15,31 +18,77 @@ import {
   Row,
   Col,
 } from 'reactstrap';
+// import { InvalidatedProjectKind } from 'typescript';
 
 class UpdateProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       singleSelect: null,
-      multipleSelect: null,
       projects: [],
+      description: '',
+      deadline: '',
+      profileInformations: '',
     };
   }
 
+  handleClick(e) {
+    e.preventDefault();
+    var title = this.state.singleSelect;
+    var description = $('#inputDescription').val();
+    var deadline = $('#inputDate').val();
+    console.log(title, description, deadline);
+    axios.post('http://localhost:5000/project/update', {
+      title,
+      description,
+      deadline,
+    });
+    // .then((res) => {
+    //   const description = res.data[0].description;
+    //   this.setState({ description });
+    //   console.log(res.data)
+    // });
+  }
+
   componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .get(`http://localhost:5000/users/${user._id}`)
+      .then((response) => {
+        // console.log(response.data);
+        this.setState(
+          {
+            profileInformations: response.data[0],
+          },
+          () => console.log(this.state.profileInformations)
+        );
+      })
+      .catch((err) => console.log('Error', err));
+
+    // ---------------------------
+    // var arr = []
     axios
       .get('http://localhost:5000/project/create/')
       .then((response) => {
-        console.log(response.data);
-        this.setState({
-          projects: response.data,
-        });
-        // console.log(this.state.classesList);
+        // response.data.map((proj, i) => {
+        //   arr.push({ value: i.toString(), label: proj.title })
+        //   return arr
+        // })
+        this.setState({ projects: response.data });
       })
-
       .catch((err) => console.log('Error', err));
+    // this.setState({ projects: arr })
   }
   render() {
+    const { profileInformations } = this.state;
+    var options = this.state.projects.map((project, key) => {
+      return (
+        <option key={key} value={project.title}>
+          {project.title}
+        </option>
+      );
+    });
     return (
       <>
         <div className="content">
@@ -56,7 +105,7 @@ class UpdateProject extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue="Accounting"
+                            defaultValue={profileInformations.department}
                             disabled
                             placeholder="Department"
                             type="text"
@@ -65,96 +114,30 @@ class UpdateProject extends React.Component {
                       </Col>
                       <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
-                          <label>Choose a Project</label>
-                          <Select
-                            className="react-select primary"
-                            classNamePrefix="react-select"
+                          <Label for="singleSelect">Choose a Project :</Label>
+                          <Input
+                            type="select"
                             name="singleSelect"
-                            value={this.state.singleSelect}
-                            onChange={(value) =>
-                              this.setState({ singleSelect: value })
-                            }
-                            options={[
-                              { value: '1', label: 'Project 1' },
-                              { value: '2', label: 'Project 2' },
-                              { value: '3', label: 'Project 3' },
-                              { value: '4', label: 'Project 4' },
-                              { value: '5', label: 'Project 5' },
-                            ]}
-                            placeholder="Single Select"
-                          />
+                            onChange={(value) => {
+                              this.setState({
+                                singleSelect: value.currentTarget.value,
+                              });
+                            }}
+                            id="inputSelect"
+                            required
+                          >
+                            {options}
+                          </Input>
                         </FormGroup>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
-                          <Input
-                            defaultValue="Mohamed Amine"
-                            placeholder="First Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Oueslati"
-                            placeholder="Last Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="15 Avenue"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Yesminet"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Ben Arous"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" defaultValue="2096" />
-                        </FormGroup>
-                      </Col>
-                    </Row> */}
                     <Row>
                       <Col md="11">
                         <FormGroup>
                           <label>Project Description</label>
                           <Input
                             cols="100"
-                            // defaultValue=""
+                            id="inputDescription"
                             placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
@@ -167,13 +150,13 @@ class UpdateProject extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label className="label-control">
-                                Do it before :{' '}
-                              </label>
-                              <input
-                                type="datetime-local"
-                                className="form-control datetimepicker"
-                                min="2020-07-18T08:30"
+                              <Label for="exampleDate">Do it before :</Label>
+                              <Input
+                                type="date"
+                                name="date"
+                                id="inputDate"
+                                placeholder="date placeholder"
+                                min="2020-07-18"
                               />
                             </FormGroup>
                           </CardBody>
@@ -183,7 +166,12 @@ class UpdateProject extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleClick.bind(this)}
+                  >
                     Submit
                   </Button>
                 </CardFooter>
@@ -204,10 +192,10 @@ class UpdateProject extends React.Component {
                         className="avatar"
                         src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
                       />
-                      <h5 className="title">Mohamed Amine Oueslati</h5>
+                      <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      Accounting Department Employee
+                      {profileInformations.department} Department Employee
                     </p>
                   </div>
                   <div className="card-description">ME .......</div>

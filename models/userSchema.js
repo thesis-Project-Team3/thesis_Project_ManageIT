@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
+const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -20,17 +21,19 @@ const userSchema = new Schema({
     minlength: 5,
     maxlength: 1024,
   },
-  role: {
-    type: String,
-  },
+
   department: {
+    type: String,
+    default: 'member',
+  },
+  role: {
     type: String,
   },
   position: {
     type: String,
   },
   dateOfBirth: {
-    type: Date,
+    type: String,
   },
   phoneNumber: {
     type: Number,
@@ -46,18 +49,25 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-const User = mongoose.model('User', userSchema);
-
 function validateUser(user) {
   const schema = {
     email: Joi.string().min(5).max(255).required().email(),
     password: Joi.string().min(5).max(255).required(),
     fullname: Joi.string().required(),
     department: Joi.string().required(),
+    role: Joi.string().required(),
   };
 
   return Joi.validate(user, schema);
 }
+userSchema.methods.isMember = function () {
+  return this.role === 'member';
+};
+userSchema.methods.isAuthor = function () {
+  return this.role === 'author';
+};
+
+const User = mongoose.model('user', userSchema);
 
 exports.User = User;
 exports.validate = validateUser;

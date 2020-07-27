@@ -6,8 +6,9 @@ import Notifications from 'views/Notifications.js';
 // import Rtl from "views/Rtl.js";
 import TableList from 'views/TableList.js';
 import Project from 'views/Project.js';
+import ProjectInfo from 'views/ProjectInfo.js';
 import Login from 'views/Login.js';
-import Register from 'views/Register.js';
+import AddEmployee from 'views/AddEmployee.js';
 import RegisterHead from 'views/RegisterHead.js';
 import RemoveEmployee from 'views/RemoveEmployee.js';
 import RemoveHead from 'views/RemoveHead.js';
@@ -15,7 +16,6 @@ import UpdateProject from 'views/UpdateProject.js';
 import ScheduleMeeting from 'views/ScheduleMeeting.js';
 import Meetings from 'views/Meetings.js';
 import UserProfile from 'views/UserProfile.js';
-
 
 var user = localStorage.getItem('token');
 var routes = [
@@ -92,6 +92,14 @@ var routes = [
     layout: '/admin',
   },
   {
+    path: '/project-Info',
+    name: 'Project Info',
+    rtlName: 'أرشيف المشاريع',
+    icon: 'tim-icons icon-notes',
+    component: ProjectInfo,
+    layout: '/admin',
+  },
+  {
     path: '/meetings',
     name: 'Meetings',
     rtlName: 'اجتماع مجدول',
@@ -116,11 +124,11 @@ var routes = [
     layout: '/admin',
   },
   {
-    path: '/Register',
-    name: 'Add a new head of department',
+    path: '/AddEmployee',
+    name: 'Add a New Employee',
     rtlName: 'ل',
     icon: 'tim-icons icon-simple-add',
-    component: Register,
+    component: AddEmployee,
     layout: '/admin',
   },
   {
@@ -228,6 +236,14 @@ if (
       layout: '/admin',
     },
     {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
+      layout: '/admin',
+    },
+    {
       path: '/meetings',
       name: 'Meetings',
       rtlName: 'اجتماع مجدول',
@@ -244,11 +260,11 @@ if (
     //   layout: '/admin',
     // },
     // {
-    //   path: '/Register',
+    //   path: '/AddEmployee',
     //   name: 'Add a new head of department',
     //   rtlName: 'ل',
     //   icon: 'tim-icons icon-simple-add',
-    //   component: Register,
+    //   component: AddEmployee,
     //   layout: '/admin',
     // },
     // {
@@ -336,11 +352,27 @@ if (
       layout: '/admin',
     },
     {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
+      layout: '/admin',
+    },
+    {
       path: '/meetings',
       name: 'Meetings',
       rtlName: 'اجتماع مجدول',
       icon: 'tim-icons icon-bullet-list-67',
       component: Meetings,
+      layout: '/admin',
+    },
+    {
+      path: '/AddEmployee',
+      name: 'Add a New Employee',
+      rtlName: 'ل',
+      icon: 'tim-icons icon-simple-add',
+      component: AddEmployee,
       layout: '/admin',
     },
 
@@ -385,6 +417,14 @@ if (
       rtlName: 'تحديث مشروع',
       icon: 'tim-icons icon-pencil',
       component: UpdateProject,
+      layout: '/admin',
+    },
+    {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
       layout: '/admin',
     },
     {
@@ -594,6 +634,14 @@ if (
       layout: '/admin',
     },
     {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
+      layout: '/admin',
+    },
+    {
       path: '/meetings',
       name: 'Meetings',
       rtlName: 'اجتماع مجدول',
@@ -609,15 +657,22 @@ if (
     //   component: Login,
     //   layout: '/admin',
     // },
+    // {
+    //   path: '/Register',
+    //   name: 'Add a new head of department',
+    //   rtlName: 'ل',
+    //   icon: 'tim-icons icon-simple-add',
+    //   component: Register,
+    //   layout: '/admin',
+    // },
     {
-      path: '/Register',
-      name: 'Add a new head of department',
+      path: '/RegisterHead',
+      name: 'Add Head of Department',
       rtlName: 'ل',
       icon: 'tim-icons icon-simple-add',
-      component: Register,
+      component: RegisterHead,
       layout: '/admin',
     },
-
     {
       path: '/RemoveHead',
       name: 'Remove Head of Department',

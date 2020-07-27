@@ -72,21 +72,19 @@ class UserProfile extends React.Component {
                           />
                         </FormGroup>
                       </Col>
-
-                      <Col className="pl-md-1" md="4">
-                        <FormGroup>
-                          <label htmlFor="exampleInputEmail1">
-                            Email address
-                          </label>
-                          <Input
-                            defaultValue={profileInformations.email}
-                            type="email"
-                            disabled
-                          />
-                        </FormGroup>
-                      </Col>
                     </Row>
-
+                    <Col className="pl-md-1" md="6">
+                      <FormGroup>
+                        <label htmlFor="exampleInputEmail1">
+                          Email address
+                          </label>
+                        <Input
+                          defaultValue={profileInformations.email}
+                          type="email"
+                          disabled
+                        />
+                      </FormGroup>
+                    </Col>
                     <Row>
                       <Col md="12">
                         <FormGroup>

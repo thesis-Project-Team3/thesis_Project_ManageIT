@@ -4,7 +4,7 @@ const router = express.Router();
 const Project = require('../../models/projectSchema');
 const admin = require('../../middleware/admin');
 
-router.post('/create', [auth, admin], (req, res) => {
+router.post('/create', (req, res) => {
   var project = new Project(req.body);
   project.save(function (err, result) {
     if (err) {
