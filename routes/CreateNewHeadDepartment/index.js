@@ -2,12 +2,14 @@ const express = require("express");
 const router = express.Router();
 const CreateNewHeadDepartment = router;
 var nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
+const _ = require("lodash");
+const { User, validate } = require("../../models/userSchema");
 require("dotenv").config();
-const db = require("../../models/userSchema.js");
 CreateNewHeadDepartment.post("/", async (req, res) => {
   const email = req.body.email;
   var check;
-  await db.findOne({ email }, (err, docs) => {
+  await User.findOne({ email }, (err, docs) => {
     if (docs) {
       check = "exist";
       console.log("already exists");
@@ -22,7 +24,7 @@ CreateNewHeadDepartment.post("/", async (req, res) => {
     req.body.firstName + " " + req.body.lastName
   }</h5></p>
 we are happy to tell you that we are proud to have you in the company with us.
-  <P>Your password is : ${req.body.Password}</P>
+  <P>Your password is : ${req.body.password}</P>
   </div>
   `;
   let transporter = await nodemailer.createTransport({
@@ -54,7 +56,11 @@ we are happy to tell you that we are proud to have you in the company with us.
   }
   // console.log(req.body);
   if (check === "nonRegistred") {
-    await db.create(req.body);
+    const user = req.body;
+    const salt = await bcrypt.genSalt(10);
+    hashedPassword = await bcrypt.hash(user.password, salt);
+    user.password = hashedPassword;
+    await User.create(user);
   } else {
     res.send("the user already exists");
   }

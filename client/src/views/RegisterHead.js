@@ -33,18 +33,20 @@ class RegisterHead extends React.Component {
     var firstName = document.getElementById("firstName").value;
     var lastName = document.getElementById("lastName").value;
     var email = document.getElementById("email").value;
-    var role = document.getElementById("role").value;
+    var department = document.getElementById("department").value;
+    var role = "Head";
     var dateOfBirth = document.getElementById("dateOfBirth").value;
     var phoneNumber = document.getElementById("phoneNumber").value;
-    var Password = document.getElementById("Password").value;
+    var password = document.getElementById("Password").value;
     if (
       firstName === "" ||
       lastName === "" ||
       email === "" ||
+      department === "" ||
       role === "" ||
       dateOfBirth === "" ||
       phoneNumber === "" ||
-      Password === ""
+      password === ""
     ) {
       alert("fill all the form please!!");
       return;
@@ -55,23 +57,24 @@ class RegisterHead extends React.Component {
         firstName,
         lastName,
         email,
+        department,
         role,
         dateOfBirth,
         phoneNumber,
-        Password,
+        password,
       }),
       headers: {
         "Content-Type": "application/json",
       },
-    }).then(() => {
-      document.getElementById("firstName").value = "";
-      document.getElementById("lastName").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("role").value = "";
-      document.getElementById("dateOfBirth").value = "";
-      document.getElementById("phoneNumber").value = "";
-      document.getElementById("Password").value = "";
     });
+    // .then(() => {});
+    document.getElementById("firstName").value = "";
+    document.getElementById("lastName").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("department").value = "";
+    document.getElementById("dateOfBirth").value = "";
+    document.getElementById("phoneNumber").value = "";
+    document.getElementById("Password").value = "";
   }
   render() {
     return (
@@ -88,12 +91,18 @@ class RegisterHead extends React.Component {
                   <CardBody>
                     <FormGroup>
                       <Label for="exampleSelect">select a department:</Label>
-                      <Input type="select" name="select" id="role" required>
-                        <option>head of financial department</option>
-                        <option>head of accounting department</option>
-                        <option>head of marketing department</option>
-                        <option>head of HR department</option>
-                        <option>head of Methods department</option>
+                      <Input
+                        type="select"
+                        name="select"
+                        id="department"
+                        required
+                      >
+                        <option> Financial </option>
+                        <option> Accounting </option>
+                        <option> Marketing </option>
+                        <option> Human Resources </option>
+                        <option> Methods </option>
+                        <option> IT </option>
                       </Input>
                     </FormGroup>
                     <Row>

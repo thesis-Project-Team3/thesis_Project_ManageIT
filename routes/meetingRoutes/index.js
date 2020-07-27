@@ -16,15 +16,7 @@ router.post('/create', (req, res) => {
         res.end();
     });
 });
-router.get('/create', (req, res) => {
-    Meeting.find({}, function (err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(result);
-        }
-    });
-});
+
 
 
 

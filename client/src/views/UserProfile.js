@@ -1,6 +1,6 @@
-import React from 'react';
-import jwtDecode from 'jwt-decode';
-import axios from 'axios';
+import React from "react";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
 // reactstrap components
 import {
   Button,
@@ -14,14 +14,14 @@ import {
   Input,
   Row,
   Col,
-} from 'reactstrap';
+} from "reactstrap";
 
 class UserProfile extends React.Component {
   state = {
-    profileInformations: '',
+    profileInformations: "",
   };
   componentDidMount() {
-    const jwt = localStorage.getItem('token');
+    const jwt = localStorage.getItem("token");
     const user = jwtDecode(jwt);
     axios
       .get(`http://localhost:5000/users/${user._id}`)
@@ -34,7 +34,7 @@ class UserProfile extends React.Component {
           () => console.log(this.state.profileInformations)
         );
       })
-      .catch((err) => console.log('Error', err));
+      .catch((err) => console.log("Error", err));
   }
   render() {
     const { profileInformations } = this.state;
@@ -77,7 +77,7 @@ class UserProfile extends React.Component {
                       <FormGroup>
                         <label htmlFor="exampleInputEmail1">
                           Email address
-                          </label>
+                        </label>
                         <Input
                           defaultValue={profileInformations.email}
                           type="email"

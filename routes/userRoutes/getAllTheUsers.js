@@ -4,7 +4,6 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  console.log("here");
   await User.find((err, data) => {
     if (err) res.send("nothing");
     else res.send(data);
