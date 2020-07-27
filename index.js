@@ -1,22 +1,22 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 // const config = require('config');
 // if (!config.get('jwtPrivateKey')) {
 //   console.error('FATAL ERROR: jwtPrivateKey is not defined');
 //   process.exit(1);
 // }
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000;
-const routes = require("./routes");
-const bodyParser = require("body-parser");
-const path = require("path");
-const logger = require("morgan");
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
-const passport = require("passport");
+const routes = require('./routes');
+const bodyParser = require('body-parser');
+const path = require('path');
+const logger = require('morgan');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const passport = require('passport');
 
-require("dotenv").config();
-const cors = require("cors");
+require('dotenv').config();
+const cors = require('cors');
 
 // Connection to DB
 const uri = process.env.URI;
@@ -27,37 +27,60 @@ mongoose.connect(uri, {
 });
 
 const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("MongoDB connected");
+connection.once('open', () => {
+  console.log('MongoDB connected');
 });
 
 app.use(cors());
 // app.use(express.static('uploads'));
 // app.use(express.static('build/index.html'));
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.json());
+
+//Images Uploads
+
+// app.use("/images", upload.array("image"), async (req, res) => {
+//   const uploader = async (path) => await cloudinary.uploads(path, "Images");
+//   if (req.method === "POST") {
+//     const urls = [];
+//     const files = req.files;
+//     for (const file of files) {
+//       const { path } = file;
+//       const newPath = await uploader(path);
+//       urls.push(newPath);
+//       fs.unlinkSync(path);
+//     }
+//     res.send(urls[0].url);
+//   } else {
+//     res.status(405).json({
+//       err: "Images not uploaded successfully",
+//     });
+//   }
+// });
+
 //creating or deleting heads of department Routes
-app.use("/CreateNewHeadDepartment", routes.CreateNewHeadDepartment);
-app.use("/deleteHeadDepartment", routes.deleteHeadDepartment);
-app.use("/deleteEmployee", routes.deleteEmployee);
+app.use('/CreateNewHeadDepartment', routes.CreateNewHeadDepartment);
+app.use('/deleteHeadDepartment', routes.deleteHeadDepartment);
+app.use('/deleteEmployee', routes.deleteEmployee);
 //project Route
 app.use('/project', routes.projectRoutes);
 app.use('/project', routes.updateRoutes);
 app.use('/project', routes.infoRoutes);
 //meeting route
 app.use('/meeting', routes.meetingRoutes)
+app.use('/filterMeetingsRoutes', routes.filterMeetingsRoutes)
 //user Route
-app.use("/users", routes.userRoutes);
+app.use('/users', routes.userRoutes);
 //auth Route
-app.use("/auth", routes.authRoutes);
-app.use("/getAllTheUsers", routes.getAllTheUsers);
-app.get("*", (req, res) => {
+app.use('/auth', routes.authRoutes);
+app.use('/getAllTheUsers', routes.getAllTheUsers);
+app.get('*', (req, res) => {
   // res.sendFile(__dirname + '/build/index.html');
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {
-  console.log("App is listetning on PORT", PORT);
+  console.log('App is listetning on PORT', PORT);
 });
 
 //Session

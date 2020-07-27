@@ -1,46 +1,62 @@
-
 import React from "react";
-import axios from 'axios'
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col, Table } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Row,
+  Col,
+  Table,
+} from "reactstrap";
 
 class ScheduledMeeting extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      meetings: []
-    }
+      meetings: [],
+    };
   }
   componentDidMount() {
-    axios
-      .get('http://localhost:5000/meeting/create/')
-      .then((response) => {
-        this.setState({
-          meetings: response.data,
-        }, () => console.log(this.state.meetings));
-
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+    console.log(user);
+    const obj = { role: user.role, email: user.email };
+    fetch("http://localhost:5000/filterMeetingsRoutes", {
+      method: "post",
+      body: JSON.stringify(obj),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((meetings) => {
+        this.setState({ meetings });
+        console.log(meetings);
       })
-
-      .catch((err) => console.log('Error', err));
+      .catch((err) => console.log("Error", err));
   }
 
   render() {
-    const list = this.state.meetings.map(meeting => {
+    const list = this.state.meetings.map((meeting) => {
       return (
         <tr key={meeting._id}>
-          <td >{meeting.subject}</td>
-          <td>{meeting.employees.map((emp, i) => {
-            if (meeting.employees.length - 1 === i) {
-              return (<span>{emp.label}</span>)
-            }
-            return (<span>{emp.label} - </span>)
-          })}</td>
+          <td>{meeting.subject}</td>
+          <td>
+            {meeting.employees.map((emp, i) => {
+              if (meeting.employees.length - 1 === i) {
+                return <span>{emp.label}</span>;
+              }
+              return <span>{emp.label} - </span>;
+            })}
+          </td>
           <td>{meeting.date.slice(0, 10)}</td>
         </tr>
-      )
-
-    })
+      );
+    });
     return (
       <>
         <div className="content">
@@ -59,9 +75,7 @@ class ScheduledMeeting extends React.Component {
                         <th>Date</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {list}
-                    </tbody>
+                    <tbody>{list}</tbody>
                   </Table>
                 </CardBody>
               </Card>
@@ -69,7 +83,6 @@ class ScheduledMeeting extends React.Component {
           </Row>
         </div>
       </>
-
     );
   }
 }

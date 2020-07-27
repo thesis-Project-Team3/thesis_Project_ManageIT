@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 // import Datetime from 'react-datetime';
 // import ReactDatetime from "react-datetime";
 // reactstrap components
@@ -25,7 +25,7 @@ class ScheduleMeeting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-       options: [],
+      options: [],
       usersData: [],
       profileInformations: "",
       subject: "",
@@ -35,7 +35,7 @@ class ScheduleMeeting extends React.Component {
       // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
     };
   }
-    handleChange = (e) => {
+  handleChange = (e) => {
     this.setState(
       { [e.target.id]: e.target.value, [e.target.id]: e.target.value },
       () => {
@@ -43,7 +43,7 @@ class ScheduleMeeting extends React.Component {
       }
     );
   };
-   handleChange1 = (e) => {
+  handleChange1 = (e) => {
     this.setState({ employees: e }, () => {});
   };
 
@@ -54,21 +54,20 @@ class ScheduleMeeting extends React.Component {
     }
   }
 
-  submit = e => {
-    e.preventDefault()
-    axios.post('http://localhost:5000/meeting/create', this.state)
+  submit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/meeting/create", this.state)
       .then(() => {
-        console.log('data sent')
+        console.log("data sent");
       })
       .catch(() => {
-        console.log('error')
-      })
-  }
-
-
+        console.log("error");
+      });
+  };
 
   componentDidMount() {
-    const jwt = localStorage.getItem('token');
+    const jwt = localStorage.getItem("token");
     const user = jwtDecode(jwt);
     axios
       .get(`http://localhost:5000/users/${user._id}`)
@@ -81,9 +80,9 @@ class ScheduleMeeting extends React.Component {
           () => console.log(this.state.profileInformations)
         );
       })
-      .catch((err) => console.log('Error', err));
+      .catch((err) => console.log("Error", err));
     // handling Select Options
-     // const { options } = this.state;
+    // const { options } = this.state;
     fetch("http://localhost:5000/getAllTheUsers")
       .then((res) => res.json())
       .then((usersData) => {
@@ -175,7 +174,12 @@ class ScheduleMeeting extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.submit}>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.submit}
+                  >
                     Submit
                   </Button>
                 </CardFooter>

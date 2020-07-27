@@ -1,7 +1,8 @@
+
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
-const bcrypt = require("bcrypt-nodejs");
+const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -21,12 +22,13 @@ const userSchema = new Schema({
     minlength: 5,
     maxlength: 1024,
   },
-  role: {
-    type: String,
-  },
+
   department: {
     type: String,
-    default: "member",
+    default: 'member',
+  },
+  role: {
+    type: String,
   },
   position: {
     type: String,
@@ -43,7 +45,7 @@ const userSchema = new Schema({
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, email: this.email, role: this.department },
-    'jwtPrivateKey'
+    "jwtPrivateKey"
   );
   return token;
 };
@@ -54,18 +56,19 @@ function validateUser(user) {
     password: Joi.string().min(5).max(255).required(),
     fullname: Joi.string().required(),
     department: Joi.string().required(),
+    role: Joi.string().required(),
   };
 
   return Joi.validate(user, schema);
 }
 userSchema.methods.isMember = function () {
-  return this.role === "member";
+  return this.role === 'member';
 };
 userSchema.methods.isAuthor = function () {
-  return this.role === "author";
+  return this.role === 'author';
 };
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model('user', userSchema);
 
 exports.User = User;
 exports.validate = validateUser;

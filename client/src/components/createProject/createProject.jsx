@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import './createProject.css';
-import axios from 'axios';
+import React, { Component } from "react";
+import "./createProject.css";
+import axios from "axios";
 
 class CreateProject extends Component {
-  state = { title: '', description: '', deadline: '' };
+  state = { title: "", description: "", deadline: "" };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -15,12 +15,12 @@ class CreateProject extends Component {
       },
       () => {
         axios
-          .post('http://localhost:5000/project/create', this.state)
+          .post("http://localhost:5000/project/create", this.state)
           .then((response) => {
             console.log(response.data);
           })
 
-          .catch((err) => console.log('Error', err));
+          .catch((err) => console.log("Error", err));
       }
     );
   };
@@ -28,32 +28,26 @@ class CreateProject extends Component {
   render() {
     const { title, description, date } = this.state;
     return (
-      <div className="create-project">
-        <form>
-          <legend className="section_title">Create a New Project</legend>
-          <label htmlFor="title">Title</label>
+      <div className="main">
+        <p className="sign" align="center">
+          Sign in
+        </p>
+        <form className="form1">
           <input
-            id="title"
+            className="un"
             type="text"
-            name="title"
-            ref={(c) => (this.title = c)}
+            align="center"
+            placeholder="Username"
           />
-          <label htmlFor="comments">Project's Description</label>
-          <textarea
-            id="comments"
-            name="description"
-            rows="10"
-            ref={(c) => (this.description = c)}
-          ></textarea>
-          <label htmlFor="date">Needed Before</label>
           <input
-            id="deadline"
-            name="deadline"
-            type="date"
-            ref={(c) => (this.deadline = c)}
+            className="pass"
+            type="password"
+            align="center"
+            placeholder="Password"
           />
-
-          <input type="submit" onClick={this.handleSubmit} />
+          <a className="submit" align="center">
+            Sign in
+          </a>
         </form>
       </div>
     );
