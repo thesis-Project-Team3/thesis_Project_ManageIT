@@ -1,4 +1,3 @@
-
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
@@ -19,12 +18,11 @@ import {
   Label,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 
 class Project extends React.Component {
   state = {
     newProject: {
-      department: '',
       title: '',
       description: '',
       deadline: '',
@@ -40,14 +38,14 @@ class Project extends React.Component {
     axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         this.setState(
           {
             profileInformations: response.data[0],
           },
           () => console.log(this.state.profileInformations)
         );
-        this.state.newProject.department = this.state.profileInformations.department
+        this.state.newProject.department = this.state.profileInformations.department;
       })
       .catch((err) => console.log('Error', err));
   }
@@ -60,12 +58,12 @@ class Project extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/project/create", this.state.newProject)
+      .post('http://localhost:5000/project/create', this.state.newProject)
       .then((response) => {
         console.log(response.data);
       })
 
-      .catch((err) => console.log("Error", err));
+      .catch((err) => console.log('Error', err));
   };
 
   render() {
@@ -192,7 +190,6 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-
                               {/* //                               <label className="label-control">
 //                                 Do it before :{" "}
 //                               </label>
@@ -200,7 +197,9 @@ class Project extends React.Component {
 //                                 type="datetime-local"
 //                                 className="form-control datetimepicker"
 //                                 min="2020-07-18T08:30" */}
-                              <Label className="label-control">Do it before :</Label>
+                              <Label className="label-control">
+                                Do it before :
+                              </Label>
                               <Input
                                 value={newProject.deadline}
                                 onChange={this.handleChange}
