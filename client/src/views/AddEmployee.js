@@ -22,13 +22,14 @@ import {
   Col,
 } from 'reactstrap';
 
-class Register extends React.Component {
+class AddEmployee extends React.Component {
   state = {
     RegisterInformations: {
       department: '',
       fullname: '',
       email: '',
       password: '',
+      role: 'Employee',
     },
   };
   componentDidMount() {
@@ -52,6 +53,7 @@ class Register extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.state.RegisterInformations);
     axios
       .post('http://localhost:5000/users', this.state.RegisterInformations)
       .then((response) => {
@@ -128,23 +130,23 @@ class Register extends React.Component {
                             onChange={this.handleChangeSelect}
                             options={[
                               {
-                                value: 'financial',
-                                label: 'Financial Department',
+                                value: 'Financial',
+                                label: 'financial Department',
                               },
                               {
-                                value: 'accounting',
+                                value: 'Accounting',
                                 label: 'Accounting Department',
                               },
                               {
-                                value: 'marketing',
+                                value: 'Marketing',
                                 label: 'Marketing Department',
                               },
                               {
-                                value: 'human_ressources',
+                                value: 'Human Ressources',
                                 label: 'Human Ressources Department',
                               },
-                              { value: 'methods', label: 'Methods Department' },
-                              { value: 'it', label: 'IT Department' },
+                              { value: 'Methods', label: 'Methods Department' },
+                              { value: 'IT', label: 'IT Department' },
                             ]}
                           />
                         </FormGroup>
@@ -229,4 +231,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default AddEmployee;

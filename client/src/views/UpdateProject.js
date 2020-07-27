@@ -2,7 +2,7 @@ import React from 'react';
 // import Select from 'react-select';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import $ from "jquery";
+import $ from 'jquery';
 import {
   Button,
   Card,
@@ -26,24 +26,23 @@ class UpdateProject extends React.Component {
     this.state = {
       singleSelect: null,
       projects: [],
-      description: "",
-      deadline: "",
-      profileInformations: "",
+      description: '',
+      deadline: '',
+      profileInformations: '',
     };
   }
 
   handleClick(e) {
     e.preventDefault();
-    var title = this.state.singleSelect
-    var description = $("#inputDescription").val()
-    var deadline = $("#inputDate").val()
-    console.log(title, description, deadline)
-    axios
-      .post("http://localhost:5000/project/update", {
-        title,
-        description,
-        deadline
-      })
+    var title = this.state.singleSelect;
+    var description = $('#inputDescription').val();
+    var deadline = $('#inputDate').val();
+    console.log(title, description, deadline);
+    axios.post('http://localhost:5000/project/update', {
+      title,
+      description,
+      deadline,
+    });
     // .then((res) => {
     //   const description = res.data[0].description;
     //   this.setState({ description });
@@ -76,7 +75,7 @@ class UpdateProject extends React.Component {
         //   arr.push({ value: i.toString(), label: proj.title })
         //   return arr
         // })
-        this.setState({ projects: response.data })
+        this.setState({ projects: response.data });
       })
       .catch((err) => console.log('Error', err));
     // this.setState({ projects: arr })
@@ -85,9 +84,11 @@ class UpdateProject extends React.Component {
     const { profileInformations } = this.state;
     var options = this.state.projects.map((project, key) => {
       return (
-        <option key={key} value={project.title}>{project.title}</option>
-      )
-    })
+        <option key={key} value={project.title}>
+          {project.title}
+        </option>
+      );
+    });
     return (
       <>
         <div className="content">
@@ -114,13 +115,17 @@ class UpdateProject extends React.Component {
                       <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
                           <Label for="singleSelect">Choose a Project :</Label>
-                          <Input type="select" name="singleSelect"
+                          <Input
+                            type="select"
+                            name="singleSelect"
                             onChange={(value) => {
-                              this.setState({ singleSelect: value.currentTarget.value })
-                            }
-                            }
+                              this.setState({
+                                singleSelect: value.currentTarget.value,
+                              });
+                            }}
                             id="inputSelect"
-                            required>
+                            required
+                          >
                             {options}
                           </Input>
                         </FormGroup>
@@ -161,7 +166,12 @@ class UpdateProject extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleClick.bind(this)}>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleClick.bind(this)}
+                  >
                     Submit
                   </Button>
                 </CardFooter>
