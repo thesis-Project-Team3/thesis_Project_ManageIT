@@ -43,7 +43,7 @@ class Project extends React.Component {
           {
             profileInformations: response.data[0],
           },
-          () => console.log(this.state.profileInformations)
+          () => console.log(this.state.profileInformations.fullname)
         );
         this.state.newProject.department = this.state.profileInformations.department;
       })
@@ -57,10 +57,11 @@ class Project extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    var object = this.state.newProject
+    object.fullname = this.state.profileInformations.fullname
     axios
       .post('http://localhost:5000/project/create', this.state.newProject)
       .then((response) => {
-        console.log(response.data);
       })
 
       .catch((err) => console.log('Error', err));

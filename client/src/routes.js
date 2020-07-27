@@ -5,7 +5,7 @@ import Dashboard from 'views/Dashboard.js';0
 // import Map from "views/Map.js";
 import Notifications from 'views/Notifications.js';
 // import Rtl from "views/Rtl.js";
-import TableList from 'views/TableList.js';
+import ProjectHistory from 'views/ProjectHistory.js';
 import Project from 'views/Project.js';
 import ProjectInfo from 'views/ProjectInfo.js';
 import Login from 'views/Login.js';
@@ -85,12 +85,12 @@ var routes = [
     layout: '/admin',
   },
   {
-    path: '/projects-history',
-    name: 'Projects History',
-    rtlName: 'أرشيف المشاريع',
-    icon: 'tim-icons icon-single-copy-04',
-    component: TableList,
-    layout: '/admin',
+    path: "/projects-history",
+    name: "Projects History",
+    rtlName: "أرشيف المشاريع",
+    icon: "tim-icons icon-single-copy-04",
+    component: ProjectHistory,
+    layout: "/admin",
   },
   {
     path: "/project-Info",
@@ -229,12 +229,12 @@ if (
       layout: "/admin",
     },
     {
-      path: "/projects-history",
-      name: "Projects History",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-single-copy-04",
-      component: TableList,
-      layout: "/admin",
+      path: '/projects-history',
+      name: 'Projects History',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-single-copy-04',
+      component: ProjectHistory,
+      layout: '/admin',
     },
     {
       path: "/project-Info",
@@ -345,12 +345,12 @@ if (
       layout: "/admin",
     },
     {
-      path: "/projects-history",
-      name: "Projects History",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-single-copy-04",
-      component: TableList,
-      layout: "/admin",
+      path: '/projects-history',
+      name: 'Projects History',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-single-copy-04',
+      component: ProjectHistory,
+      layout: '/admin',
     },
     {
       path: "/project-Info",
@@ -461,12 +461,12 @@ if (
       layout: "/admin",
     },
     {
-      path: "/projects-history",
-      name: "Projects History",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-single-copy-04",
-      component: TableList,
-      layout: "/admin",
+      path: '/projects-history',
+      name: 'Projects History',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-single-copy-04',
+      component: ProjectHistory,
+      layout: '/admin',
     },
     {
       path: "/meetings",
@@ -512,6 +512,14 @@ if (
       layout: "/admin",
     },
     {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
+      layout: '/admin',
+    },
+    {
       path: "/ScheduleMeeting",
       name: "Schedule Meeting",
       rtlName: "اجتماع مجدول",
@@ -544,12 +552,12 @@ if (
       layout: "/admin",
     },
     {
-      path: "/projects-history",
-      name: "Projects History",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-single-copy-04",
-      component: TableList,
-      layout: "/admin",
+      path: '/projects-history',
+      name: 'Projects History',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-single-copy-04',
+      component: ProjectHistory,
+      layout: '/admin',
     },
     {
       path: "/meetings",
@@ -595,6 +603,14 @@ if (
       layout: "/admin",
     },
     {
+      path: '/project-Info',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfo,
+      layout: '/admin',
+    },
+    {
       path: "/RegisterHead",
       name: "Add Head of Department",
       rtlName: "ل",
@@ -635,11 +651,11 @@ if (
       layout: "/admin",
     },
     {
-      path: "/projects-history",
-      name: "Projects History",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-single-copy-04",
-      component: TableList,
+      path: '/projects-history',
+      name: 'Projects History',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-single-copy-04',
+      component: ProjectHistory,
       layout: "/admin",
     },
     {

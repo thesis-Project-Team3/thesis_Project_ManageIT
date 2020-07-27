@@ -98,7 +98,7 @@ class UserProfile extends React.Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col className="pr-md-1" md="4">
+                      <Col className="pr-md-1" md="6">
                         <FormGroup>
                           <label>City</label>
                           <Input
@@ -108,7 +108,7 @@ class UserProfile extends React.Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col className="px-md-1" md="4">
+                      {/* <Col className="px-md-1" md="4">
                         <FormGroup>
                           <label>Country</label>
                           <Input
@@ -117,8 +117,8 @@ class UserProfile extends React.Component {
                             type="text"
                           />
                         </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="4">
+                      </Col> */}
+                      <Col className="pl-md-1" md="6">
                         <FormGroup>
                           <label>Postal Code</label>
                           <Input
