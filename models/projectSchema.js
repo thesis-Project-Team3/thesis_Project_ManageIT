@@ -5,6 +5,9 @@ const projectSchema = new Schema({
   department: {
     type: String,
   },
+  fullname: {
+    type: String,
+  },
   title: {
     type: String,
   },
