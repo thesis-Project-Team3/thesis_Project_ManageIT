@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
-const Joi = require('joi');
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const Joi = require("joi");
 const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
@@ -42,8 +42,8 @@ const userSchema = new Schema({
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, email: this.email, isAdmin: this.isAdmin },
-    'jwtPrivateKey'
+    { _id: this._id, email: this.email, role: this.department },
+    "jwtPrivateKey"
   );
   return token;
 };

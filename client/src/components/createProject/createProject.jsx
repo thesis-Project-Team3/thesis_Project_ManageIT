@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import './createProject.css';
-import axios from 'axios';
+import React, { Component } from "react";
+import "./createProject.css";
+import axios from "axios";
 
 class CreateProject extends Component {
-  state = { title: '', description: '', deadline: '' };
+  state = { title: "", description: "", deadline: "" };
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -15,12 +15,12 @@ class CreateProject extends Component {
       },
       () => {
         axios
-          .post('http://localhost:5000/project/create', this.state)
+          .post("http://localhost:5000/project/create", this.state)
           .then((response) => {
             console.log(response.data);
           })
 
-          .catch((err) => console.log('Error', err));
+          .catch((err) => console.log("Error", err));
       }
     );
   };
