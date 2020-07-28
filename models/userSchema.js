@@ -25,7 +25,6 @@ const userSchema = new Schema({
 
   department: {
     type: String,
-    default: 'member',
   },
   role: {
     type: String,
@@ -44,7 +43,7 @@ const userSchema = new Schema({
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, email: this.email, role: this.department },
+    { _id: this._id, email: this.email, role: this.role, department: this.department },
     "jwtPrivateKey"
   );
   return token;
