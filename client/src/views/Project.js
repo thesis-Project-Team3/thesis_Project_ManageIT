@@ -3,7 +3,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import {
   Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup,
-  Form, Input, Label, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter
+  Form, Input, Label, Row, Col, Modal, ModalBody, ModalFooter
 } from 'reactstrap';
 
 class Project extends React.Component {
@@ -147,27 +147,18 @@ class Project extends React.Component {
                   <Button className="btn-fill" color="primary"
                     type="submit" onClick={this.handleSubmit} >Submit</Button>
                   <div>
-                    <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}
-                    // className={className}
-                    >
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}>
                       {/* <ModalHeader>Adding Alert !</ModalHeader> */}
-                      <ModalBody><b>Project</b> <br /> <center>
+                      <ModalBody> <br /> <center>
                         <img src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
                           width="200px" />
-                        <br />Project has been successfully created  !</center></ModalBody>
+                        <br />Project has been successfully created !</center></ModalBody>
                       <ModalFooter>
                         {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
-                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                        <Button color="secondary" onClick={this.toggle} href='/admin/project'>Close</Button>
                       </ModalFooter>
                     </Modal>
                   </div>
-
-
-
-
-
-
-
                 </CardFooter>
               </Card>
             </Col>

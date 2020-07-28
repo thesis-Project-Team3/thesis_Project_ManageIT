@@ -58,7 +58,6 @@ class Tables extends React.Component {
           >
             <i className="tim-icons icon-notes" />
           </Button>
-
         </td>
         <th>{proj.status}</th>
       </tr>)

@@ -2,23 +2,10 @@ import React from "react";
 import Select from "react-select";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-// import Datetime from 'react-datetime';
-// import ReactDatetime from "react-datetime";
-// reactstrap components
 import {
-  Button,
-  Card,
-  CardHeader,
-  // CardTitle,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Label,
-  Input,
-  Row,
-  Col,
+  Button, Card, CardHeader, CardBody,
+  CardFooter, CardText, FormGroup, Form, Label, Input, Row, Col,
+  Modal, ModalBody, ModalFooter
 } from "reactstrap";
 
 class ScheduleMeeting extends React.Component {
@@ -33,8 +20,14 @@ class ScheduleMeeting extends React.Component {
       date: "",
       employees: [],
       // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
+      modal: false
     };
   }
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal })
+  }
+
   handleChange = (e) => {
     this.setState(
       { [e.target.id]: e.target.value, [e.target.id]: e.target.value },
@@ -44,7 +37,7 @@ class ScheduleMeeting extends React.Component {
     );
   };
   handleChange1 = (e) => {
-    this.setState({ employees: e }, () => {});
+    this.setState({ employees: e }, () => { });
   };
 
   makeOptions() {
@@ -55,6 +48,7 @@ class ScheduleMeeting extends React.Component {
   }
 
   submit = (e) => {
+    this.setState({ modal: !this.state.modal })
     e.preventDefault();
     axios
       .post("http://localhost:5000/meeting/create", this.state)
@@ -95,6 +89,7 @@ class ScheduleMeeting extends React.Component {
   }
 
   render() {
+    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
     const { profileInformations } = this.state;
     return (
       <>
@@ -175,13 +170,20 @@ class ScheduleMeeting extends React.Component {
                 </CardBody>
                 <CardFooter>
                   <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.submit}
-                  >
-                    Submit
-                  </Button>
+                    className="btn-fill" color="primary" type="submit" onClick={this.submit}>Submit</Button>
+                  <div>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}>
+                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                      <ModalBody> <br /> <center>
+                        <img src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                          width="200px" />
+                        <br />Meeting has been Scheduled !</center></ModalBody>
+                      <ModalFooter>
+                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                        <Button color="secondary" onClick={this.toggle} href='/admin/ScheduleMeeting'>Close</Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </CardFooter>
               </Card>
             </Col>
