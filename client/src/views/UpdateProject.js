@@ -4,19 +4,8 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import $ from 'jquery';
 import {
-  Button,
-  Card,
-  CardHeader,
-  // CardTitle,
-  CardBody,
-  Label,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col,
+  Button, Card, CardHeader, CardBody, Label, CardFooter, CardText, FormGroup,
+  Form, Input, Row, Col, Modal, ModalBody, ModalFooter
 } from 'reactstrap';
 // import { InvalidatedProjectKind } from 'typescript';
 
@@ -29,10 +18,16 @@ class UpdateProject extends React.Component {
       description: '',
       deadline: '',
       profileInformations: '',
+      modal: false
     };
   }
 
-  handleSubmit(e) {
+  toggle = () => {
+    this.setState({ modal: !this.state.modal })
+  }
+
+  handleClick(e) {
+    this.setState({ modal: !this.state.modal })
     e.preventDefault();
     var title = this.state.singleSelect;
     var description = $('#inputDescription').val();
@@ -43,11 +38,6 @@ class UpdateProject extends React.Component {
       description,
       deadline,
     });
-    // .then((res) => {
-    //   const description = res.data[0].description;
-    //   this.setState({ description });
-    //   console.log(res.data)
-    // });
   }
 
   componentDidMount() {
@@ -78,6 +68,7 @@ class UpdateProject extends React.Component {
     // this.setState({ projects: arr })
   }
   render() {
+    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
     const { profileInformations } = this.state;
     var options = this.state.projects.map((project, key) => {
       return (
@@ -175,14 +166,21 @@ class UpdateProject extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleSubmit.bind(this)}
-                  >
-                    Submit
-                  </Button>
+                  <Button className="btn-fill" color="primary" type="submit"
+                    onClick={this.handleClick.bind(this)}>Submit</Button>
+                  <div>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}>
+                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                      <ModalBody> <br /> <center>
+                        <img src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                          width="200px" />
+                        <br />Project has been successfully updated !</center></ModalBody>
+                      <ModalFooter>
+                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                        <Button color="secondary" onClick={this.toggle} href='/admin/Update-Project'>Close</Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </CardFooter>
               </Card>
             </Col>

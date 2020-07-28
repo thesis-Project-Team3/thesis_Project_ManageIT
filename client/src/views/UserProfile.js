@@ -3,23 +3,23 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 // reactstrap components
 import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col,
-} from 'reactstrap';
+  Button, Card, CardHeader, CardBody, CardFooter,
+  CardText, FormGroup, Form, Input, Row, Col,
+  Modal, ModalBody, ModalFooter
+} from "reactstrap";
+
+
 
 class UserProfile extends React.Component {
   state = {
-    profileInformations: '',
+    profileInformations: "",
+    modal: false
   };
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal })
+  }
+
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
@@ -37,6 +37,7 @@ class UserProfile extends React.Component {
       .catch((err) => console.log('Error', err));
   }
   render() {
+    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
     const { profileInformations } = this.state;
     return (
       <>
@@ -146,9 +147,20 @@ class UserProfile extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
-                    Save
-                  </Button>
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.toggle}>Save</Button>
+                  <div>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}>
+                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                      <ModalBody> <br /> <center>
+                        <img src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                          width="200px" />
+                        <br />Profile has been successfully updated !</center></ModalBody>
+                      <ModalFooter>
+                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                        <Button color="secondary" onClick={this.toggle} href='/admin/user-profile'>Close</Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </CardFooter>
               </Card>
             </Col>

@@ -13,13 +13,13 @@ router.post('/', (req, res) => {
       res.send(data);
     }
   });
-  //   }) else if (req.body.role === "") {
-  //     Meeting.find({}, function (err, result) {});
-  //   } else if (req.body.role === "") {
-  //     Meeting.find({}, function (err, result) {});
-  //   } else if (req.body.role === "") {
-  //     Meeting.find({}, function (err, result) {});
-  //   }
+  // } else if (req.body.role === "") {
+  //   Meeting.find({}, function (err, result) {});
+  // } else if (req.body.role === "") {
+  //   Meeting.find({}, function (err, result) {});
+  // } else if (req.body.role === "") {
+  //   Meeting.find({}, function (err, result) {});
+  // }
 });
 
 module.exports = router;

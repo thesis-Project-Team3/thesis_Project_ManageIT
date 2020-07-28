@@ -3,15 +3,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 // reactstrap components
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Row,
-  Col,
-  Table,
-} from "reactstrap";
+import { Card, CardHeader, CardBody, CardTitle, Row, Col, Table } from "reactstrap";
 
 class ScheduledMeeting extends React.Component {
   constructor(props) {
