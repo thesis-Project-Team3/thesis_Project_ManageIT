@@ -38,7 +38,6 @@ const userSchema = new Schema({
   phoneNumber: {
     type: Number,
   },
-  isAdmin: Boolean,
 });
 
 userSchema.methods.generateAuthToken = function () {
