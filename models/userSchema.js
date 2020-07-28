@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
@@ -24,7 +25,6 @@ const userSchema = new Schema({
 
   department: {
     type: String,
-    default: 'member',
   },
   role: {
     type: String,
@@ -38,13 +38,12 @@ const userSchema = new Schema({
   phoneNumber: {
     type: Number,
   },
-  isAdmin: Boolean,
 });
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, email: this.email, role: this.department },
-    'jwtPrivateKey'
+    { _id: this._id, email: this.email, role: this.role, department: this.department },
+    "jwtPrivateKey"
   );
   return token;
 };

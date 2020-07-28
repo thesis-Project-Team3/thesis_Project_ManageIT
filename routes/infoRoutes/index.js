@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../../models/projectSchema');
-var idx = null;
+var idx;
 router.post('/index', (req, res) => {
     console.log(req.body)
-    if (!idx) {
+    if (req.body.index || req.body.index === 0) {
         idx = req.body.index
     }
     Project.find({}, function (err, result) {
         if (err) {
             res.send(err);
         } else {
-            console.log(result[idx])
             res.send([result[idx]]);
+            console.log([result[idx]])
         }
     });
 });

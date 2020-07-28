@@ -67,7 +67,8 @@ app.use('/project', routes.projectRoutes);
 app.use('/project', routes.updateRoutes);
 app.use('/project', routes.infoRoutes);
 //meeting route
-app.use('/meeting', routes.meetingRoutes);
+app.use('/meeting', routes.meetingRoutes)
+app.use('/filterMeetingsRoutes', routes.filterMeetingsRoutes)
 //user Route
 app.use('/users', routes.userRoutes);
 //auth Route

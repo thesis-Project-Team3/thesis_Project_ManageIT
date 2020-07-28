@@ -5,6 +5,9 @@ const projectSchema = new Schema({
   department: {
     type: String,
   },
+  fullname: {
+    type: String,
+  },
   title: {
     type: String,
   },
@@ -24,6 +27,7 @@ const projectSchema = new Schema({
   progress: {
     type: String,
   },
+  feature: {featureTitle:{type: String}, featureDescription:{type: String} , featureDeadline:{type: String}, featureStatus:{type: String}}
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 

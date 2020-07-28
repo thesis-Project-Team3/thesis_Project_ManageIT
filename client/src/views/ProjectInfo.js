@@ -46,7 +46,7 @@ class ProjectInfo extends React.Component {
     //-------------------------------
 
     axios
-      .post('http://localhost:5000/project/index')
+      .post('http://localhost:5000/project/index', {})
       .then((response) => {
         var info = response.data[0]
         this.setState({ info })
