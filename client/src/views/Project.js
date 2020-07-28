@@ -1,23 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-// import Datetime from 'react-datetime';
-// import ReactDatetime from "react-datetime";
-// reactstrap components
 import {
-  Button,
-  Card,
-  CardHeader,
-  // CardTitle,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Label,
-  Row,
-  Col,
+  Button, Card, CardHeader, CardBody, CardFooter, CardText, FormGroup,
+  Form, Input, Label, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
 
 class Project extends React.Component {
@@ -30,7 +16,12 @@ class Project extends React.Component {
       progress: 'sent to the head of the department',
     },
     profileInformations: '',
+    modal: false
   };
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal })
+  }
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -56,6 +47,7 @@ class Project extends React.Component {
   };
 
   handleSubmit = (e) => {
+    this.setState({ modal: !this.state.modal })
     e.preventDefault();
     var object = this.state.newProject
     object.fullname = this.state.profileInformations.fullname
@@ -69,6 +61,8 @@ class Project extends React.Component {
 
   render() {
     const { newProject, profileInformations } = this.state;
+    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
+
     return (
       <>
         <div className="content">
@@ -106,68 +100,6 @@ class Project extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
-                          <Input
-                            defaultValue="Mohamed Amine"
-                            placeholder="First Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Oueslati"
-                            placeholder="Last Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="15 Avenue"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Yesminet"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Ben Arous"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" defaultValue="2096" />
-                        </FormGroup>
-                      </Col>
-                    </Row> */}
                     <Row>
                       <Col md="11">
                         <FormGroup>
@@ -191,13 +123,6 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              {/* //                               <label className="label-control">
-//                                 Do it before :{" "}
-//                               </label>
-//                               <input
-//                                 type="datetime-local"
-//                                 className="form-control datetimepicker"
-//                                 min="2020-07-18T08:30" */}
                               <Label className="label-control">
                                 Do it before :
                               </Label>
@@ -219,14 +144,30 @@ class Project extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleSubmit}
-                  >
-                    Submit
-                  </Button>
+                  <Button className="btn-fill" color="primary"
+                    type="submit" onClick={this.handleSubmit} >Submit</Button>
+                  <div>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}
+                    // className={className}
+                    >
+                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                      <ModalBody><b>Project</b> <br /> <center>
+                        <img src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                          width="200px" />
+                        <br />Project has been successfully created  !</center></ModalBody>
+                      <ModalFooter>
+                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                        <Button color="secondary" onClick={this.toggle}>Close</Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
+
+
+
+
+
+
+
                 </CardFooter>
               </Card>
             </Col>
@@ -276,3 +217,6 @@ class Project extends React.Component {
 }
 
 export default Project;
+
+
+

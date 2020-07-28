@@ -100,7 +100,7 @@ class RegisterHead extends React.Component {
                         <option> Financial </option>
                         <option> Accounting </option>
                         <option> Marketing </option>
-                        <option> Human Resources </option>
+                        <option> Human Ressources </option>
                         <option> Methods </option>
                         <option> IT </option>
                       </Input>
@@ -196,7 +196,7 @@ class RegisterHead extends React.Component {
                       href="#pablo"
                       onClick={
                         ((e) => e.preventDefault(),
-                        this.fillHeadFormOnSubmit.bind(this))
+                          this.fillHeadFormOnSubmit.bind(this))
                       }
                       size="lg"
                     >
