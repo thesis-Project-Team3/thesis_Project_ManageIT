@@ -13,15 +13,15 @@ class Project extends React.Component {
       description: '',
       deadline: '',
       status: 'in progress',
-      progress: 'sent to the head of the department',
+      user: jwtDecode(localStorage.getItem('token')),
     },
     profileInformations: '',
-    modal: false
+    modal: false,
   };
 
   toggle = () => {
-    this.setState({ modal: !this.state.modal })
-  }
+    this.setState({ modal: !this.state.modal });
+  };
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -47,21 +47,28 @@ class Project extends React.Component {
   };
 
   handleSubmit = (e) => {
-    this.setState({ modal: !this.state.modal })
+    this.setState({ modal: !this.state.modal });
     e.preventDefault();
-    var object = this.state.newProject
-    object.fullname = this.state.profileInformations.fullname
+    var object = this.state.newProject;
+    object.fullname = this.state.profileInformations.fullname;
     axios
       .post('http://localhost:5000/project/create', this.state.newProject)
-      .then((response) => {
-      })
+      .then((response) => {})
 
       .catch((err) => console.log('Error', err));
   };
 
   render() {
     const { newProject, profileInformations } = this.state;
-    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
 
     return (
       <>
@@ -144,8 +151,14 @@ class Project extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary"
-                    type="submit" onClick={this.handleSubmit} >Submit</Button>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleSubmit}
+                  >
+                    Submit
+                  </Button>
                   <div>
                     <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}>
                       {/* <ModalHeader>Adding Alert !</ModalHeader> */}
@@ -208,6 +221,3 @@ class Project extends React.Component {
 }
 
 export default Project;
-
-
-

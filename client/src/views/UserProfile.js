@@ -1,12 +1,14 @@
-import React from "react";
-import jwtDecode from "jwt-decode";
-import axios from "axios";
+import React from 'react';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 // reactstrap components
 import {
   Button, Card, CardHeader, CardBody, CardFooter,
   CardText, FormGroup, Form, Input, Row, Col,
   Modal, ModalBody, ModalFooter
 } from "reactstrap";
+
+
 
 class UserProfile extends React.Component {
   state = {
@@ -19,7 +21,7 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    const jwt = localStorage.getItem("token");
+    const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     axios
       .get(`http://localhost:5000/users/${user._id}`)
@@ -32,7 +34,7 @@ class UserProfile extends React.Component {
           () => console.log(this.state.profileInformations)
         );
       })
-      .catch((err) => console.log("Error", err));
+      .catch((err) => console.log('Error', err));
   }
   render() {
     const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
@@ -72,7 +74,7 @@ class UserProfile extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
-                    <Col className="pl-md-1" md="6">
+                    <Col className="pl-md-1" md="5">
                       <FormGroup>
                         <label htmlFor="exampleInputEmail1">
                           Email address

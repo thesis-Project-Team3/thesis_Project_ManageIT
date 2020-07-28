@@ -1,5 +1,4 @@
-
-import React from "react";
+import React from 'react';
 import axios from 'axios';
 // reactstrap components
 import {
@@ -10,24 +9,22 @@ import {
   Table,
   Row,
   Col,
-  Button
-} from "reactstrap";
+  Button,
+} from 'reactstrap';
 
 class Tables extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      projects: []
-    }
+      projects: [],
+    };
   }
   componentDidMount() {
-    axios
-      .get('http://localhost:5000/project/create/')
-      .then((response) => {
-        var projects = response.data
-        console.log(projects)
-        this.setState({ projects })
-      })
+    axios.get('http://localhost:5000/project/create/').then((response) => {
+      var projects = response.data;
+      console.log(projects);
+      this.setState({ projects });
+    });
   }
 
   handleSubmit(i) {
@@ -37,7 +34,7 @@ class Tables extends React.Component {
       .then((response) => {
         console.log(response.data);
         window.location = '/admin/project-Info';
-      })
+      });
     // .catch((err) => console.log('Error', err));
   }
 
@@ -83,9 +80,7 @@ class Tables extends React.Component {
                         <th>Status</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {ProjectHistory}
-                    </tbody>
+                    <tbody>{ProjectHistory}</tbody>
                   </Table>
                 </CardBody>
               </Card>
