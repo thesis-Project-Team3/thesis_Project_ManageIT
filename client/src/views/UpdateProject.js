@@ -32,7 +32,7 @@ class UpdateProject extends React.Component {
     };
   }
 
-  handleClick(e) {
+  handleSubmit(e) {
     e.preventDefault();
     var title = this.state.singleSelect;
     var description = $('#inputDescription').val();
@@ -71,10 +71,7 @@ class UpdateProject extends React.Component {
     axios
       .get('http://localhost:5000/project/create/')
       .then((response) => {
-        // response.data.map((proj, i) => {
-        //   arr.push({ value: i.toString(), label: proj.title })
-        //   return arr
-        // })
+        console.log(response);
         this.setState({ projects: response.data });
       })
       .catch((err) => console.log('Error', err));
@@ -96,7 +93,7 @@ class UpdateProject extends React.Component {
             <Col md="8">
               <Card>
                 <CardHeader>
-                  <h5 className="title">Update a Project</h5>
+                  <h5 className="title">Add a New Feature</h5>
                 </CardHeader>
                 <CardBody>
                   <Form>
@@ -114,7 +111,9 @@ class UpdateProject extends React.Component {
                       </Col>
                       <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
-                          <Label for="singleSelect">Choose a Project :</Label>
+                          <Label for="singleSelect">
+                            Choose an Existing Project :
+                          </Label>
                           <Input
                             type="select"
                             name="singleSelect"
@@ -130,11 +129,21 @@ class UpdateProject extends React.Component {
                           </Input>
                         </FormGroup>
                       </Col>
+                      <Col className="pr-md-1" md="5">
+                        <FormGroup>
+                          <label>Feature Title</label>
+                          <Input
+                            defaultValue=""
+                            placeholder="Enter the feature title"
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
                     </Row>
                     <Row>
                       <Col md="11">
                         <FormGroup>
-                          <label>Project Description</label>
+                          <label>Feature Description</label>
                           <Input
                             cols="100"
                             id="inputDescription"
@@ -170,7 +179,7 @@ class UpdateProject extends React.Component {
                     className="btn-fill"
                     color="primary"
                     type="submit"
-                    onClick={this.handleClick.bind(this)}
+                    onClick={this.handleSubmit.bind(this)}
                   >
                     Submit
                   </Button>
