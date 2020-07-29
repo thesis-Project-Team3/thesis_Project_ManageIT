@@ -17,9 +17,21 @@ router.post('/create', (req, res) => {
   });
 });
 
-// Router for creating projects
+// Router for getting projects
 router.get('/create', (req, res) => {
   Project.find({}, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+// Router for getting specified projects
+router.get('/create/:userId', (req, res) => {
+  console.log(req.params.userId);
+  Project.find({ user: req.params.userId }, function (err, result) {
     if (err) {
       res.send(err);
     } else {

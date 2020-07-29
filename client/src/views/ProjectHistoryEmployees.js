@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 // reactstrap components
 import {
   Card,
@@ -20,11 +21,14 @@ class ProjectHistoryEmployees extends React.Component {
     };
   }
   componentDidMount() {
-    axios.get('http://localhost:5000/project/create/').then((response) => {
-      var projects = response.data;
-      console.log(projects);
-      this.setState({ projects });
-    });
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .get(`http://localhost:5000/project/create/${user._id}`)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ projects: response.data });
+      });
   }
 
   handleSubmit(i) {
