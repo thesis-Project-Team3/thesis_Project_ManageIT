@@ -43,9 +43,9 @@ class ProjectHistoryCEO extends React.Component {
       return (
         <tr key={i}>
           <td>{proj.title}</td>
-          <td>{proj.department}</td>
-          <td>{proj.description}</td>
           <td>{proj.deadline.slice(0, 10)}</td>
+          <th>{proj.status}</th>
+          <th>{proj.progress}</th>
           <td className="text-center">
             <Button
               onClick={this.handleSubmit.bind(this, i)}
@@ -57,7 +57,6 @@ class ProjectHistoryCEO extends React.Component {
               <i className="tim-icons icon-notes" />
             </Button>
           </td>
-          <th>{proj.status}</th>
         </tr>
       );
     });
@@ -75,11 +74,10 @@ class ProjectHistoryCEO extends React.Component {
                     <thead className="text-primary">
                       <tr>
                         <th>Title</th>
-                        <th>Department</th>
-                        <th>Description</th>
                         <th>Do before</th>
-                        <th className="text-center">Info</th>
                         <th>Status</th>
+                        <th>Progress</th>
+                        <th className="text-center">Info</th>
                       </tr>
                     </thead>
                     <tbody>{ProjectHistory}</tbody>
