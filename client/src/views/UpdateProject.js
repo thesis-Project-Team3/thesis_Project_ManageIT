@@ -7,7 +7,6 @@ import {
   Button,
   Card,
   CardHeader,
-  // CardTitle,
   CardBody,
   Label,
   CardFooter,
@@ -17,6 +16,9 @@ import {
   Input,
   Row,
   Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 // import { InvalidatedProjectKind } from 'typescript';
 
@@ -26,29 +28,48 @@ class UpdateProject extends React.Component {
     this.state = {
       singleSelect: null,
       projects: [],
-      description: '',
-      deadline: '',
+      modal: false,
       profileInformations: '',
+      newFeature: {
+        featureTitle: '',
+        featureDescription: '',
+        featureDeadline: '',
+      },
     };
   }
 
-  handleClick(e) {
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleChange = ({ currentTarget: input }) => {
+    const newFeature = { ...this.state.newFeature };
+    newFeature[input.name] = input.value;
+    this.setState({ newFeature });
+  };
+
+  handleSubmit = (e) => {
     e.preventDefault();
-    var title = this.state.singleSelect;
-    var description = $('#inputDescription').val();
-    var deadline = $('#inputDate').val();
-    console.log(title, description, deadline);
-    axios.post('http://localhost:5000/project/update', {
-      title,
-      description,
-      deadline,
-    });
-    // .then((res) => {
-    //   const description = res.data[0].description;
-    //   this.setState({ description });
-    //   console.log(res.data)
-    // });
-  }
+    axios
+      .put('http://localhost:5000/project/create/:id', this.state.newFeature)
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
+
+  // handleClick(e) {
+  //   this.setState({ modal: !this.state.modal })
+  //   e.preventDefault();
+  //   var title = this.state.singleSelect;
+  //   var description = $('#inputDescription').val();
+  //   var deadline = $('#inputDate').val();
+  //   console.log(title, description, deadline);
+  //   axios.post('http://localhost:5000/project/update', {
+  //     title,
+  //     description,
+  //     deadline,
+  //   });
+  // }
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -71,16 +92,23 @@ class UpdateProject extends React.Component {
     axios
       .get('http://localhost:5000/project/create/')
       .then((response) => {
-        // response.data.map((proj, i) => {
-        //   arr.push({ value: i.toString(), label: proj.title })
-        //   return arr
-        // })
+        console.log(response);
         this.setState({ projects: response.data });
       })
       .catch((err) => console.log('Error', err));
     // this.setState({ projects: arr })
   }
   render() {
+    const { newFeature } = this.state;
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
     const { profileInformations } = this.state;
     var options = this.state.projects.map((project, key) => {
       return (
@@ -96,7 +124,7 @@ class UpdateProject extends React.Component {
             <Col md="8">
               <Card>
                 <CardHeader>
-                  <h5 className="title">Update a Project</h5>
+                  <h5 className="title">Add a New Feature</h5>
                 </CardHeader>
                 <CardBody>
                   <Form>
@@ -114,7 +142,9 @@ class UpdateProject extends React.Component {
                       </Col>
                       <Col lg="6" md="6" sm="3" className="pr-md-1">
                         <FormGroup>
-                          <Label for="singleSelect">Choose a Project :</Label>
+                          <Label for="singleSelect">
+                            Choose an Existing Project :
+                          </Label>
                           <Input
                             type="select"
                             name="singleSelect"
@@ -130,17 +160,33 @@ class UpdateProject extends React.Component {
                           </Input>
                         </FormGroup>
                       </Col>
+                      <Col className="pr-md-1" md="5">
+                        <FormGroup>
+                          <label>Feature Title</label>
+                          <Input
+                            defaultValue=""
+                            placeholder="Enter the feature title"
+                            type="text"
+                            value={newFeature.featureTitle}
+                            onChange={this.handleChange}
+                            name="featureTitle"
+                          />
+                        </FormGroup>
+                      </Col>
                     </Row>
                     <Row>
                       <Col md="11">
                         <FormGroup>
-                          <label>Project Description</label>
+                          <label>Feature Description</label>
                           <Input
                             cols="100"
                             id="inputDescription"
                             placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
+                            value={newFeature.featureDescription}
+                            onChange={this.handleChange}
+                            name="featureDescription"
                           />
                         </FormGroup>
                       </Col>
@@ -157,6 +203,9 @@ class UpdateProject extends React.Component {
                                 id="inputDate"
                                 placeholder="date placeholder"
                                 min="2020-07-18"
+                                value={newFeature.featureDeadline}
+                                onChange={this.handleChange}
+                                name="featureDeadline"
                               />
                             </FormGroup>
                           </CardBody>
@@ -170,10 +219,41 @@ class UpdateProject extends React.Component {
                     className="btn-fill"
                     color="primary"
                     type="submit"
-                    onClick={this.handleClick.bind(this)}
+                    onClick={this.handleSubmit}
                   >
                     Submit
                   </Button>
+                  <div>
+                    <Modal
+                      isOpen={this.state.modal}
+                      toggle={this.toggle}
+                      external={externalCloseBtn}
+                    >
+                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                      <ModalBody>
+                        {' '}
+                        <br />{' '}
+                        <center>
+                          <img
+                            src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                            width="200px"
+                          />
+                          <br />
+                          Project has been successfully updated !
+                        </center>
+                      </ModalBody>
+                      <ModalFooter>
+                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                        <Button
+                          color="secondary"
+                          onClick={this.toggle}
+                          href="/admin/Update-Project"
+                        >
+                          Close
+                        </Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </CardFooter>
               </Card>
             </Col>

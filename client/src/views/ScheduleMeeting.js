@@ -2,14 +2,10 @@ import React from "react";
 import Select from "react-select";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-// import Datetime from 'react-datetime';
-// import ReactDatetime from "react-datetime";
-// reactstrap components
 import {
   Button,
   Card,
   CardHeader,
-  // CardTitle,
   CardBody,
   CardFooter,
   CardText,
@@ -19,6 +15,9 @@ import {
   Input,
   Row,
   Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from "reactstrap";
 
 class ScheduleMeeting extends React.Component {
@@ -33,13 +32,19 @@ class ScheduleMeeting extends React.Component {
       date: "",
       employees: [],
       // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
+      modal: false,
     };
   }
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
   handleChange = (e) => {
     this.setState(
       { [e.target.id]: e.target.value, [e.target.id]: e.target.value },
       () => {
-        console.log(this.state);
+        // console.log(this.state);
       }
     );
   };
@@ -55,9 +60,15 @@ class ScheduleMeeting extends React.Component {
   }
 
   submit = (e) => {
+    this.setState({ modal: !this.state.modal });
     e.preventDefault();
     axios
-      .post("http://localhost:5000/meeting/create", this.state)
+      .post("http://localhost:5000/meeting/create", {
+        subject: this.state.subject,
+        date: this.state.date,
+        employees: this.state.employees,
+        department: this.state.profileInformations.department,
+      })
       .then(() => {
         console.log("data sent");
       })
@@ -76,8 +87,8 @@ class ScheduleMeeting extends React.Component {
         this.setState(
           {
             profileInformations: response.data[0],
-          },
-          () => console.log(this.state.profileInformations)
+          }
+          // () => console.log(this.state.profileInformations)
         );
       })
       .catch((err) => console.log("Error", err));
@@ -87,7 +98,7 @@ class ScheduleMeeting extends React.Component {
       .then((res) => res.json())
       .then((usersData) => {
         this.setState({ usersData });
-        console.log(this.state.usersData);
+        // console.log(this.state.usersData);
         this.makeOptions();
       })
       // .then(() => this.makeOptions)
@@ -95,6 +106,15 @@ class ScheduleMeeting extends React.Component {
   }
 
   render() {
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: "absolute", top: "15px", right: "15px" }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
     const { profileInformations } = this.state;
     return (
       <>
@@ -182,6 +202,37 @@ class ScheduleMeeting extends React.Component {
                   >
                     Submit
                   </Button>
+                  <div>
+                    <Modal
+                      isOpen={this.state.modal}
+                      toggle={this.toggle}
+                      external={externalCloseBtn}
+                    >
+                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                      <ModalBody>
+                        {" "}
+                        <br />{" "}
+                        <center>
+                          <img
+                            src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                            width="200px"
+                          />
+                          <br />
+                          Meeting has been Scheduled !
+                        </center>
+                      </ModalBody>
+                      <ModalFooter>
+                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                        <Button
+                          color="secondary"
+                          onClick={this.toggle}
+                          href="/admin/ScheduleMeeting"
+                        >
+                          Close
+                        </Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </CardFooter>
               </Card>
             </Col>

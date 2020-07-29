@@ -46,7 +46,7 @@ class ProjectInfo extends React.Component {
     //-------------------------------
 
     axios
-      .post('http://localhost:5000/project/index')
+      .post('http://localhost:5000/project/index', {})
       .then((response) => {
         var info = response.data[0]
         this.setState({ info })
@@ -68,7 +68,43 @@ class ProjectInfo extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <Form>
+                    <div className="py-2 service-19 pb-0">
+                      <div className="container">
+                        <div className="row">
+                          <div className="col-lg-10 pt-7">
+                            <span className="badge badge-primary rounded-pill px-4 py-2 font-weight-light">{this.state.info.department}</span>
+                            <h2 className="my-3">{this.state.info.title}</h2>
+                            <h4 className="col-md-12 subtitle font-weight-light">{this.state.info.description}</h4>
+                            <Row>
+                              <Col className="pr-md-1" md="6">
+                                <ul className="list-style-none pl-0">
+                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">1.</span> <span>Feature 1</span></li>
+                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">2.</span> <span>Feature 2</span></li>
+                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">3.</span> <span>Feature 3</span></li>
+                                </ul>
+                              </Col>
+                              <Col style={{ marginTop: '30px' }} className="pr-md-1" md="6">
+                                <span className="mr-2">Deadline : {this.state.info.deadline}</span>
+                              </Col>
+                            </Row>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <Row>
+                      <Col className="pr-md-1" md="6">
+                        <FormGroup>
+                          <Label for="exampleFile">Upload your files :</Label>
+                          <CustomInput type="file" id="exampleFile" name="customFile" />
+                        </FormGroup>
+                      </Col>
+                      <Col className="pr-md-1" md="4">
+                        <Button className="btn-fill" color="primary" type="submit"
+                          style={{ marginTop: '25px', marginLeft: '70px' }} onClick={(e) => e.preventDefault()}>Upload</Button>
+                      </Col>
+                    </Row>
+
+                    {/*   <Row>
                       <Col className="pr-md-1" md="5">
                         <FormGroup>
                           <label>Department</label>
@@ -126,31 +162,12 @@ class ProjectInfo extends React.Component {
                           </CardBody>
                         </Card>
                       </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <Label for="exampleFile">Upload your files :</Label>
-                          <CustomInput type="file" id="exampleFile" name="customFile" />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pr-md-1" md="4">
-                        <Button className="btn-fill" color="primary" type="submit" onClick={(e) => e.preventDefault()}>
-                          Upload
-                  </Button>
-                      </Col>
-                    </Row>
+                    </Row> */}
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleSubmit}
-                  >
-                    Submit
-                  </Button>
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleSubmit} >Submit</Button>
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.toggle} >Decline</Button>
                 </CardFooter>
               </Card>
             </Col>

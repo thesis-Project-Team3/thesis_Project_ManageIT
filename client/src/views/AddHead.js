@@ -32,6 +32,7 @@ class RegisterHead extends React.Component {
     e.preventDefault();
     var firstName = document.getElementById("firstName").value;
     var lastName = document.getElementById("lastName").value;
+    var fullname = firstName + " " + lastName;
     var email = document.getElementById("email").value;
     var department = document.getElementById("department").value;
     var role = "Head";
@@ -54,8 +55,7 @@ class RegisterHead extends React.Component {
     await fetch("http://localhost:5000/CreateNewHeadDepartment", {
       method: "POST",
       body: JSON.stringify({
-        firstName,
-        lastName,
+        fullname,
         email,
         department,
         role,
@@ -100,7 +100,7 @@ class RegisterHead extends React.Component {
                         <option> Financial </option>
                         <option> Accounting </option>
                         <option> Marketing </option>
-                        <option> Human Resources </option>
+                        <option> Human Ressources </option>
                         <option> Methods </option>
                         <option> IT </option>
                       </Input>

@@ -26,4 +26,21 @@ router.get('/create', (req, res) => {
   });
 });
 
+// router.post('/create/:id', (req, res) => {
+//   collections.Student.find({ _id: req.params.id }, function (
+//     err,
+//     result
+//   ) {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+//   // console.log(req.params.id);
+// });
+
+router.put('/create/:id', (req, res) => {
+  console.log(req.body);
+});
 module.exports = router;
