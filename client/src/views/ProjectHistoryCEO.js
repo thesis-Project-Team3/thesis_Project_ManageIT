@@ -12,7 +12,7 @@ import {
   Button,
 } from 'reactstrap';
 
-class Tables extends React.Component {
+class ProjectHistoryCEO extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,25 +40,27 @@ class Tables extends React.Component {
 
   render() {
     var ProjectHistory = this.state.projects.map((proj, i) => {
-      return (<tr key={i}>
-        <td>{proj.title}</td>
-        <td>{proj.department}</td>
-        <td>{proj.description}</td>
-        <td>{proj.deadline.slice(0, 10)}</td>
-        <td className="text-center">
-          <Button
-            onClick={this.handleSubmit.bind(this, i)}
-            color="link"
-            id="buttonInfo"
-            title=""
-            type="button"
-          >
-            <i className="tim-icons icon-notes" />
-          </Button>
-        </td>
-        <th>{proj.status}</th>
-      </tr>)
-    })
+      return (
+        <tr key={i}>
+          <td>{proj.title}</td>
+          <td>{proj.department}</td>
+          <td>{proj.description}</td>
+          <td>{proj.deadline.slice(0, 10)}</td>
+          <td className="text-center">
+            <Button
+              onClick={this.handleSubmit.bind(this, i)}
+              color="link"
+              id="buttonInfo"
+              title=""
+              type="button"
+            >
+              <i className="tim-icons icon-notes" />
+            </Button>
+          </td>
+          <th>{proj.status}</th>
+        </tr>
+      );
+    });
     return (
       <>
         <div className="content">
@@ -92,4 +94,4 @@ class Tables extends React.Component {
   }
 }
 
-export default Tables;
+export default ProjectHistoryCEO;
