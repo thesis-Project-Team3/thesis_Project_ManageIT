@@ -4,8 +4,21 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import $ from 'jquery';
 import {
-  Button, Card, CardHeader, CardBody, Label, CardFooter, CardText, FormGroup,
-  Form, Input, Row, Col, Modal, ModalBody, ModalFooter
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  Label,
+  CardFooter,
+  CardText,
+  FormGroup,
+  Form,
+  Input,
+  Row,
+  Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 // import { InvalidatedProjectKind } from 'typescript';
 
@@ -15,30 +28,48 @@ class UpdateProject extends React.Component {
     this.state = {
       singleSelect: null,
       projects: [],
-      description: '',
-      deadline: '',
+      modal: false,
       profileInformations: '',
-      modal: false
+      newFeature: {
+        featureTitle: '',
+        featureDescription: '',
+        featureDeadline: '',
+      },
     };
   }
 
   toggle = () => {
-    this.setState({ modal: !this.state.modal })
-  }
+    this.setState({ modal: !this.state.modal });
+  };
 
-  handleClick(e) {
-    this.setState({ modal: !this.state.modal })
+  handleChange = ({ currentTarget: input }) => {
+    const newFeature = { ...this.state.newFeature };
+    newFeature[input.name] = input.value;
+    this.setState({ newFeature });
+  };
+
+  handleSubmit = (e) => {
     e.preventDefault();
-    var title = this.state.singleSelect;
-    var description = $('#inputDescription').val();
-    var deadline = $('#inputDate').val();
-    console.log(title, description, deadline);
-    axios.post('http://localhost:5000/project/update', {
-      title,
-      description,
-      deadline,
-    });
-  }
+    axios
+      .put('http://localhost:5000/project/create/:id', this.state.newFeature)
+      .then((response) => {
+        console.log(response.data);
+      });
+  };
+
+  // handleClick(e) {
+  //   this.setState({ modal: !this.state.modal })
+  //   e.preventDefault();
+  //   var title = this.state.singleSelect;
+  //   var description = $('#inputDescription').val();
+  //   var deadline = $('#inputDate').val();
+  //   console.log(title, description, deadline);
+  //   axios.post('http://localhost:5000/project/update', {
+  //     title,
+  //     description,
+  //     deadline,
+  //   });
+  // }
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -68,7 +99,16 @@ class UpdateProject extends React.Component {
     // this.setState({ projects: arr })
   }
   render() {
-    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.toggle}>&times;</button>;
+    const { newFeature } = this.state;
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
     const { profileInformations } = this.state;
     var options = this.state.projects.map((project, key) => {
       return (
@@ -127,6 +167,9 @@ class UpdateProject extends React.Component {
                             defaultValue=""
                             placeholder="Enter the feature title"
                             type="text"
+                            value={newFeature.featureTitle}
+                            onChange={this.handleChange}
+                            name="featureTitle"
                           />
                         </FormGroup>
                       </Col>
@@ -141,6 +184,9 @@ class UpdateProject extends React.Component {
                             placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
+                            value={newFeature.featureDescription}
+                            onChange={this.handleChange}
+                            name="featureDescription"
                           />
                         </FormGroup>
                       </Col>
@@ -157,6 +203,9 @@ class UpdateProject extends React.Component {
                                 id="inputDate"
                                 placeholder="date placeholder"
                                 min="2020-07-18"
+                                value={newFeature.featureDeadline}
+                                onChange={this.handleChange}
+                                name="featureDeadline"
                               />
                             </FormGroup>
                           </CardBody>
@@ -166,18 +215,42 @@ class UpdateProject extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit"
-                    onClick={this.handleClick.bind(this)}>Submit</Button>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleSubmit}
+                  >
+                    Submit
+                  </Button>
                   <div>
-                    <Modal isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn}>
+                    <Modal
+                      isOpen={this.state.modal}
+                      toggle={this.toggle}
+                      external={externalCloseBtn}
+                    >
                       {/* <ModalHeader>Adding Alert !</ModalHeader> */}
-                      <ModalBody> <br /> <center>
-                        <img src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                          width="200px" />
-                        <br />Project has been successfully updated !</center></ModalBody>
+                      <ModalBody>
+                        {' '}
+                        <br />{' '}
+                        <center>
+                          <img
+                            src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                            width="200px"
+                          />
+                          <br />
+                          Project has been successfully updated !
+                        </center>
+                      </ModalBody>
                       <ModalFooter>
                         {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
-                        <Button color="secondary" onClick={this.toggle} href='/admin/Update-Project'>Close</Button>
+                        <Button
+                          color="secondary"
+                          onClick={this.toggle}
+                          href="/admin/Update-Project"
+                        >
+                          Close
+                        </Button>
                       </ModalFooter>
                     </Modal>
                   </div>
