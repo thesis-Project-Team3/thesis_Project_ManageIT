@@ -77,10 +77,10 @@ class ScheduleMeeting extends React.Component {
       });
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const jwt = localStorage.getItem("token");
     const user = jwtDecode(jwt);
-    axios
+    await axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         // console.log(response.data);
@@ -92,17 +92,24 @@ class ScheduleMeeting extends React.Component {
         );
       })
       .catch((err) => console.log("Error", err));
-    // handling Select Options
-    // const { options } = this.state;
-    fetch("http://localhost:5000/getAllTheUsers")
+    const filterOptions = {
+      department: this.state.profileInformations.department,
+      role: this.state.profileInformations.role,
+    };
+    fetch("http://localhost:5000/getAllTheUsers", {
+      method: "post",
+      body: JSON.stringify(filterOptions),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => res.json())
       .then((usersData) => {
         this.setState({ usersData });
         // console.log(this.state.usersData);
         this.makeOptions();
-      })
-      // .then(() => this.makeOptions)
-      .catch((err) => console.log(err));
+      });
+    console.log(this.state.profileInformations);
   }
 
   render() {

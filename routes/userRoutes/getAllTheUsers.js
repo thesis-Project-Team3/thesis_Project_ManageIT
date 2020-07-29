@@ -3,10 +3,28 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  await User.find((err, data) => {
-    if (err) res.send("nothing");
-    else res.send(data);
-  });
+router.post("/", async (req, res) => {
+  console.log(req.body);
+  const arr = [];
+  if (req.body.role === "Head") {
+    await User.find({ department: req.body.department }, (err, data) => {
+      if (err) {
+        res.send("nothing");
+      } else {
+        for (let i = 0; i < data.length; i++) {
+          arr.push({ fullname: data[i].fullname });
+        }
+        res.send(arr);
+      }
+    });
+  } else if (req.body.role === "CEO") {
+    await User.find({ role: req.body.role }, (err, data) => {
+      if (err) {
+        res.send("nothing");
+      } else {
+        res.send(data);
+      }
+    });
+  }
 });
 module.exports = router;
