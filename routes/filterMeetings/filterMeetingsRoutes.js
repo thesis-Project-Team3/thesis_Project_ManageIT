@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const Meeting = require("../../models/meetingSchema.js");
+const Meeting = require('../../models/meetingSchema.js');
 
-router.post("/", (req, res) => {
+router.post('/', (req, res) => {
   console.log(req.body.role);
   // if (req.body.role === "ceo") {
   Meeting.find({}, (err, data) => {
@@ -12,9 +12,8 @@ router.post("/", (req, res) => {
     } else {
       res.send(data);
     }
-    // });
   });
-  //  else if (req.body.role === "") {
+  // } else if (req.body.role === "") {
   //   Meeting.find({}, function (err, result) {});
   // } else if (req.body.role === "") {
   //   Meeting.find({}, function (err, result) {});
