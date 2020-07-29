@@ -42,8 +42,6 @@ class Tables extends React.Component {
     var ProjectHistory = this.state.projects.map((proj, i) => {
       return (<tr key={i}>
         <td>{proj.title}</td>
-        <td>{proj.department}</td>
-        <td>{proj.description}</td>
         <td>{proj.deadline.slice(0, 10)}</td>
         <td className="text-center">
           <Button
@@ -57,6 +55,7 @@ class Tables extends React.Component {
           </Button>
         </td>
         <th>{proj.status}</th>
+        <th>{proj.progress}</th>
       </tr>)
     })
     return (
@@ -73,11 +72,10 @@ class Tables extends React.Component {
                     <thead className="text-primary">
                       <tr>
                         <th>Title</th>
-                        <th>Department</th>
-                        <th>Description</th>
                         <th>Do before</th>
                         <th className="text-center">Info</th>
                         <th>Status</th>
+                        <th>Progress</th>
                       </tr>
                     </thead>
                     <tbody>{ProjectHistory}</tbody>

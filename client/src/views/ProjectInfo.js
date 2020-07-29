@@ -5,18 +5,19 @@ import {
   Button,
   Card,
   CardHeader,
-  // CardTitle,
   CustomInput,
   CardBody,
   CardFooter,
   CardText,
   FormGroup,
-  // FormText,
   Form,
   Input,
   Label,
   Row,
   Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 
 class ProjectInfo extends React.Component {
@@ -24,8 +25,31 @@ class ProjectInfo extends React.Component {
     super(props)
     this.state = {
       info: '',
-      profileInformations: ''
+      profileInformations: '',
+      modal: false,
     };
+  }
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleDecline = () => {
+    this.setState({ modal: !this.state.modal });
+    axios.post('http://localhost:5000/project/decline', {
+      status: "Finished",
+      progress: "Declined by the Head of Department",
+      title: this.state.info.title
+    })
+  }
+
+  handleAccept = () => {
+    this.setState({ modal: !this.state.modal });
+    axios.post('http://localhost:5000/project/decline', {
+      status: "In Progress",
+      progress: "Sent to Method Department",
+      title: this.state.info.title
+    })
   }
 
   componentDidMount() {
@@ -57,6 +81,15 @@ class ProjectInfo extends React.Component {
 
   render() {
     const { profileInformations } = this.state;
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
     return (
       <>
         <div className="content">
@@ -166,8 +199,24 @@ class ProjectInfo extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleSubmit} >Submit</Button>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.toggle} >Decline</Button>
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleAccept} >Submit</Button>
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleDecline} >Decline</Button>
+                  <div>
+                    <Modal
+                      isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn} >
+                      <ModalBody>{' '}<br />{' '}
+                        <center>
+                          <Label for="exampleText">Reason :</Label>
+                          <Input type="textarea" name="text" id="exampleText" />
+                          <br />
+                          Project has been declined !
+                        </center>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="secondary" onClick={this.toggle} href="/admin/projects-history" >Close</Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </CardFooter>
               </Card>
             </Col>
