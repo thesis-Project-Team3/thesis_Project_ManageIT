@@ -3,7 +3,15 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col, Table } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Row,
+  Col,
+  Table,
+} from "reactstrap";
 
 class ScheduledMeeting extends React.Component {
   constructor(props) {
@@ -15,8 +23,12 @@ class ScheduledMeeting extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
     const user = jwtDecode(token);
-    console.log(user);
-    const obj = { role: user.role, email: user.email };
+    // console.log(user);
+    const obj = {
+      role: user.role,
+      email: user.email,
+      department: user.department,
+    };
     fetch("http://localhost:5000/filterMeetingsRoutes", {
       method: "post",
       body: JSON.stringify(obj),
