@@ -43,12 +43,9 @@ class CreateProject extends React.Component {
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         console.log(response.data);
-        this.setState(
-          {
-            profileInformations: response.data[0],
-          },
-          () => console.log(this.state.profileInformations.fullname)
-        );
+        this.setState({
+          profileInformations: response.data[0],
+        });
       })
       .catch((err) => console.log('Error', err));
   }
@@ -61,8 +58,16 @@ class CreateProject extends React.Component {
   handleSubmit = (e) => {
     this.setState({ modal: !this.state.modal });
     e.preventDefault();
+    var ouss = {
+      department: this.state.profileInformations.department,
+      ...this.state.newProject,
+    };
+    console.log(ouss);
     axios
-      .post('http://localhost:5000/project/create', this.state.newProject)
+      .post('http://localhost:5000/project/create', {
+        department: this.state.profileInformations.department,
+        ...this.state.newProject,
+      })
       .then((response) => {})
 
       .catch((err) => console.log('Error', err));

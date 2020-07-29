@@ -24,7 +24,7 @@ class ProjectHistoryEmployees extends React.Component {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     axios
-      .get(`http://localhost:5000/project/create/${user._id}`)
+      .get(`http://localhost:5000/project/projectsByEmployee/${user._id}`)
       .then((response) => {
         console.log(response.data);
         this.setState({ projects: response.data });

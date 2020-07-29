@@ -28,10 +28,20 @@ router.get('/create', (req, res) => {
   });
 });
 
-// Router for getting specified projects
-router.get('/create/:userId', (req, res) => {
-  console.log(req.params.userId);
+// Router for getting specified projects by employee
+router.get('/projectsByEmployee/:userId', (req, res) => {
   Project.find({ user: req.params.userId }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+// Router for getting specified projects by department
+router.get('/projectsByDepartment/:department', (req, res) => {
+  Project.find({ department: req.params.department }, function (err, result) {
     if (err) {
       res.send(err);
     } else {
