@@ -63,6 +63,7 @@ class UpdateProject extends React.Component {
   };
 
   componentDidMount() {
+    //getting user department
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     axios
@@ -76,6 +77,7 @@ class UpdateProject extends React.Component {
       .catch((err) => console.log('Error', err));
 
     // ---------------------------
+    //getting user projects by department
     axios
       .get(
         `http://localhost:5000/project/projectsByDepartment/${user.department}`
