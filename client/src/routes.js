@@ -5,7 +5,7 @@ import Dashboard from 'views/Dashboard.js';
 import Notifications from 'views/Notifications.js';
 // import Rtl from "views/Rtl.js";
 import ProjectHistory from 'views/ProjectHistory.js';
-import Project from 'views/Project.js';
+import CreateProject from 'views/CreateProject.js';
 import ProjectInfo from 'views/ProjectInfo.js';
 import Login from 'views/Login.js';
 import AddEmployee from 'views/AddEmployee.js';
@@ -34,15 +34,15 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/project',
+      path: '/create-project',
       name: 'Create A New Project',
       rtlName: 'إنجاز مشروع',
       icon: 'tim-icons icon-map-big',
-      component: Project,
+      component: CreateProject,
       layout: '/admin',
     },
     {
-      path: '/Update-Project',
+      path: '/update-project',
       name: 'Request A New Feature',
       rtlName: 'تحديث مشروع',
       icon: 'tim-icons icon-pencil',
@@ -67,7 +67,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/meetings',
+      path: '/my-scheduled-meetings',
       name: 'My Scheduled Meetings',
       rtlName: 'اجتماع مجدول',
       icon: 'tim-icons icon-bullet-list-67',
@@ -83,7 +83,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -113,15 +113,15 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/project',
+      path: '/create-project',
       name: 'Create A New Project',
       rtlName: 'إنجاز مشروع',
       icon: 'tim-icons icon-map-big',
-      component: Project,
+      component: CreateProject,
       layout: '/admin',
     },
     {
-      path: '/Update-Project',
+      path: '/update-project',
       name: 'Request A New Feature',
       rtlName: 'تحديث مشروع',
       icon: 'tim-icons icon-pencil',
@@ -154,7 +154,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/meetings',
+      path: '/my-scheduled-meetings',
       name: 'My Scheduled Meetings',
       rtlName: 'اجتماع مجدول',
       icon: 'tim-icons icon-bullet-list-67',
@@ -194,15 +194,15 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/project',
+      path: '/create-project',
       name: 'Create A New Project',
       rtlName: 'إنجاز مشروع',
       icon: 'tim-icons icon-map-big',
-      component: Project,
+      component: CreateProject,
       layout: '/admin',
     },
     {
-      path: '/Update-Project',
+      path: '/update-project',
       name: 'Request A New Feature',
       rtlName: 'تحديث مشروع',
       icon: 'tim-icons icon-pencil',
@@ -235,7 +235,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/meetings',
+      path: '/my-scheduled-meetings',
       name: 'My Scheduled Meetings',
       rtlName: 'اجتماع مجدول',
       icon: 'tim-icons icon-bullet-list-67',
@@ -292,15 +292,15 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/project',
+      path: '/create-project',
       name: 'Create A New Project',
       rtlName: 'إنجاز مشروع',
       icon: 'tim-icons icon-map-big',
-      component: Project,
+      component: CreateProject,
       layout: '/admin',
     },
     {
-      path: '/Update-Project',
+      path: '/update-project',
       name: 'Request A New Feature',
       rtlName: 'تحديث مشروع',
       icon: 'tim-icons icon-pencil',
@@ -333,7 +333,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/meetings',
+      path: '/my-scheduled-meetings',
       name: 'My Scheduled Meetings',
       rtlName: 'اجتماع مجدول',
       icon: 'tim-icons icon-bullet-list-67',
@@ -373,15 +373,15 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/project',
+      path: '/create-project',
       name: 'Create A New Project',
       rtlName: 'إنجاز مشروع',
       icon: 'tim-icons icon-map-big',
-      component: Project,
+      component: CreateProject,
       layout: '/admin',
     },
     {
-      path: '/Update-Project',
+      path: '/update-project',
       name: 'Request A New Feature',
       rtlName: 'تحديث مشروع',
       icon: 'tim-icons icon-pencil',
@@ -414,7 +414,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/meetings',
+      path: '/my-scheduled-meetings',
       name: 'My Scheduled Meetings',
       rtlName: 'اجتماع مجدول',
       icon: 'tim-icons icon-bullet-list-67',
@@ -474,7 +474,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/meetings',
+      path: '/my-scheduled-meetings',
       name: 'My Scheduled Meetings',
       rtlName: 'اجتماع مجدول',
       icon: 'tim-icons icon-bullet-list-67',
