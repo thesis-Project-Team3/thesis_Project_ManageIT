@@ -20,9 +20,9 @@ import {
   ModalFooter,
 } from 'reactstrap';
 
-class ProjectInfo extends React.Component {
+class ProjectInfoEmployees extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       info: '',
       profileInformations: '',
@@ -37,20 +37,20 @@ class ProjectInfo extends React.Component {
   handleDecline = () => {
     this.setState({ modal: !this.state.modal });
     axios.post('http://localhost:5000/project/decline', {
-      status: "Finished",
-      progress: "Declined by the Head of Department",
-      title: this.state.info.title
-    })
-  }
+      status: 'Finished',
+      progress: 'Declined by the Head of Department',
+      title: this.state.info.title,
+    });
+  };
 
   handleAccept = () => {
     this.setState({ modal: !this.state.modal });
     axios.post('http://localhost:5000/project/decline', {
-      status: "In Progress",
-      progress: "Sent to Method Department",
-      title: this.state.info.title
-    })
-  }
+      status: 'In Progress',
+      progress: 'Sent to Method Department',
+      title: this.state.info.title,
+    });
+  };
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -72,8 +72,8 @@ class ProjectInfo extends React.Component {
     axios
       .post('http://localhost:5000/project/index', {})
       .then((response) => {
-        var info = response.data[0]
-        this.setState({ info })
+        var info = response.data[0];
+        this.setState({ info });
       })
 
       .catch((err) => console.log('Error', err));
@@ -105,19 +105,47 @@ class ProjectInfo extends React.Component {
                       <div className="container">
                         <div className="row">
                           <div className="col-lg-10 pt-7">
-                            <span className="badge badge-primary rounded-pill px-4 py-2 font-weight-light">{this.state.info.department}</span>
+                            <span className="badge badge-primary rounded-pill px-4 py-2 font-weight-light">
+                              {this.state.info.department}
+                            </span>
                             <h2 className="my-3">{this.state.info.title}</h2>
-                            <h4 className="col-md-12 subtitle font-weight-light">{this.state.info.description}</h4>
+                            <h4 className="col-md-12 subtitle font-weight-light">
+                              {this.state.info.description}
+                            </h4>
                             <Row>
                               <Col className="pr-md-1" md="6">
                                 <ul className="list-style-none pl-0">
-                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">1.</span> <span>Feature 1</span></li>
-                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">2.</span> <span>Feature 2</span></li>
-                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">3.</span> <span>Feature 3</span></li>
+                                  <li
+                                    style={{ marginLeft: '40px' }}
+                                    className="my-2"
+                                  >
+                                    <span className="mr-2">1.</span>{' '}
+                                    <span>Feature 1</span>
+                                  </li>
+                                  <li
+                                    style={{ marginLeft: '40px' }}
+                                    className="my-2"
+                                  >
+                                    <span className="mr-2">2.</span>{' '}
+                                    <span>Feature 2</span>
+                                  </li>
+                                  <li
+                                    style={{ marginLeft: '40px' }}
+                                    className="my-2"
+                                  >
+                                    <span className="mr-2">3.</span>{' '}
+                                    <span>Feature 3</span>
+                                  </li>
                                 </ul>
                               </Col>
-                              <Col style={{ marginTop: '30px' }} className="pr-md-1" md="6">
-                                <span className="mr-2">Deadline : {this.state.info.deadline}</span>
+                              <Col
+                                style={{ marginTop: '30px' }}
+                                className="pr-md-1"
+                                md="6"
+                              >
+                                <span className="mr-2">
+                                  Deadline : {this.state.info.deadline}
+                                </span>
                               </Col>
                             </Row>
                           </div>
@@ -128,12 +156,23 @@ class ProjectInfo extends React.Component {
                       <Col className="pr-md-1" md="6">
                         <FormGroup>
                           <Label for="exampleFile">Upload your files :</Label>
-                          <CustomInput type="file" id="exampleFile" name="customFile" />
+                          <CustomInput
+                            type="file"
+                            id="exampleFile"
+                            name="customFile"
+                          />
                         </FormGroup>
                       </Col>
                       <Col className="pr-md-1" md="4">
-                        <Button className="btn-fill" color="primary" type="submit"
-                          style={{ marginTop: '25px', marginLeft: '70px' }} onClick={(e) => e.preventDefault()}>Upload</Button>
+                        <Button
+                          className="btn-fill"
+                          color="primary"
+                          type="submit"
+                          style={{ marginTop: '25px', marginLeft: '70px' }}
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          Upload
+                        </Button>
                       </Col>
                     </Row>
 
@@ -199,12 +238,31 @@ class ProjectInfo extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleAccept} >Submit</Button>
-                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleDecline} >Decline</Button>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleAccept}
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.handleDecline}
+                  >
+                    Decline
+                  </Button>
                   <div>
                     <Modal
-                      isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn} >
-                      <ModalBody>{' '}<br />{' '}
+                      isOpen={this.state.modal}
+                      toggle={this.toggle}
+                      external={externalCloseBtn}
+                    >
+                      <ModalBody>
+                        {' '}
+                        <br />{' '}
                         <center>
                           <Label for="exampleText">Reason :</Label>
                           <Input type="textarea" name="text" id="exampleText" />
@@ -213,7 +271,13 @@ class ProjectInfo extends React.Component {
                         </center>
                       </ModalBody>
                       <ModalFooter>
-                        <Button color="secondary" onClick={this.toggle} href="/admin/projects-history" >Close</Button>
+                        <Button
+                          color="secondary"
+                          onClick={this.toggle}
+                          href="/admin/projects-history"
+                        >
+                          Close
+                        </Button>
                       </ModalFooter>
                     </Modal>
                   </div>
@@ -265,4 +329,4 @@ class ProjectInfo extends React.Component {
   }
 }
 
-export default ProjectInfo;
+export default ProjectInfoEmployees;
