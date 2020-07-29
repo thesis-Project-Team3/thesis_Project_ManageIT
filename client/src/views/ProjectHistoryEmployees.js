@@ -36,7 +36,7 @@ class ProjectHistoryEmployees extends React.Component {
       .post('http://localhost:5000/project/index', { index: i })
       .then((response) => {
         console.log(response.data);
-        window.location = '/admin/project-Info';
+        window.location = '/admin/project-info-employees';
       });
     // .catch((err) => console.log('Error', err));
   }
