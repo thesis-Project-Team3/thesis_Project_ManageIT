@@ -4,6 +4,7 @@ const router = express.Router();
 const Project = require('../../models/projectSchema');
 const admin = require('../../middleware/admin');
 
+// Router for creating projects
 router.post('/create', (req, res) => {
   var project = new Project(req.body);
   project.save(function (err, result) {
@@ -16,6 +17,7 @@ router.post('/create', (req, res) => {
   });
 });
 
+// Router for creating projects
 router.get('/create', (req, res) => {
   Project.find({}, function (err, result) {
     if (err) {
@@ -26,6 +28,7 @@ router.get('/create', (req, res) => {
   });
 });
 
+// Router for updating projects
 router.patch('/create/:title', (req, res) => {
   Project.findOneAndUpdate(
     { title: req.params.title },
@@ -39,4 +42,5 @@ router.patch('/create/:title', (req, res) => {
     }
   );
 });
+
 module.exports = router;

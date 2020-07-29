@@ -58,22 +58,9 @@ class UpdateProject extends React.Component {
       )
       .then((response) => {
         console.log(response.data);
-      });
+      })
+      .catch((err) => console.log('Error', err));
   };
-
-  // handleClick(e) {
-  //   this.setState({ modal: !this.state.modal })
-  //   e.preventDefault();
-  //   var title = this.state.singleSelect;
-  //   var description = $('#inputDescription').val();
-  //   var deadline = $('#inputDate').val();
-  //   console.log(title, description, deadline);
-  //   axios.post('http://localhost:5000/project/update', {
-  //     title,
-  //     description,
-  //     deadline,
-  //   });
-  // }
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
