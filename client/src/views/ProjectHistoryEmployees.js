@@ -26,7 +26,6 @@ class ProjectHistoryEmployees extends React.Component {
     axios
       .get(`http://localhost:5000/project/projectsByEmployee/${user._id}`)
       .then((response) => {
-        console.log(response.data);
         this.setState({ projects: response.data });
       });
   }

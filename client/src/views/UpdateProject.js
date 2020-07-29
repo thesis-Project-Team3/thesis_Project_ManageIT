@@ -76,15 +76,13 @@ class UpdateProject extends React.Component {
       .catch((err) => console.log('Error', err));
 
     // ---------------------------
-    // var arr = []
     axios
-      .get('http://localhost:5000/project/create/')
+      .get(
+        `http://localhost:5000/project/projectsByDepartment/${user.department}`
+      )
       .then((response) => {
-        console.log(response);
         this.setState({ projects: response.data });
-      })
-      .catch((err) => console.log('Error', err));
-    // this.setState({ projects: arr })
+      });
   }
   render() {
     const { newFeature } = this.state;
