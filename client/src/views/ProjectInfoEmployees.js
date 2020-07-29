@@ -24,7 +24,7 @@ class ProjectInfoEmployees extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: '',
+      oneProjectInfo: [],
       profileInformations: '',
       modal: false,
     };
@@ -62,25 +62,23 @@ class ProjectInfoEmployees extends React.Component {
         this.setState(
           {
             profileInformations: response.data[0],
-          },
-          () => console.log(this.state.profileInformations)
+          }
+          // () => console.log(this.state.profileInformations)
         );
       })
       .catch((err) => console.log('Error', err));
     //-------------------------------
-
+    // get the index of the project from projecthistoryemployee component by props and get its informations
     axios
-      .post('http://localhost:5000/project/index', {})
+      .get(`http://localhost:5000/project/create/${this.props.currentIndex}`)
       .then((response) => {
-        var info = response.data[0];
-        this.setState({ info });
-      })
-
-      .catch((err) => console.log('Error', err));
+        console.log(response.data[0]);
+        this.setState({ oneProjectInfo: response.data[0] });
+      });
   }
 
   render() {
-    const { profileInformations } = this.state;
+    const { oneProjectInfo, profileInformations } = this.state;
     const externalCloseBtn = (
       <button
         className="close"
@@ -106,11 +104,11 @@ class ProjectInfoEmployees extends React.Component {
                         <div className="row">
                           <div className="col-lg-10 pt-7">
                             <span className="badge badge-primary rounded-pill px-4 py-2 font-weight-light">
-                              {this.state.info.department}
+                              {oneProjectInfo.department}
                             </span>
-                            <h2 className="my-3">{this.state.info.title}</h2>
+                            <h2 className="my-3">{oneProjectInfo.title}</h2>
                             <h4 className="col-md-12 subtitle font-weight-light">
-                              {this.state.info.description}
+                              {oneProjectInfo.description}
                             </h4>
                             <Row>
                               <Col className="pr-md-1" md="6">
@@ -144,7 +142,7 @@ class ProjectInfoEmployees extends React.Component {
                                 md="6"
                               >
                                 <span className="mr-2">
-                                  Deadline : {this.state.info.deadline}
+                                  Deadline : {oneProjectInfo.deadline}
                                 </span>
                               </Col>
                             </Row>

@@ -28,6 +28,17 @@ router.get('/create', (req, res) => {
   });
 });
 
+// Router for getting a specified project (just one project)
+router.get('/create/:id', (req, res) => {
+  Project.find({ _id: req.params.id }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 // Router for getting specified projects by employee
 router.get('/projectsByEmployee/:userId', (req, res) => {
   Project.find({ user: req.params.userId }, function (err, result) {
