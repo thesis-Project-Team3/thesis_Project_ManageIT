@@ -10,10 +10,6 @@ const PORT = process.env.PORT || 5000;
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 const path = require('path');
-const logger = require('morgan');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-const passport = require('passport');
 
 require('dotenv').config();
 const cors = require('cors');
@@ -25,7 +21,7 @@ mongoose.connect(uri, {
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
-
+mongoose.set('useFindAndModify', false);
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB connected');
@@ -67,8 +63,8 @@ app.use('/project', routes.projectRoutes);
 app.use('/project', routes.updateRoutes);
 app.use('/project', routes.infoRoutes);
 //meeting route
-app.use('/meeting', routes.meetingRoutes)
-app.use('/filterMeetingsRoutes', routes.filterMeetingsRoutes)
+app.use('/meeting', routes.meetingRoutes);
+app.use('/filterMeetingsRoutes', routes.filterMeetingsRoutes);
 //user Route
 app.use('/users', routes.userRoutes);
 //auth Route
