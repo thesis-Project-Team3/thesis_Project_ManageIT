@@ -50,26 +50,17 @@ class UpdateProject extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.state.singleSelect);
     axios
-      .put('http://localhost:5000/project/create/:id', this.state.newFeature)
+      .patch(
+        `http://localhost:5000/project/create/${this.state.singleSelect}`,
+        this.state.newFeature
+      )
       .then((response) => {
         console.log(response.data);
-      });
+      })
+      .catch((err) => console.log('Error', err));
   };
-
-  // handleClick(e) {
-  //   this.setState({ modal: !this.state.modal })
-  //   e.preventDefault();
-  //   var title = this.state.singleSelect;
-  //   var description = $('#inputDescription').val();
-  //   var deadline = $('#inputDate').val();
-  //   console.log(title, description, deadline);
-  //   axios.post('http://localhost:5000/project/update', {
-  //     title,
-  //     description,
-  //     deadline,
-  //   });
-  // }
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -148,9 +139,9 @@ class UpdateProject extends React.Component {
                           <Input
                             type="select"
                             name="singleSelect"
-                            onChange={(value) => {
+                            onChange={(e) => {
                               this.setState({
-                                singleSelect: value.currentTarget.value,
+                                singleSelect: e.currentTarget.value,
                               });
                             }}
                             id="inputSelect"
@@ -164,7 +155,6 @@ class UpdateProject extends React.Component {
                         <FormGroup>
                           <label>Feature Title</label>
                           <Input
-                            defaultValue=""
                             placeholder="Enter the feature title"
                             type="text"
                             value={newFeature.featureTitle}

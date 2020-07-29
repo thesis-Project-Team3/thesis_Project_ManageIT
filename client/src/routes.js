@@ -2,9 +2,15 @@ import jwtDecode from 'jwt-decode';
 import Dashboard from 'views/Dashboard.js';
 // import Icons from "views/Icons.js";
 // import Map from "views/Map.js";
-import Notifications from 'views/Notifications.js';
+import Notifications from "views/Notifications.js";
 // import Rtl from "views/Rtl.js";
-import ProjectHistory from 'views/ProjectHistory.js';
+
+import ProjectHistoryEmployees from 'views/ProjectHistoryEmployees';
+import ProjectHistoryHeads from 'views/ProjectHistoryHeads';
+import ProjectHistoryMethods from 'views/ProjectHistoryMethods.js';
+import ProjectHistoryIT from 'views/ProjectHistoryIT.js';
+import ProjectHistoryCEO from 'views/ProjectHistoryCEO.js';
+
 import CreateProject from 'views/CreateProject.js';
 import ProjectInfo from 'views/ProjectInfo.js';
 import Login from 'views/Login.js';
@@ -16,8 +22,6 @@ import UpdateProject from 'views/UpdateProject.js';
 import ScheduleMeeting from 'views/ScheduleMeeting.js';
 import Meetings from 'views/Meetings.js';
 import UserProfile from 'views/UserProfile.js';
-import ProjectHistoryMethods from 'views/ProjectHistoryMethods.js';
-import ProjectHistoryIT from 'views/ProjectHistoryIT.js';
 
 var user = localStorage.getItem('token');
 var routes;
@@ -51,11 +55,11 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/projects-history',
+      path: '/projects-history-employees',
       name: 'Projects History',
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
-      component: ProjectHistory,
+      component: ProjectHistoryEmployees,
       layout: '/admin',
     },
     {
@@ -130,11 +134,11 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/projects-history',
+      path: '/projects-history-heads',
       name: 'Recieved Projects',
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
-      component: ProjectHistory,
+      component: ProjectHistoryHeads,
       layout: '/admin',
     },
     {
@@ -211,11 +215,11 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/projects-history',
+      path: '/projects-history-heads',
       name: 'Recieved Projects',
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
-      component: ProjectHistory,
+      component: ProjectHistoryHeads,
       layout: '/admin',
     },
     {
@@ -309,7 +313,7 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/projects-history',
+      path: '/projects-history-IT',
       name: 'Recieved Projects',
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
@@ -317,12 +321,12 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
+      path: "/project-Info",
+      name: "Project Info",
+      rtlName: "أرشيف المشاريع",
+      icon: "tim-icons icon-notes",
       component: ProjectInfo,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/ScheduleMeeting',
@@ -390,7 +394,7 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/projects-history',
+      path: '/projects-history-methods',
       name: 'Recieved Projects',
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
@@ -398,12 +402,12 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
+      path: "/project-Info",
+      name: "Project Info",
+      rtlName: "أرشيف المشاريع",
+      icon: "tim-icons icon-notes",
       component: ProjectInfo,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/ScheduleMeeting',
@@ -450,20 +454,20 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/projects-history',
+      path: '/projects-history-CEO',
       name: 'Recieved Projects',
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
-      component: ProjectHistoryMethods,
+      component: ProjectHistoryCEO,
       layout: '/admin',
     },
     {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
+      path: "/project-Info",
+      name: "Project Info",
+      rtlName: "أرشيف المشاريع",
+      icon: "tim-icons icon-notes",
       component: ProjectInfo,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/ScheduleMeeting',

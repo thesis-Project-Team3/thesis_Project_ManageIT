@@ -4,6 +4,7 @@ const router = express.Router();
 const Project = require('../../models/projectSchema');
 const admin = require('../../middleware/admin');
 
+// Router for creating projects
 router.post('/create', (req, res) => {
   var project = new Project(req.body);
   project.save(function (err, result) {
@@ -16,6 +17,7 @@ router.post('/create', (req, res) => {
   });
 });
 
+// Router for creating projects
 router.get('/create', (req, res) => {
   Project.find({}, function (err, result) {
     if (err) {
@@ -26,21 +28,19 @@ router.get('/create', (req, res) => {
   });
 });
 
-// router.post('/create/:id', (req, res) => {
-//   collections.Student.find({ _id: req.params.id }, function (
-//     err,
-//     result
-//   ) {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send(result);
-//     }
-//   });
-//   // console.log(req.params.id);
-// });
-
-router.put('/create/:id', (req, res) => {
-  console.log(req.body);
+// Router for updating projects
+router.patch('/create/:title', (req, res) => {
+  Project.findOneAndUpdate(
+    { title: req.params.title },
+    { feature: req.body },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
 });
+
 module.exports = router;
