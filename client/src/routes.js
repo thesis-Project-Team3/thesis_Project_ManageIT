@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import Dashboard from 'views/Dashboard.js';
 // import Icons from "views/Icons.js";
 // import Map from "views/Map.js";
-import Notifications from 'views/Notifications.js';
+import Notifications from "views/Notifications.js";
 // import Rtl from "views/Rtl.js";
 import ProjectHistory from 'views/ProjectHistory.js';
 import CreateProject from 'views/CreateProject.js';
@@ -51,12 +51,12 @@ if (user && jwtDecode(user).role === 'Employee') {
     },
 
     {
-      path: '/projects-history',
-      name: 'Projects History',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-single-copy-04',
+      path: "/projects-history",
+      name: "Projects History",
+      rtlName: "أرشيف المشاريع",
+      icon: "tim-icons icon-single-copy-04",
       component: ProjectHistory,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/project-Info',
@@ -135,7 +135,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
       component: ProjectHistory,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/project-Info',
@@ -317,12 +317,12 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
+      path: "/project-Info",
+      name: "Project Info",
+      rtlName: "أرشيف المشاريع",
+      icon: "tim-icons icon-notes",
       component: ProjectInfo,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/ScheduleMeeting',
@@ -398,12 +398,12 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
+      path: "/project-Info",
+      name: "Project Info",
+      rtlName: "أرشيف المشاريع",
+      icon: "tim-icons icon-notes",
       component: ProjectInfo,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/ScheduleMeeting',
@@ -458,12 +458,12 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
+      path: "/project-Info",
+      name: "Project Info",
+      rtlName: "أرشيف المشاريع",
+      icon: "tim-icons icon-notes",
       component: ProjectInfo,
-      layout: '/admin',
+      layout: "/admin",
     },
     {
       path: '/ScheduleMeeting',
