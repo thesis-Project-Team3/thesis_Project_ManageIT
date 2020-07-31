@@ -18,6 +18,7 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
+  UncontrolledCollapse,
 } from 'reactstrap';
 
 class ProjectInfoEmployees extends React.Component {
@@ -25,6 +26,7 @@ class ProjectInfoEmployees extends React.Component {
     super(props);
     this.state = {
       oneProjectInfo: [],
+      relatedFeatures: [],
       profileInformations: '',
       modal: false,
     };
@@ -72,9 +74,18 @@ class ProjectInfoEmployees extends React.Component {
     axios
       .get(`http://localhost:5000/project/create/${this.props.currentIndex}`)
       .then((response) => {
-        console.log(response.data[0]);
+        // console.log(response.data[0]);
         this.setState({ oneProjectInfo: response.data[0] });
+        console.log(this.state.oneProjectInfo.feature[0]);
       });
+
+    //
+    // axios
+    //   .get(`http://localhost:5000/project/projectsByEmployee/${user._id}`)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     // this.setState({ projects: response.data });
+    //   });
   }
 
   render() {
@@ -88,6 +99,14 @@ class ProjectInfoEmployees extends React.Component {
         &times;
       </button>
     );
+
+    // var options = this.state.oneProjectInfo.feature.map((feature, key) => {
+    //   return (
+    //     <option key={key} value={feature.featureTitle}>
+    //       {feature.featureTitle}
+    //     </option>
+    //   );
+    // });
     return (
       <>
         <div className="content">
@@ -129,12 +148,50 @@ class ProjectInfoEmployees extends React.Component {
                                     Related Features :
                                   </Label>
                                   <Input
+                                    defaultValue="Select A Feature"
                                     type="select"
                                     name="singleSelect"
-                                    id="inputSelect"
+                                    id="features"
                                     required
                                   ></Input>
                                 </FormGroup>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <div>
+                                  <UncontrolledCollapse toggler="#features">
+                                    <Card>
+                                      <CardHeader>
+                                        <h5 className="feature-title">
+                                          Feature title
+                                        </h5>
+                                      </CardHeader>
+                                      <CardBody>
+                                        <Row>
+                                          Lorem ipsum dolor sit amet consectetur
+                                          adipisicing elit. Nesciunt magni,
+                                          voluptas debitis similique porro a
+                                          molestias consequuntur earum odio
+                                          officiis natus, amet hic, iste sed
+                                          dignissimos esse fuga! Minus, alias.
+                                        </Row>
+                                        <Row>
+                                          <Col
+                                            style={{ marginTop: '30px' }}
+                                            className="pr-md-1"
+                                            md="6"
+                                          >
+                                            <span className="mr-2">
+                                              Deadline :{' '}
+                                              {oneProjectInfo.deadline}
+                                            </span>
+                                          </Col>
+                                        </Row>
+                                      </CardBody>
+                                    </Card>
+                                  </UncontrolledCollapse>
+                                </div>
                               </Col>
                             </Row>
                           </div>

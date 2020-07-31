@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+// const Features = require('./featuresSchema');
+
+const featuresSchema = new Schema({
+  featureTitle: { type: String },
+  featureDescription: { type: String },
+  featureDeadline: { type: String },
+});
 
 const projectSchema = new Schema({
   department: {
@@ -27,12 +34,7 @@ const projectSchema = new Schema({
   progress: {
     type: String,
   },
-  feature: {
-    featureTitle: { type: String },
-    featureDescription: { type: String },
-    featureDeadline: { type: String },
-    featureStatus: { type: String },
-  },
+  feature: [featuresSchema],
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 

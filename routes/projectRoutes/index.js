@@ -65,7 +65,7 @@ router.get('/projectsByDepartment/:department', (req, res) => {
 router.patch('/create/:title', (req, res) => {
   Project.findOneAndUpdate(
     { title: req.params.title },
-    { feature: req.body },
+    { $push: { feature: [req.body] } },
     (err, result) => {
       if (err) {
         res.send(err);
