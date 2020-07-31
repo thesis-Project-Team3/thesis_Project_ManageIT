@@ -111,31 +111,6 @@ class ProjectInfoEmployees extends React.Component {
                               {oneProjectInfo.description}
                             </h4>
                             <Row>
-                              <Col className="pr-md-1" md="6">
-                                <ul className="list-style-none pl-0">
-                                  <li
-                                    style={{ marginLeft: '40px' }}
-                                    className="my-2"
-                                  >
-                                    <span className="mr-2">1.</span>{' '}
-                                    <span>Feature 1</span>
-                                  </li>
-                                  <li
-                                    style={{ marginLeft: '40px' }}
-                                    className="my-2"
-                                  >
-                                    <span className="mr-2">2.</span>{' '}
-                                    <span>Feature 2</span>
-                                  </li>
-                                  <li
-                                    style={{ marginLeft: '40px' }}
-                                    className="my-2"
-                                  >
-                                    <span className="mr-2">3.</span>{' '}
-                                    <span>Feature 3</span>
-                                  </li>
-                                </ul>
-                              </Col>
                               <Col
                                 style={{ marginTop: '30px' }}
                                 className="pr-md-1"
@@ -144,6 +119,22 @@ class ProjectInfoEmployees extends React.Component {
                                 <span className="mr-2">
                                   Deadline : {oneProjectInfo.deadline}
                                 </span>
+                              </Col>
+                            </Row>
+                            <br></br>
+                            <Row>
+                              <Col className="pr-md-1" md="6">
+                                <FormGroup>
+                                  <Label for="singleSelect">
+                                    Related Features :
+                                  </Label>
+                                  <Input
+                                    type="select"
+                                    name="singleSelect"
+                                    id="inputSelect"
+                                    required
+                                  ></Input>
+                                </FormGroup>
                               </Col>
                             </Row>
                           </div>
