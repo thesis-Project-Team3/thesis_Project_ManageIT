@@ -23,6 +23,7 @@ class CreateProject extends React.Component {
   state = {
     newProject: {
       title: '',
+      department: '',
       description: '',
       deadline: '',
       status: 'Created',
@@ -43,6 +44,7 @@ class CreateProject extends React.Component {
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         console.log(response.data);
+        this.state.newProject.department = response.data[0].department
         this.setState(
           {
             profileInformations: response.data[0],
@@ -63,7 +65,7 @@ class CreateProject extends React.Component {
     e.preventDefault();
     axios
       .post('http://localhost:5000/project/create', this.state.newProject)
-      .then((response) => {})
+      .then((response) => { })
 
       .catch((err) => console.log('Error', err));
   };
