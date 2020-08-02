@@ -1,40 +1,32 @@
 import React from 'react';
-// import Select from 'react-select';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import $ from 'jquery';
 import {
   Button,
   Card,
   CardHeader,
+  CustomInput,
   CardBody,
-  Label,
   CardFooter,
   CardText,
   FormGroup,
   Form,
   Input,
+  Label,
   Row,
   Col,
   Modal,
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
-// import { InvalidatedProjectKind } from 'typescript';
 
-class UpdateProject extends React.Component {
+class ProjectInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      singleSelect: null,
-      projects: [],
-      modal: false,
+      info: '',
       profileInformations: '',
-      newFeature: {
-        featureTitle: '',
-        featureDescription: '',
-        featureDeadline: '',
-      },
+      modal: false,
     };
   }
 
@@ -42,25 +34,23 @@ class UpdateProject extends React.Component {
     this.setState({ modal: !this.state.modal });
   };
 
-  handleChange = ({ currentTarget: input }) => {
-    const newFeature = { ...this.state.newFeature };
-    newFeature[input.name] = input.value;
-    this.setState({ newFeature });
-  };
+  handleDecline = () => {
+    this.setState({ modal: !this.state.modal });
+    axios.post('http://localhost:5000/project/decline', {
+      status: "Finished",
+      progress: "Declined by the Head of Department",
+      title: this.state.info.title
+    })
+  }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.singleSelect);
-    axios
-      .patch(
-        `http://localhost:5000/project/create/${this.state.singleSelect}`,
-        this.state.newFeature
-      )
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((err) => console.log('Error', err));
-  };
+  handleAccept = () => {
+    this.setState({ modal: !this.state.modal });
+    axios.post('http://localhost:5000/project/decline', {
+      status: "In Progress",
+      progress: "Sent to Method Department",
+      title: this.state.info.title
+    })
+  }
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
@@ -77,20 +67,20 @@ class UpdateProject extends React.Component {
         );
       })
       .catch((err) => console.log('Error', err));
+    //-------------------------------
 
-    // ---------------------------
-    // var arr = []
     axios
-      .get('http://localhost:5000/project/create/')
+      .post('http://localhost:5000/project/index', {})
       .then((response) => {
-        console.log(response);
-        this.setState({ projects: response.data });
+        var info = response.data[0]
+        this.setState({ info })
       })
+
       .catch((err) => console.log('Error', err));
-    // this.setState({ projects: arr })
   }
+
   render() {
-    const { newFeature } = this.state;
+    const { profileInformations } = this.state;
     const externalCloseBtn = (
       <button
         className="close"
@@ -100,14 +90,6 @@ class UpdateProject extends React.Component {
         &times;
       </button>
     );
-    const { profileInformations } = this.state;
-    var options = this.state.projects.map((project, key) => {
-      return (
-        <option key={key} value={project.title}>
-          {project.title}
-        </option>
-      );
-    });
     return (
       <>
         <div className="content">
@@ -115,52 +97,66 @@ class UpdateProject extends React.Component {
             <Col md="8">
               <Card>
                 <CardHeader>
-                  <h5 className="title">Add a New Feature</h5>
+                  <h5 className="title">Project Info</h5>
                 </CardHeader>
                 <CardBody>
                   <Form>
+                    <div className="py-2 service-19 pb-0">
+                      <div className="container">
+                        <div className="row">
+                          <div className="col-lg-10 pt-7">
+                            <span className="badge badge-primary rounded-pill px-4 py-2 font-weight-light">{this.state.info.department}</span>
+                            <h2 className="my-3">{this.state.info.title}</h2>
+                            <h4 className="col-md-12 subtitle font-weight-light">{this.state.info.description}</h4>
+                            <Row>
+                              <Col className="pr-md-1" md="6">
+                                <ul className="list-style-none pl-0">
+                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">1.</span> <span>Feature 1</span></li>
+                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">2.</span> <span>Feature 2</span></li>
+                                  <li style={{ marginLeft: '40px' }} className="my-2"><span className="mr-2">3.</span> <span>Feature 3</span></li>
+                                </ul>
+                              </Col>
+                              <Col style={{ marginTop: '30px' }} className="pr-md-1" md="6">
+                                <span className="mr-2">Deadline : {this.state.info.deadline}</span>
+                              </Col>
+                            </Row>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <Row>
+                      <Col className="pr-md-1" md="6">
+                        <FormGroup>
+                          <Label for="exampleFile">Upload your files :</Label>
+                          <CustomInput type="file" id="exampleFile" name="customFile" />
+                        </FormGroup>
+                      </Col>
+                      <Col className="pr-md-1" md="4">
+                        <Button className="btn-fill" color="primary" type="submit"
+                          style={{ marginTop: '25px', marginLeft: '70px' }} onClick={(e) => e.preventDefault()}>Upload</Button>
+                      </Col>
+                    </Row>
+
+                    {/*   <Row>
                       <Col className="pr-md-1" md="5">
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue={profileInformations.department}
+                            Value={this.state.info.department}
                             disabled
-                            placeholder="Department"
                             type="text"
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg="6" md="6" sm="3" className="pr-md-1">
+                      <Col className="px-md-1" md="6">
                         <FormGroup>
-                          <Label for="singleSelect">
-                            Choose an Existing Project :
-                          </Label>
+                          <label>Title</label>
                           <Input
-                            type="select"
-                            name="singleSelect"
-                            onChange={(e) => {
-                              this.setState({
-                                singleSelect: e.currentTarget.value,
-                              });
-                            }}
-                            id="inputSelect"
-                            required
-                          >
-                            <option selected="selected" disabled>Choose a Project</option>
-                            {options}
-                          </Input>
-                        </FormGroup>
-                      </Col>
-                      <Col className="pr-md-1" md="5">
-                        <FormGroup>
-                          <label>Feature Title</label>
-                          <Input
-                            placeholder="Enter the feature title"
                             type="text"
-                            value={newFeature.featureTitle}
-                            onChange={this.handleChange}
-                            name="featureTitle"
+                            value={this.state.info.title}
+                            disabled
+                            id="title"
+                            name="title"
                           />
                         </FormGroup>
                       </Col>
@@ -168,16 +164,15 @@ class UpdateProject extends React.Component {
                     <Row>
                       <Col md="11">
                         <FormGroup>
-                          <label>Feature Description</label>
+                          <label>Project Description</label>
                           <Input
                             cols="100"
-                            id="inputDescription"
-                            placeholder="Here can be your description"
                             rows="10"
                             type="textarea"
-                            value={newFeature.featureDescription}
-                            onChange={this.handleChange}
-                            name="featureDescription"
+                            value={this.state.info.description}
+                            disabled
+                            id="description"
+                            name="description"
                           />
                         </FormGroup>
                       </Col>
@@ -187,61 +182,38 @@ class UpdateProject extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <Label for="exampleDate">Do it before :</Label>
+                              <Label className="label-control">Deadline :</Label>
                               <Input
+                                value={this.state.info.deadline}
+                                className="form-control datetimepicker"
+                                disabled
                                 type="date"
-                                name="date"
-                                id="inputDate"
-                                placeholder="date placeholder"
-                                min="2020-07-18"
-                                value={newFeature.featureDeadline}
-                                onChange={this.handleChange}
-                                name="featureDeadline"
+                                id="deadline"
+                                name="deadline"
                               />
                             </FormGroup>
                           </CardBody>
                         </Card>
                       </Col>
-                    </Row>
+                    </Row> */}
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleSubmit}
-                  >
-                    Submit
-                  </Button>
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleAccept} >Submit</Button>
+                  <Button className="btn-fill" color="primary" type="submit" onClick={this.handleDecline} >Decline</Button>
                   <div>
                     <Modal
-                      isOpen={this.state.modal}
-                      toggle={this.toggle}
-                      external={externalCloseBtn}
-                    >
-                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
-                      <ModalBody>
-                        {' '}
-                        <br />{' '}
+                      isOpen={this.state.modal} toggle={this.toggle} external={externalCloseBtn} >
+                      <ModalBody>{' '}<br />{' '}
                         <center>
-                          <img
-                            src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                            width="200px"
-                          />
+                          <Label for="exampleText">Reason :</Label>
+                          <Input type="textarea" name="text" id="exampleText" />
                           <br />
-                          Project has been successfully updated !
+                          Project has been declined !
                         </center>
                       </ModalBody>
                       <ModalFooter>
-                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
-                        <Button
-                          color="secondary"
-                          onClick={this.toggle}
-                          href="/admin/Update-Project"
-                        >
-                          Close
-                        </Button>
+                        <Button color="secondary" onClick={this.toggle} href="/admin/projects-history" >Close</Button>
                       </ModalFooter>
                     </Modal>
                   </div>
@@ -293,4 +265,4 @@ class UpdateProject extends React.Component {
   }
 }
 
-export default UpdateProject;
+export default ProjectInfo;

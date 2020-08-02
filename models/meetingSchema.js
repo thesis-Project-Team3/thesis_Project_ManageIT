@@ -1,19 +1,22 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const meetingSchema = new Schema({
+const MeetingSchema = new Schema({
   subject: {
     type: String,
   },
+
   employees: {
+    type: Array,
+  },
+  date: {
     type: String,
   },
-
-  date: {
-    type: Date,
+  department: {
+    type: String,
   },
 });
 
-const Project = mongoose.model('meeting', meetingSchema);
+const Meeting = mongoose.model("meeting", MeetingSchema);
 
 module.exports = Meeting;

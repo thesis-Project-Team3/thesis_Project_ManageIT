@@ -6,6 +6,7 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './views/Login.js';
 import AdminLayout from 'layouts/Admin/Admin.js';
 import RTLLayout from 'layouts/RTL/RTL.js';
+import CreateProject from './components/createProject/createProject';
 
 import 'assets/scss/black-dashboard-react.scss';
 import 'assets/demo/demo.css';

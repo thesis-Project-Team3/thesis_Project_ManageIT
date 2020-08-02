@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import Select from 'react-select';
 // reactstrap components
 import {
   Button,
@@ -11,24 +11,25 @@ import {
   // CardImg,
   CardTitle,
   // Label,
-  // FormGroup,
+  FormGroup,
   Form,
   Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
   Container,
-  // Row,
+  Row,
   Col,
 } from 'reactstrap';
 
-class Register extends React.Component {
+class AddEmployee extends React.Component {
   state = {
     RegisterInformations: {
       department: '',
       fullname: '',
       email: '',
       password: '',
+      role: 'Employee',
     },
   };
   componentDidMount() {
@@ -37,6 +38,13 @@ class Register extends React.Component {
   componentWillUnmount() {
     document.body.classList.toggle('register-page');
   }
+
+  handleChangeSelect = (e) => {
+    const RegisterInformations = { ...this.state.RegisterInformations };
+    RegisterInformations.department = e.value;
+    this.setState({ RegisterInformations });
+  };
+
   handleChange = ({ currentTarget: input }) => {
     const RegisterInformations = { ...this.state.RegisterInformations };
     RegisterInformations[input.name] = input.value;
@@ -45,6 +53,7 @@ class Register extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(this.state.RegisterInformations);
     axios
       .post('http://localhost:5000/users', this.state.RegisterInformations)
       .then((response) => {
@@ -98,29 +107,51 @@ class Register extends React.Component {
                   </div>
                 </div>
               </Col> */}
+
             <Col className="mr-auto" lg="8" md="6">
               <Form className="form">
                 <Card className="card-register card-white">
                   <CardHeader>
                     <img alt="..." src={require('./card-primary.png')} />
-                    <CardTitle tag="h1">Add a new head of department</CardTitle>
+                    <CardTitle tag="h1">Add a New Employee</CardTitle>
                   </CardHeader>
                   <CardBody>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="tim-icons icon-badge" />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        placeholder="Department"
-                        type="text"
-                        name="department"
-                        id="department"
-                        value={RegisterInformations.department}
-                        onChange={this.handleChange}
-                      />
-                    </InputGroup>
+                    <Row>
+                      <Col lg="10" md="10" sm="3">
+                        <FormGroup>
+                          <label>Employees</label>
+                          <Select
+                            className="react-select info"
+                            classNamePrefix="react-select"
+                            placeholder="Choose Department"
+                            name="department"
+                            id="department"
+                            value={this.state.department}
+                            onChange={this.handleChangeSelect}
+                            options={[
+                              {
+                                value: 'Financial',
+                                label: 'financial Department',
+                              },
+                              {
+                                value: 'Accounting',
+                                label: 'Accounting Department',
+                              },
+                              {
+                                value: 'Marketing',
+                                label: 'Marketing Department',
+                              },
+                              {
+                                value: 'Human Ressources',
+                                label: 'Human Ressources Department',
+                              },
+                              { value: 'Methods', label: 'Methods Department' },
+                              { value: 'IT', label: 'IT Department' },
+                            ]}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
 
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
@@ -200,4 +231,4 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default AddEmployee;

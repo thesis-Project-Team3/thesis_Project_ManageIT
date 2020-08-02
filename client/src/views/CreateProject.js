@@ -1,34 +1,59 @@
 import React from 'react';
 import axios from 'axios';
-// import Datetime from 'react-datetime';
-// import ReactDatetime from "react-datetime";
-// reactstrap components
+import jwtDecode from 'jwt-decode';
 import {
   Button,
   Card,
   CardHeader,
-  // CardTitle,
   CardBody,
   CardFooter,
   CardText,
   FormGroup,
   Form,
   Input,
+  Label,
   Row,
   Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 
-class Project extends React.Component {
+class CreateProject extends React.Component {
   state = {
     newProject: {
       title: '',
+      department: '',
       description: '',
       deadline: '',
-      status: 'in progress',
-      progress: 'sent to the head of the department',
+      status: 'Created',
+      user: jwtDecode(localStorage.getItem('token')),
     },
+    profileInformations: '',
+    modal: false,
   };
 
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .get(`http://localhost:5000/users/${user._id}`)
+      .then((response) => {
+        console.log(response.data);
+        this.state.newProject.department = response.data[0].department
+        this.setState(
+          {
+            profileInformations: response.data[0],
+          },
+          () => console.log(this.state.profileInformations.fullname)
+        );
+      })
+      .catch((err) => console.log('Error', err));
+  }
   handleChange = ({ currentTarget: input }) => {
     const newProject = { ...this.state.newProject };
     newProject[input.name] = input.value;
@@ -36,18 +61,27 @@ class Project extends React.Component {
   };
 
   handleSubmit = (e) => {
+    this.setState({ modal: !this.state.modal });
     e.preventDefault();
     axios
       .post('http://localhost:5000/project/create', this.state.newProject)
-      .then((response) => {
-        console.log(response.data);
-      })
+      .then((response) => { })
 
       .catch((err) => console.log('Error', err));
   };
 
   render() {
-    const { newProject } = this.state;
+    const { newProject, profileInformations } = this.state;
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
+
     return (
       <>
         <div className="content">
@@ -64,7 +98,7 @@ class Project extends React.Component {
                         <FormGroup>
                           <label>Department</label>
                           <Input
-                            defaultValue="Accounting"
+                            defaultValue={profileInformations.department}
                             disabled
                             placeholder="Department"
                             type="text"
@@ -85,68 +119,6 @@ class Project extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
-                    {/* <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
-                          <Input
-                            defaultValue="Mohamed Amine"
-                            placeholder="First Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Oueslati"
-                            placeholder="Last Name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="15 Avenue"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-md-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Yesminet"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Ben Arous"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-md-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" defaultValue="2096" />
-                        </FormGroup>
-                      </Col>
-                    </Row> */}
                     <Row>
                       <Col md="11">
                         <FormGroup>
@@ -170,18 +142,18 @@ class Project extends React.Component {
                         <Card>
                           <CardBody>
                             <FormGroup>
-                              <label className="label-control">
-                                Do it before :{' '}
-                              </label>
-                              <input
-                                type="datetime-local"
-                                className="form-control datetimepicker"
-                                min="2020-07-18T08:30"
-                                defaultValue="2020-08-18T12:30"
+                              <Label className="label-control">
+                                Do it before :
+                              </Label>
+                              <Input
                                 value={newProject.deadline}
                                 onChange={this.handleChange}
+                                className="form-control datetimepicker"
+                                type="date"
                                 id="deadline"
                                 name="deadline"
+                                min="2020-07-18"
+                                placeholder="date placeholder"
                               />
                             </FormGroup>
                           </CardBody>
@@ -199,6 +171,37 @@ class Project extends React.Component {
                   >
                     Submit
                   </Button>
+                  <div>
+                    <Modal
+                      isOpen={this.state.modal}
+                      toggle={this.toggle}
+                      external={externalCloseBtn}
+                    >
+                      {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                      <ModalBody>
+                        {' '}
+                        <br />{' '}
+                        <center>
+                          <img
+                            src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                            width="200px"
+                          />
+                          <br />
+                          Project has been successfully created !
+                        </center>
+                      </ModalBody>
+                      <ModalFooter>
+                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                        <Button
+                          color="secondary"
+                          onClick={this.toggle}
+                          href="/admin/project"
+                        >
+                          Close
+                        </Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>
                 </CardFooter>
               </Card>
             </Col>
@@ -217,10 +220,10 @@ class Project extends React.Component {
                         className="avatar"
                         src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
                       />
-                      <h5 className="title">Mohamed Amine Oueslati</h5>
+                      <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      Accounting Department Employee
+                      {profileInformations.department} Department Employee
                     </p>
                   </div>
                   <div className="card-description">ME .......</div>
@@ -247,4 +250,4 @@ class Project extends React.Component {
   }
 }
 
-export default Project;
+export default CreateProject;

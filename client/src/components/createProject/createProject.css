@@ -1,67 +1,110 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-.create-project {
-  font-family: 'Montserrat', Courier, monospace;
+HTML CSSResult EDIT ON body {
+  background-color: #f3ebf6;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.create-project form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 100px 20px;
+body {
+  background-color: #292931;
+  background: url(https://avante.biz/wp-content/uploads/Business-manager-wallpaper/Business-manager-wallpaper5.jpg)
+    no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
-.create-project legend {
+.main {
+  background-color: #ffffff;
+  opacity: 0.7;
+  width: 400px;
+  height: 400px;
+  margin: 7em auto;
+  border-radius: 10px;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.sign {
+  padding-top: 40px;
+  color: #8c55aa;
+  font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
-  text-align: center;
-  text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  font-size: 25px;
-  margin-bottom: 25px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 23px;
 }
 
-.create-project input,
-textarea {
-  font-size: 18px;
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
-  width: 100%;
-  display: block;
-  padding: 15px;
-  margin-bottom: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.2);
-  transition: all 0.2s ease;
-}
-
-.create-project input[type='submit'] {
-  font-size: 20px;
-  background: #166387;
-  border: 1px solid #044c6e;
-  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.2),
-    0px 4px 0px rgba(6, 82, 117, 1);
-}
-
-.create-project input[type='submit']:hover {
-  cursor: pointer;
-}
-
-.create-project input:focus,
-textarea:focus {
-  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.3);
-  border: 1px solid white;
-  background: rgba(0, 0, 0, 0.1);
-  resize: none;
-}
-
-.create-project label {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  display: block;
-  margin-bottom: 13px;
-  text-transform: uppercase;
+.un {
+  width: 76%;
+  color: black;
+  font-weight: bold;
   font-size: 14px;
   letter-spacing: 1px;
-  text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
+  background: rgba(136, 126, 126, 0.04);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  box-sizing: border-box;
+  border: 2px solid gray;
+  margin-bottom: 50px;
+  margin-left: 46px;
+  text-align: center;
+  margin-bottom: 27px;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+form.form1 {
+  padding-top: 40px;
+}
+
+.pass {
+  width: 76%;
+  color: rgb(38, 50, 56);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  background: rgba(136, 126, 126, 0.04);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 0.02);
+  margin-bottom: 50px;
+  margin-left: 46px;
+  text-align: center;
+  margin-bottom: 27px;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.un:focus,
+.pass:focus {
+  border: 2px solid rgba(0, 0, 0, 0.18) !important;
+}
+
+.submit {
+  cursor: pointer;
+  border-radius: 5em;
+  color: #fff;
+  background: linear-gradient(to right, #9c27b0, #e040fb);
+  border: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  margin-left: 35%;
+  font-size: 13px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+}
+
+.forgot {
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: #e1bee7;
+  padding-top: 15px;
+}
+
+a {
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: #e1bee7;
+  text-decoration: none;
 }

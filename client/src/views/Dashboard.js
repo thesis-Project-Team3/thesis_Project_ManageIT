@@ -1,5 +1,6 @@
 
 import React from "react";
+import axios from 'axios';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react plugin used to create charts
@@ -30,24 +31,402 @@ import {
 // core components
 import {
   chartExample1,
-  chartExample2,
-  chartExample3,
-  chartExample4
 } from "variables/charts.js";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bigChartData: "data1"
+      bigChartData: "data1",
+      projMonth: [],
+      projData: [],
+      UserData: [],
+      numProj: 0,
+      numUser: 0
     };
   }
+
+  componentDidMount() {
+    axios.get("http://localhost:5000/project/dashboardProject")
+      .then((response) => {
+        // console.log(response.data);
+        var numProj = response.data.pop()
+        var projData = response.data
+        this.setState({ projData, numProj })
+      })
+    axios.get("http://localhost:5000/project/dashboardUser")
+      .then((response) => {
+        console.log(response.data);
+        var numUser = response.data.pop()
+        var UserData = response.data
+        this.setState({ UserData, numUser })
+      })
+    axios.get("http://localhost:5000/project/projectMonth")
+      .then((response) => {
+        console.log(response.data);
+        var projMonth = response.data
+        this.setState({ projMonth })
+      })
+  }
+
   setBgChartData = name => {
     this.setState({
       bigChartData: name
     });
   };
   render() {
+    // #########################################
+    // // // used inside src/views/Dashboard.js
+    // #########################################
+    let chartExample1 = {
+      data1: canvas => {
+        let ctx = canvas.getContext("2d");
+
+        let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+        gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+        gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+
+        return {
+          labels: [
+            "JAN",
+            "FEB",
+            "MAR",
+            "APR",
+            "MAY",
+            "JUN",
+            "JUL",
+            "AUG",
+            "SEP",
+            "OCT",
+            "NOV",
+            "DEC"
+          ],
+          datasets: [
+            {
+              label: "Employees stats",
+              fill: true,
+              backgroundColor: gradientStroke,
+              borderColor: "#1f8ef1",
+              borderWidth: 2,
+              borderDash: [],
+              borderDashOffset: 0.0,
+              pointBackgroundColor: "#1f8ef1",
+              pointBorderColor: "rgba(255,255,255,0)",
+              pointHoverBackgroundColor: "#1f8ef1",
+              pointBorderWidth: 20,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 15,
+              pointRadius: 4,
+              data: this.state.projMonth
+            }
+          ]
+        };
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "#f5f5f5",
+          titleFontColor: "#333",
+          bodyFontColor: "#666",
+          bodySpacing: 4,
+          xPadding: 12,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest"
+        },
+        responsive: true,
+        scales: {
+          yAxes: [
+            {
+              barPercentage: 1.6,
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(29,140,248,0.0)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                suggestedMin: 2,
+                suggestedMax: 10,
+                padding: 20,
+                fontColor: "#9a9a9a"
+              }
+            }
+          ],
+          xAxes: [
+            {
+              barPercentage: 1.6,
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(29,140,248,0.1)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                padding: 20,
+                fontColor: "#9a9a9a"
+              }
+            }
+          ]
+        }
+      }
+    }
+    // #########################################
+    // // // used inside src/views/Dashboard.js
+    // #########################################
+    let chartExample2 = {
+      data: canvas => {
+        let ctx = canvas.getContext("2d");
+
+        let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke.addColorStop(1, "rgba(29,140,248,0.2)");
+        gradientStroke.addColorStop(0.4, "rgba(29,140,248,0.0)");
+        gradientStroke.addColorStop(0, "rgba(29,140,248,0)"); //blue colors
+
+        return {
+          labels: ["FIN", "ACC", "MARK", "H.R", "METH", "IT"],
+          datasets: [
+            {
+              label: "Data",
+              fill: true,
+              backgroundColor: gradientStroke,
+              borderColor: "#1f8ef1",
+              borderWidth: 2,
+              borderDash: [],
+              borderDashOffset: 0.0,
+              pointBackgroundColor: "#1f8ef1",
+              pointBorderColor: "rgba(255,255,255,0)",
+              pointHoverBackgroundColor: "#1f8ef1",
+              pointBorderWidth: 20,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 15,
+              pointRadius: 4,
+              data: this.state.UserData
+            }
+          ]
+        };
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "#f5f5f5",
+          titleFontColor: "#333",
+          bodyFontColor: "#666",
+          bodySpacing: 4,
+          xPadding: 12,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest"
+        },
+        responsive: true,
+        scales: {
+          yAxes: [
+            {
+              barPercentage: 1.6,
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(29,140,248,0.0)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                suggestedMin: 2,
+                suggestedMax: 10,
+                padding: 20,
+                fontColor: "#9a9a9a"
+              }
+            }
+          ],
+          xAxes: [
+            {
+              barPercentage: 1.6,
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(29,140,248,0.1)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                padding: 20,
+                fontColor: "#9a9a9a"
+              }
+            }
+          ]
+        }
+      }
+    };
+
+    // #########################################
+    // // // used inside src/views/Dashboard.js
+    // #########################################
+    let chartExample3 = {
+      data: canvas => {
+        let ctx = canvas.getContext("2d");
+
+        let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke.addColorStop(1, "rgba(72,72,176,0.1)");
+        gradientStroke.addColorStop(0.4, "rgba(72,72,176,0.0)");
+        gradientStroke.addColorStop(0, "rgba(119,52,169,0)"); //purple colors
+
+        return {
+          labels: ["APR", "MAI", "JUN", "JUL", "AUG", "SEP"],
+          datasets: [
+            {
+              label: "Countries",
+              fill: true,
+              backgroundColor: gradientStroke,
+              hoverBackgroundColor: gradientStroke,
+              borderColor: "#d048b6",
+              borderWidth: 2,
+              borderDash: [],
+              borderDashOffset: 0.0,
+              data: [53, 20, 10, 80, 100, 45]
+            }
+          ]
+        };
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "#f5f5f5",
+          titleFontColor: "#333",
+          bodyFontColor: "#666",
+          bodySpacing: 4,
+          xPadding: 12,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest"
+        },
+        responsive: true,
+        scales: {
+          yAxes: [
+            {
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(225,78,202,0.1)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                suggestedMin: 60,
+                suggestedMax: 120,
+                padding: 20,
+                fontColor: "#9e9e9e"
+              }
+            }
+          ],
+          xAxes: [
+            {
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(225,78,202,0.1)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                padding: 20,
+                fontColor: "#9e9e9e"
+              }
+            }
+          ]
+        }
+      }
+    };
+    // #########################################
+    // // // used inside src/views/Dashboard.js
+    // #########################################
+    const chartExample4 = {
+      data: canvas => {
+        let ctx = canvas.getContext("2d");
+
+        let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+        gradientStroke.addColorStop(1, "rgba(66,134,121,0.15)");
+        gradientStroke.addColorStop(0.4, "rgba(66,134,121,0.0)"); //green colors
+        gradientStroke.addColorStop(0, "rgba(66,134,121,0)"); //green colors
+
+        return {
+          labels: ["FIN", "ACC", "MARK", "H.R", "METH", "IT"],
+          datasets: [
+            {
+              label: "My First dataset",
+              fill: true,
+              backgroundColor: gradientStroke,
+              borderColor: "#00d6b4",
+              borderWidth: 2,
+              borderDash: [],
+              borderDashOffset: 0.0,
+              pointBackgroundColor: "#00d6b4",
+              pointBorderColor: "rgba(255,255,255,0)",
+              pointHoverBackgroundColor: "#00d6b4",
+              pointBorderWidth: 20,
+              pointHoverRadius: 4,
+              pointHoverBorderWidth: 15,
+              pointRadius: 4,
+              data: this.state.projData
+            }
+          ]
+        };
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+
+        tooltips: {
+          backgroundColor: "#f5f5f5",
+          titleFontColor: "#333",
+          bodyFontColor: "#666",
+          bodySpacing: 4,
+          xPadding: 12,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest"
+        },
+        responsive: true,
+        scales: {
+          yAxes: [
+            {
+              barPercentage: 1.6,
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(29,140,248,0.0)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                suggestedMin: 2,
+                suggestedMax: 10,
+                padding: 20,
+                fontColor: "#9e9e9e"
+              }
+            }
+          ],
+
+          xAxes: [
+            {
+              barPercentage: 1.6,
+              gridLines: {
+                drawBorder: false,
+                color: "rgba(0,242,195,0.1)",
+                zeroLineColor: "transparent"
+              },
+              ticks: {
+                padding: 20,
+                fontColor: "#9e9e9e"
+              }
+            }
+          ]
+        }
+      }
+    };
     return (
       <>
         <div className="content">
@@ -57,7 +436,7 @@ class Dashboard extends React.Component {
                 <CardHeader>
                   <Row>
                     <Col className="text-left" sm="6">
-                      <h5 className="card-category">Total Shipments</h5>
+                      <h5 className="card-category">Project Per Month ({this.state.numProj})</h5>
                       <CardTitle tag="h2">Performance</CardTitle>
                     </Col>
                     <Col sm="6">
@@ -94,9 +473,9 @@ class Dashboard extends React.Component {
                           size="sm"
                           tag="label"
                           className={classNames("btn-simple", {
-                            active: this.state.bigChartData === "data2"
+                            active: this.state.bigChartData === "data1"
                           })}
-                          onClick={() => this.setBgChartData("data2")}
+                          onClick={() => this.setBgChartData("data1")}
                         >
                           <input
                             className="d-none"
@@ -116,9 +495,9 @@ class Dashboard extends React.Component {
                           size="sm"
                           tag="label"
                           className={classNames("btn-simple", {
-                            active: this.state.bigChartData === "data3"
+                            active: this.state.bigChartData === "data1"
                           })}
-                          onClick={() => this.setBgChartData("data3")}
+                          onClick={() => this.setBgChartData("data1")}
                         >
                           <input
                             className="d-none"
@@ -154,7 +533,7 @@ class Dashboard extends React.Component {
                   <h5 className="card-category">number of employees</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-bell-55 text-info" />{" "}
-                    15,420
+                    {this.state.numUser}
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -189,9 +568,9 @@ class Dashboard extends React.Component {
             <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Completed Tasks</h5>
+                  <h5 className="card-category">Number of Projects</h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" /> 7,400K
+                    <i className="tim-icons icon-send text-success" /> {this.state.numProj}
                   </CardTitle>
                 </CardHeader>
                 <CardBody>

@@ -20,7 +20,7 @@ class Admin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      backgroundColor: 'primary',
+      backgroundColor: 'green',
       sidebarOpened:
         document.documentElement.className.indexOf('nav-open') !== -1,
       user: '',
@@ -43,6 +43,8 @@ class Admin extends React.Component {
         console.log(this.state.user);
       });
     } catch (ex) {}
+
+    document.body.classList.add('white-content');
   }
   componentWillUnmount() {
     if (navigator.platform.indexOf('Win') > -1) {
