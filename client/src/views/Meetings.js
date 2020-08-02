@@ -39,7 +39,7 @@ class ScheduledMeeting extends React.Component {
       .then((res) => res.json())
       .then((meetings) => {
         this.setState({ meetings });
-        console.log(meetings);
+        // console.log(meetings);
       })
       .catch((err) => console.log("Error", err));
   }
