@@ -67,6 +67,8 @@ app.use('/meeting', routes.meetingRoutes);
 app.use('/filterMeetingsRoutes', routes.filterMeetingsRoutes);
 //user Route
 app.use('/users', routes.userRoutes);
+//dashboard Route
+app.use('/project', routes.dashboardRoutes);
 //auth Route
 app.use('/auth', routes.authRoutes);
 app.use('/getAllTheUsers', routes.getAllTheUsers);
