@@ -169,6 +169,7 @@ class UpdateProject extends React.Component {
                             id="inputSelect"
                             required
                           >
+                            <option selected="selected" disabled>Choose a Project</option>
                             {options}
                           </Input>
                         </FormGroup>

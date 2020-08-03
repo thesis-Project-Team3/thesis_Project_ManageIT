@@ -10,5 +10,6 @@ module.exports = {
   projectRoutes: require('./projectRoutes'),
   deleteEmployee: require('./deleteEmployee/deleteEmployee'),
   meetingRoutes: require('./meetingRoutes'),
-    filterMeetingsRoutes: require("./filterMeetings/filterMeetingsRoutes"),
+  filterMeetingsRoutes: require("./filterMeetings/filterMeetingsRoutes"),
+  dashboardRoutes: require('./dashboardRoutes'),
 };

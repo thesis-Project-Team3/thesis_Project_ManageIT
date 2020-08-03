@@ -106,10 +106,8 @@ class ScheduleMeeting extends React.Component {
       .then((res) => res.json())
       .then((usersData) => {
         this.setState({ usersData });
-        // console.log(this.state.usersData);
         this.makeOptions();
       });
-    console.log(this.state.profileInformations);
   }
 
   render() {
