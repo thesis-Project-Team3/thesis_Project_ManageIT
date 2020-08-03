@@ -78,8 +78,6 @@ router.patch('/create/:title', (req, res) => {
 
 // Router for updating status of projects features
 router.patch('/update/:featureTitle', (req, res) => {
-  console.log(req.body);
-  console.log(req.params.featureTitle);
   Project.findOneAndUpdate(
     { 'feature.featureTitle': req.params.featureTitle },
     {
