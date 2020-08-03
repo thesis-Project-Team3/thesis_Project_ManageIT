@@ -34,7 +34,21 @@ class RegisterHead extends React.Component {
     var lastName = document.getElementById("lastName").value;
     var fullname = firstName + " " + lastName;
     var email = document.getElementById("email").value;
-    var department = document.getElementById("department").value;
+    var headDepartment = document.getElementById("department").value;
+    const department;
+    if(headDepartment === "Head of Financial Department"){
+      department = "Financial"
+    }else if(headDepartment === "Head of Accounting Department"){
+      department = "Accounting"
+    }else if(headDepartment === "Head of Marketing Department"){
+      department = "Marketing"
+    }else if(headDepartment === "Head of Human Ressources Department"){
+      department = "Human Ressources"
+    }else if(headDepartment === "Head of Methods Department"){
+      department = "Methods"
+    }else if(headDepartment === "Head of IT Department"){
+      department = "IT"
+    }
     var role = "Head";
     var dateOfBirth = document.getElementById("dateOfBirth").value;
     var phoneNumber = document.getElementById("phoneNumber").value;
@@ -43,7 +57,7 @@ class RegisterHead extends React.Component {
       firstName === "" ||
       lastName === "" ||
       email === "" ||
-      department === "" ||
+      headDepartment === "" ||
       role === "" ||
       dateOfBirth === "" ||
       phoneNumber === "" ||
@@ -97,12 +111,12 @@ class RegisterHead extends React.Component {
                         id="department"
                         required
                       >
-                        <option> Financial </option>
-                        <option> Accounting </option>
-                        <option> Marketing </option>
-                        <option> Human Ressources </option>
-                        <option> Methods </option>
-                        <option> IT </option>
+                        <option> Head of Financial Department </option>
+                        <option> Head of Accounting Department </option>
+                        <option> Head of Marketing Department </option>
+                        <option> Head of Human Ressources Department </option>
+                        <option> Head of Methods Department </option>
+                        <option> Head of IT Department </option>
                       </Input>
                     </FormGroup>
                     <Row>
