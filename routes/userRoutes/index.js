@@ -45,4 +45,24 @@ router.get("/:id", (req, res) => {
   });
 });
 
+router.patch('/:id', (req, res) => {
+  console.log(req.body);
+  console.log(req.params);
+  User.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      address: req.body.address,
+      city: req.body.city,
+      postalCode: req.body.postalCode,
+      aboutMe: req.body.aboutMe,
+    },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
 module.exports = router;

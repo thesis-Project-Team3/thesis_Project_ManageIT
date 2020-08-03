@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
+import ProjectInfoMethods from './ProjectInfoMethods.js';
 import classNames from "classnames";
+
 // reactstrap components
 import {
   Card,
@@ -14,14 +17,18 @@ import {
   ButtonGroup
 } from 'reactstrap';
 
-class Tables extends React.Component {
+class ProjectHistoryMethods extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      projects: [],
+      currentIndex: '',
+      view: 'false',
       projects1: [],
       projects2: [],
       projects3: [],
       ProjHistory: "data1"
+
     };
   }
 
@@ -32,6 +39,8 @@ class Tables extends React.Component {
   };
 
   componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
     axios.get('http://localhost:5000/project/methods/').then((response) => {
       var projects1 = response.data[0];
       var projects2 = response.data[1];
@@ -43,15 +52,88 @@ class Tables extends React.Component {
   handleSubmit(i) {
     // e.preventDefault();
     axios
-      .post('http://localhost:5000/project/index', { index: i })
+      .get(
+        `http://localhost:5000/project/projectsByDepartment/${user.department}`
+      )
       .then((response) => {
-        console.log(response.data);
-        window.location = '/admin/project-Info';
+        this.setState({ projects: response.data });
       });
-    // .catch((err) => console.log('Error', err));
   }
 
+  handleInfo = (id) => {
+    // console.log(id);
+    this.setState({ currentIndex: id, view: 'true' });
+  };
+
+  // handleSubmit(i) {
+  //   // e.preventDefault();
+  //   axios
+  //     .post('http://localhost:5000/project/index', { index: i })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       window.location = '/admin/project-info-heads';
+  //     });
+  //   // .catch((err) => console.log('Error', err));
+  // }
+
   render() {
+// oussema
+//     var ProjectHistory = this.state.projects.map((project) => {
+//       return (
+//         <tr key={project._id}>
+//           <td>{project.title}</td>
+//           <td>{project.deadline.slice(0, 10)}</td>
+//           <th>{project.status}</th>
+//           <th>{project.progress}</th>
+//           <td className="text-center">
+//             <Button
+//               onClick={() => this.handleInfo(project._id)}
+//               color="link"
+//               id="buttonInfo"
+//               title=""
+//               type="button"
+//             >
+//               <i className="tim-icons icon-notes" />
+//             </Button>
+//           </td>
+//         </tr>
+//       );
+//     });
+
+//     if (this.state.view === 'false') {
+//       return (
+//         <>
+//           <div className="content">
+//             <Row>
+//               <Col md="12">
+//                 <Card>
+//                   <CardHeader>
+//                     <CardTitle tag="h4">Project List</CardTitle>
+//                   </CardHeader>
+//                   <CardBody>
+//                     <Table className="tablesorter" responsive>
+//                       <thead className="text-primary">
+//                         <tr>
+//                           <th>Title</th>
+//                           <th>Do before</th>
+//                           <th>Status</th>
+//                           <th>Progress</th>
+//                           <th className="text-center">Info</th>
+//                         </tr>
+//                       </thead>
+//                       <tbody>{ProjectHistory}</tbody>
+//                     </Table>
+//                   </CardBody>
+//                 </Card>
+//               </Col>
+//             </Row>
+//           </div>
+//         </>
+//       );
+//     } else {
+//       return <ProjectInfoMethods currentIndex={this.state.currentIndex} />;
+//     }
+// oussema
     var ProjectHistory1 = this.state.projects1.map((proj, i) => {
       return (<tr key={i}>
         <td>{proj.title}</td>
@@ -222,4 +304,4 @@ class Tables extends React.Component {
   }
 }
 
-export default Tables;
+export default ProjectHistoryMethods;

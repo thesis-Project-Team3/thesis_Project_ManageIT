@@ -63,9 +63,17 @@ class CreateProject extends React.Component {
   handleSubmit = (e) => {
     this.setState({ modal: !this.state.modal });
     e.preventDefault();
+    var ouss = {
+      department: this.state.profileInformations.department,
+      ...this.state.newProject,
+    };
+    console.log(ouss);
     axios
-      .post('http://localhost:5000/project/create', this.state.newProject)
-      .then((response) => { })
+      .post('http://localhost:5000/project/create', {
+        department: this.state.profileInformations.department,
+        ...this.state.newProject,
+      })
+      .then((response) => {})
 
       .catch((err) => console.log('Error', err));
   };

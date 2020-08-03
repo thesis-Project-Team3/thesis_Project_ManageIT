@@ -23,10 +23,31 @@ class UserProfile extends React.Component {
   state = {
     profileInformations: '',
     modal: false,
+    newInfos: {
+      address: '',
+      city: '',
+      postalCode: '',
+      aboutMe: '',
+    },
   };
 
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
+  handleSave = () => {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    axios
+      .patch(`http://localhost:5000/users/${user._id}`, this.state.newInfos)
+      .then((response) => {
+        this.setState({ modal: !this.state.modal });
+        console.log(response.data);
+      })
+      .catch((err) => console.log('Error', err));
+  };
+
+  handleChange = ({ currentTarget: input }) => {
+    const newInfos = { ...this.state.newInfos };
+    newInfos[input.name] = input.value;
+
+    this.setState({ newInfos });
   };
 
   componentDidMount() {
@@ -35,7 +56,7 @@ class UserProfile extends React.Component {
     axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         this.setState(
           {
             profileInformations: response.data[0],
@@ -112,6 +133,8 @@ class UserProfile extends React.Component {
                             defaultValue=""
                             placeholder="Home Address"
                             type="text"
+                            name="address"
+                            onChange={this.handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -124,6 +147,8 @@ class UserProfile extends React.Component {
                             defaultValue=""
                             placeholder="City"
                             type="text"
+                            name="city"
+                            onChange={this.handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -144,6 +169,8 @@ class UserProfile extends React.Component {
                             placeholder="ZIP Code"
                             type="number"
                             defaultValue=""
+                            name="postalCode"
+                            onChange={this.handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -158,6 +185,8 @@ class UserProfile extends React.Component {
                             placeholder="Here can be your description"
                             rows="4"
                             type="textarea"
+                            name="aboutMe"
+                            onChange={this.handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -169,7 +198,7 @@ class UserProfile extends React.Component {
                     className="btn-fill"
                     color="primary"
                     type="submit"
-                    onClick={this.toggle}
+                    onClick={this.handleSave}
                   >
                     Save
                   </Button>

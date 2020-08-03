@@ -17,7 +17,7 @@ router.post('/create', (req, res) => {
   });
 });
 
-// Router for creating projects
+// Router for getting projects
 router.get('/create', (req, res) => {
   Project.find({}, function (err, result) {
     if (err) {
@@ -28,11 +28,64 @@ router.get('/create', (req, res) => {
   });
 });
 
-// Router for updating projects
+// Router for getting a specified project (just one project)
+router.get('/create/:id', (req, res) => {
+  Project.find({ _id: req.params.id }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+// Router for getting specified projects by employee
+router.get('/projectsByEmployee/:userId', (req, res) => {
+  Project.find({ user: req.params.userId }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+// Router for getting specified projects by department
+router.get('/projectsByDepartment/:department', (req, res) => {
+  Project.find({ department: req.params.department }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+// Router for adding features to projects
 router.patch('/create/:title', (req, res) => {
   Project.findOneAndUpdate(
     { title: req.params.title },
-    { feature: req.body },
+    { $push: { feature: [req.body] } },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+// Router for updating status of projects features
+router.patch('/update/:featureTitle', (req, res) => {
+  Project.findOneAndUpdate(
+    { 'feature.featureTitle': req.params.featureTitle },
+    {
+      $set: {
+        'feature.$.featureStatus': req.body.featureStatus,
+        'feature.$.featureProgress': req.body.featureProgress,
+      },
+    },
     (err, result) => {
       if (err) {
         res.send(err);
