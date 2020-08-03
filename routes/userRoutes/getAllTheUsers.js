@@ -4,7 +4,6 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
   const arr = [];
   if (req.body.role === "Head") {
     await User.find({ department: req.body.department }, (err, data) => {
