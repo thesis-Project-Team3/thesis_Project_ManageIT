@@ -53,6 +53,8 @@ class UpdateProject extends React.Component {
       case 'Employee':
         newFeature.featureStatus =
           'Created by ' + user.department + ' Employee';
+        newFeature.featureProgress =
+          'Created by ' + user.department + ' Employee';
         break;
       case 'Head':
         newFeature.featureStatus = 'Created by ' + user.department + ' Head';

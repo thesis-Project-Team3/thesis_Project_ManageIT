@@ -121,7 +121,11 @@ class ProjectInfoEmployees extends React.Component {
                   </tr>
                   <tr>
                     <th scope="row">Status</th>
-                    <td>Larry</td>
+                    <td>{feat.featureStatus}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">In Progress</th>
+                    <td>{feat.featureProgress}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -165,7 +169,6 @@ class ProjectInfoEmployees extends React.Component {
                               </Col>
                             </Row>
                             <br></br>
-
                             <Row>
                               <Col>
                                 <div>

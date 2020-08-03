@@ -61,11 +61,33 @@ router.get('/projectsByDepartment/:department', (req, res) => {
   });
 });
 
-// Router for updating projects
+// Router for adding features to projects
 router.patch('/create/:title', (req, res) => {
   Project.findOneAndUpdate(
     { title: req.params.title },
     { $push: { feature: [req.body] } },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+// Router for updating status of projects features
+router.patch('/update/:featureTitle', (req, res) => {
+  console.log(req.body);
+  console.log(req.params.featureTitle);
+  Project.findOneAndUpdate(
+    { 'feature.featureTitle': req.params.featureTitle },
+    {
+      $set: {
+        'feature.$.featureStatus': req.body.featureStatus,
+        'feature.$.featureProgress': req.body.featureProgress,
+      },
+    },
     (err, result) => {
       if (err) {
         res.send(err);

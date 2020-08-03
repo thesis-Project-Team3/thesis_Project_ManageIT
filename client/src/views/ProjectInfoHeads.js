@@ -18,6 +18,8 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
+  UncontrolledCollapse,
+  Table,
 } from 'reactstrap';
 
 class ProjectInfoHeads extends React.Component {
@@ -43,12 +45,11 @@ class ProjectInfoHeads extends React.Component {
     });
   };
 
-  handleAccept = () => {
+  handleAccept = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
-    axios.post('http://localhost:5000/project/decline', {
-      status: 'In Progress',
-      progress: 'Sent to Method Department',
-      title: this.state.info.title,
+    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to Methods Department',
     });
   };
 
@@ -88,6 +89,86 @@ class ProjectInfoHeads extends React.Component {
         &times;
       </button>
     );
+
+    var list;
+    oneProjectInfo.feature
+      ? (list = oneProjectInfo.feature.map((feat, key) => {
+          return (
+            <div key={key}>
+              <Table striped>
+                <tbody>
+                  <tr>
+                    <th scope="row">Title</th>
+                    <td>{feat.featureTitle}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{feat.featureDescription}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Deadline</th>
+                    <td>{feat.featureDeadline}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Status</th>
+                    <td>{feat.featureStatus}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">In Progress</th>
+                    <td>{feat.featureProgress}</td>
+                  </tr>
+                </tbody>
+              </Table>
+              <br></br>
+
+              <Button
+                className="btn-fill"
+                color="primary"
+                type="submit"
+                onClick={() => this.handleAccept(feat.featureTitle)}
+              >
+                Submit To Methods
+              </Button>
+              <Button
+                className="btn-fill"
+                color="primary"
+                type="submit"
+                onClick={this.handleDecline}
+              >
+                Decline
+              </Button>
+              <div>
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  external={externalCloseBtn}
+                >
+                  <ModalBody>
+                    {' '}
+                    <br />{' '}
+                    <center>
+                      <Label for="exampleText">Reason :</Label>
+                      <Input type="textarea" name="text" id="exampleText" />
+                      <br />
+                      Project has been declined !
+                    </center>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle}
+                      href="/admin/projects-history"
+                    >
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </Modal>
+              </div>
+              <br></br>
+            </div>
+          );
+        }))
+      : (list = undefined);
     return (
       <>
         <div className="content">
@@ -111,31 +192,6 @@ class ProjectInfoHeads extends React.Component {
                               {oneProjectInfo.description}
                             </h4>
                             <Row>
-                              <Col className="pr-md-1" md="6">
-                                <ul className="list-style-none pl-0">
-                                  <li
-                                    style={{ marginLeft: '40px' }}
-                                    className="my-2"
-                                  >
-                                    <span className="mr-2">1.</span>{' '}
-                                    <span>Feature 1</span>
-                                  </li>
-                                  <li
-                                    style={{ marginLeft: '40px' }}
-                                    className="my-2"
-                                  >
-                                    <span className="mr-2">2.</span>{' '}
-                                    <span>Feature 2</span>
-                                  </li>
-                                  <li
-                                    style={{ marginLeft: '40px' }}
-                                    className="my-2"
-                                  >
-                                    <span className="mr-2">3.</span>{' '}
-                                    <span>Feature 3</span>
-                                  </li>
-                                </ul>
-                              </Col>
                               <Col
                                 style={{ marginTop: '30px' }}
                                 className="pr-md-1"
@@ -146,140 +202,31 @@ class ProjectInfoHeads extends React.Component {
                                 </span>
                               </Col>
                             </Row>
+                            <br></br>
+                            <Row>
+                              <Col>
+                                <div>
+                                  <Button
+                                    color="primary"
+                                    id="toggler"
+                                    style={{ marginBottom: '1rem' }}
+                                  >
+                                    Related Features
+                                  </Button>
+                                  <UncontrolledCollapse toggler="#toggler">
+                                    <Card>
+                                      <CardBody>{list}</CardBody>
+                                    </Card>
+                                  </UncontrolledCollapse>
+                                </div>
+                              </Col>
+                            </Row>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <Label for="exampleFile">Upload your files :</Label>
-                          <CustomInput
-                            type="file"
-                            id="exampleFile"
-                            name="customFile"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pr-md-1" md="4">
-                        <Button
-                          className="btn-fill"
-                          color="primary"
-                          type="submit"
-                          style={{ marginTop: '25px', marginLeft: '70px' }}
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Upload
-                        </Button>
-                      </Col>
-                    </Row>
-
-                    {/*   <Row>
-                      <Col className="pr-md-1" md="5">
-                        <FormGroup>
-                          <label>Department</label>
-                          <Input
-                            Value={this.state.info.department}
-                            disabled
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="6">
-                        <FormGroup>
-                          <label>Title</label>
-                          <Input
-                            type="text"
-                            value={this.state.info.title}
-                            disabled
-                            id="title"
-                            name="title"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="11">
-                        <FormGroup>
-                          <label>Project Description</label>
-                          <Input
-                            cols="100"
-                            rows="10"
-                            type="textarea"
-                            value={this.state.info.description}
-                            disabled
-                            id="description"
-                            name="description"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={5} md={10} className="px-md-1">
-                        <Card>
-                          <CardBody>
-                            <FormGroup>
-                              <Label className="label-control">Deadline :</Label>
-                              <Input
-                                value={this.state.info.deadline}
-                                className="form-control datetimepicker"
-                                disabled
-                                type="date"
-                                id="deadline"
-                                name="deadline"
-                              />
-                            </FormGroup>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row> */}
                   </Form>
                 </CardBody>
-                <CardFooter>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleAccept}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleDecline}
-                  >
-                    Decline
-                  </Button>
-                  <div>
-                    <Modal
-                      isOpen={this.state.modal}
-                      toggle={this.toggle}
-                      external={externalCloseBtn}
-                    >
-                      <ModalBody>
-                        {' '}
-                        <br />{' '}
-                        <center>
-                          <Label for="exampleText">Reason :</Label>
-                          <Input type="textarea" name="text" id="exampleText" />
-                          <br />
-                          Project has been declined !
-                        </center>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button
-                          color="secondary"
-                          onClick={this.toggle}
-                          href="/admin/projects-history"
-                        >
-                          Close
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-                  </div>
-                </CardFooter>
               </Card>
             </Col>
             <Col md="4">
