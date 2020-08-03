@@ -34,6 +34,8 @@ class UpdateProject extends React.Component {
         featureTitle: '',
         featureDescription: '',
         featureDeadline: '',
+        featureStatus: '',
+        featureProgress: '',
       },
     };
   }
@@ -43,8 +45,19 @@ class UpdateProject extends React.Component {
   };
 
   handleChange = ({ currentTarget: input }) => {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
     const newFeature = { ...this.state.newFeature };
     newFeature[input.name] = input.value;
+    switch (user.role) {
+      case 'Employee':
+        newFeature.featureStatus =
+          'Created by ' + user.department + ' Employee';
+        break;
+      case 'Head':
+        newFeature.featureStatus = 'Created by ' + user.department + ' Head';
+        break;
+    }
     this.setState({ newFeature });
   };
 
@@ -63,9 +76,18 @@ class UpdateProject extends React.Component {
   };
 
   componentDidMount() {
-    //getting user department
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
+    switch (user.role) {
+      case 'Employee':
+        this.state.featureStatus =
+          'Created by ' + user.department + ' Employee';
+        break;
+      case 'Head':
+        this.state.featureStatus = 'Created by ' + user.department + ' Head';
+        break;
+    }
+    //getting user department
     axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {

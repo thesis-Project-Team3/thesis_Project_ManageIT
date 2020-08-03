@@ -6,6 +6,8 @@ const featuresSchema = new Schema({
   featureTitle: { type: String },
   featureDescription: { type: String },
   featureDeadline: { type: String },
+  featureStatus: { type: String },
+  featureProgress: { type: String },
 });
 
 const projectSchema = new Schema({

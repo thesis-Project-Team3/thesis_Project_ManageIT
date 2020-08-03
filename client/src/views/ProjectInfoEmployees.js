@@ -19,6 +19,7 @@ import {
   ModalBody,
   ModalFooter,
   UncontrolledCollapse,
+  Table,
 } from 'reactstrap';
 
 class ProjectInfoEmployees extends React.Component {
@@ -76,7 +77,7 @@ class ProjectInfoEmployees extends React.Component {
       .then((response) => {
         // console.log(response.data[0]);
         this.setState({ oneProjectInfo: response.data[0] });
-        console.log(this.state.oneProjectInfo.feature[0]);
+        console.log(this.state.oneProjectInfo);
       });
 
     //
@@ -99,14 +100,37 @@ class ProjectInfoEmployees extends React.Component {
         &times;
       </button>
     );
+    var list;
+    oneProjectInfo.feature
+      ? (list = oneProjectInfo.feature.map((feat, key) => {
+          return (
+            <>
+              <Table striped key={key}>
+                <tbody>
+                  <tr>
+                    <th scope="row">Title</th>
+                    <td>{feat.featureTitle}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{feat.featureDescription}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Deadline</th>
+                    <td>{feat.featureDeadline}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Status</th>
+                    <td>Larry</td>
+                  </tr>
+                </tbody>
+              </Table>
+              <br></br>
+            </>
+          );
+        }))
+      : (list = undefined);
 
-    // var options = this.state.oneProjectInfo.feature.map((feature, key) => {
-    //   return (
-    //     <option key={key} value={feature.featureTitle}>
-    //       {feature.featureTitle}
-    //     </option>
-    //   );
-    // });
     return (
       <>
         <div className="content">
@@ -141,54 +165,25 @@ class ProjectInfoEmployees extends React.Component {
                               </Col>
                             </Row>
                             <br></br>
-                            <Row>
-                              <Col className="pr-md-1" md="6">
-                                <FormGroup>
-                                  <Label for="singleSelect">
-                                    Related Features :
-                                  </Label>
-                                  <Input
-                                    defaultValue="Select A Feature"
-                                    type="select"
-                                    name="singleSelect"
-                                    id="features"
-                                    required
-                                  ></Input>
-                                </FormGroup>
-                              </Col>
-                            </Row>
+
                             <Row>
                               <Col>
                                 <div>
-                                  <UncontrolledCollapse toggler="#features">
+                                  <Button
+                                    color="primary"
+                                    id="toggler"
+                                    style={{ marginBottom: '1rem' }}
+                                  >
+                                    My Features
+                                  </Button>
+                                  <UncontrolledCollapse toggler="#toggler">
                                     <Card>
                                       <CardHeader>
                                         <h5 className="feature-title">
                                           Feature title
                                         </h5>
                                       </CardHeader>
-                                      <CardBody>
-                                        <Row>
-                                          Lorem ipsum dolor sit amet consectetur
-                                          adipisicing elit. Nesciunt magni,
-                                          voluptas debitis similique porro a
-                                          molestias consequuntur earum odio
-                                          officiis natus, amet hic, iste sed
-                                          dignissimos esse fuga! Minus, alias.
-                                        </Row>
-                                        <Row>
-                                          <Col
-                                            style={{ marginTop: '30px' }}
-                                            className="pr-md-1"
-                                            md="6"
-                                          >
-                                            <span className="mr-2">
-                                              Deadline :{' '}
-                                              {oneProjectInfo.deadline}
-                                            </span>
-                                          </Col>
-                                        </Row>
-                                      </CardBody>
+                                      <CardBody>{list}</CardBody>
                                     </Card>
                                   </UncontrolledCollapse>
                                 </div>
@@ -198,174 +193,8 @@ class ProjectInfoEmployees extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <Row>
-                      <Col className="pr-md-1" md="6">
-                        <FormGroup>
-                          <Label for="exampleFile">Upload your files :</Label>
-                          <CustomInput
-                            type="file"
-                            id="exampleFile"
-                            name="customFile"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pr-md-1" md="4">
-                        <Button
-                          className="btn-fill"
-                          color="primary"
-                          type="submit"
-                          style={{ marginTop: '25px', marginLeft: '70px' }}
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          Upload
-                        </Button>
-                      </Col>
-                    </Row>
-
-                    {/*   <Row>
-                      <Col className="pr-md-1" md="5">
-                        <FormGroup>
-                          <label>Department</label>
-                          <Input
-                            Value={this.state.info.department}
-                            disabled
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-md-1" md="6">
-                        <FormGroup>
-                          <label>Title</label>
-                          <Input
-                            type="text"
-                            value={this.state.info.title}
-                            disabled
-                            id="title"
-                            name="title"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="11">
-                        <FormGroup>
-                          <label>Project Description</label>
-                          <Input
-                            cols="100"
-                            rows="10"
-                            type="textarea"
-                            value={this.state.info.description}
-                            disabled
-                            id="description"
-                            name="description"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={5} md={10} className="px-md-1">
-                        <Card>
-                          <CardBody>
-                            <FormGroup>
-                              <Label className="label-control">Deadline :</Label>
-                              <Input
-                                value={this.state.info.deadline}
-                                className="form-control datetimepicker"
-                                disabled
-                                type="date"
-                                id="deadline"
-                                name="deadline"
-                              />
-                            </FormGroup>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row> */}
                   </Form>
                 </CardBody>
-                <CardFooter>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleAccept}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.handleDecline}
-                  >
-                    Decline
-                  </Button>
-                  <div>
-                    <Modal
-                      isOpen={this.state.modal}
-                      toggle={this.toggle}
-                      external={externalCloseBtn}
-                    >
-                      <ModalBody>
-                        {' '}
-                        <br />{' '}
-                        <center>
-                          <Label for="exampleText">Reason :</Label>
-                          <Input type="textarea" name="text" id="exampleText" />
-                          <br />
-                          Project has been declined !
-                        </center>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button
-                          color="secondary"
-                          onClick={this.toggle}
-                          href="/admin/projects-history"
-                        >
-                          Close
-                        </Button>
-                      </ModalFooter>
-                    </Modal>
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col md="4">
-              <Card className="card-user">
-                <CardBody>
-                  <CardText />
-                  <div className="author">
-                    <div className="block block-one" />
-                    <div className="block block-two" />
-                    <div className="block block-three" />
-                    <div className="block block-four" />
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        className="avatar"
-                        src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
-                      />
-                      <h5 className="title">{profileInformations.fullname}</h5>
-                    </a>
-                    <p className="description">
-                      {profileInformations.department} Department Employee
-                    </p>
-                  </div>
-                  <div className="card-description">ME .......</div>
-                </CardBody>
-                <CardFooter>
-                  <div className="button-container">
-                    <Button className="btn-icon btn-round" color="facebook">
-                      <i className="fab fa-facebook" />
-                    </Button>
-                    <Button className="btn-icon btn-round" color="twitter">
-                      <i className="fab fa-twitter" />
-                    </Button>
-                    <Button className="btn-icon btn-round" color="google">
-                      <i className="fab fa-google-plus" />
-                    </Button>
-                  </div>
-                </CardFooter>
               </Card>
             </Col>
           </Row>
