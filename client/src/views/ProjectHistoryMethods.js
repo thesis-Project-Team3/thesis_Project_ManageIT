@@ -320,9 +320,3 @@ class ProjectHistoryMethods extends React.Component {
 }
 
 export default ProjectHistoryMethods;
-
-// {this.state.ProjHistory === 'data1'
-//                         ? ProjectHistory1
-//                         : this.state.ProjHistory === 'data2'
-//                         ? ProjectHistory2
-//                         : ProjectHistory3}
