@@ -46,12 +46,11 @@ class ProjectInfoEmployees extends React.Component {
     });
   };
 
-  handleAccept = () => {
+  handleAccept = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
-    axios.post('http://localhost:5000/project/decline', {
-      status: 'In Progress',
-      progress: 'Sent to Method Department',
-      title: this.state.info.title,
+    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to the Head of Department',
     });
   };
 
@@ -130,6 +129,14 @@ class ProjectInfoEmployees extends React.Component {
                 </tbody>
               </Table>
               <br></br>
+              <Button
+                className="btn-fill"
+                color="primary"
+                type="submit"
+                onClick={() => this.handleAccept(feat.featureTitle)}
+              >
+                Submit To Head
+              </Button>
             </>
           );
         }))

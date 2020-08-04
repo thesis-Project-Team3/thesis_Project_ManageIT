@@ -26,7 +26,6 @@ class CreateProject extends React.Component {
       department: '',
       description: '',
       deadline: '',
-      status: 'Created',
       user: jwtDecode(localStorage.getItem('token')),
     },
     profileInformations: '',
@@ -44,7 +43,7 @@ class CreateProject extends React.Component {
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         console.log(response.data);
-        this.state.newProject.department = response.data[0].department
+        this.state.newProject.department = response.data[0].department;
         this.setState(
           {
             profileInformations: response.data[0],
@@ -63,15 +62,11 @@ class CreateProject extends React.Component {
   handleSubmit = (e) => {
     this.setState({ modal: !this.state.modal });
     e.preventDefault();
-    var ouss = {
-      department: this.state.profileInformations.department,
-      ...this.state.newProject,
-    };
-    console.log(ouss);
     axios
       .post('http://localhost:5000/project/create', {
         department: this.state.profileInformations.department,
         ...this.state.newProject,
+        status: `Created by ${this.state.profileInformations.fullname}`,
       })
       .then((response) => {})
 

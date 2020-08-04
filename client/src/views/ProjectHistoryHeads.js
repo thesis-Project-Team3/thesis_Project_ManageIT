@@ -31,6 +31,7 @@ class ProjectHistoryHeads extends React.Component {
         `http://localhost:5000/project/projectsByDepartment/${user.department}`
       )
       .then((response) => {
+        console.log(response.data);
         this.setState({ projects: response.data });
       });
   }

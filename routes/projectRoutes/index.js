@@ -56,7 +56,20 @@ router.get('/projectsByDepartment/:department', (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      res.send(result);
+      let arr = [];
+      for (var i in result) {
+        for (var j in result[i].feature) {
+          if (
+            result[i].feature[j].featureProgress ===
+              'Sent to the Head of Department' &&
+            !arr.includes(result[i])
+          ) {
+            arr.push(result[i]);
+          }
+        }
+      }
+
+      res.send(arr);
     }
   });
 });
