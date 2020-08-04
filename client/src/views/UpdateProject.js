@@ -104,7 +104,7 @@ class UpdateProject extends React.Component {
     //getting user projects by department
     axios
       .get(
-        `http://localhost:5000/project/projectsByDepartment/${user.department}`
+        `http://localhost:5000/project/update/projectsByDepartment/${user.department}`
       )
       .then((response) => {
         console.log(response.data);
@@ -169,7 +169,9 @@ class UpdateProject extends React.Component {
                             id="inputSelect"
                             required
                           >
-                            <option selected="selected" disabled>Choose a Project</option>
+                            <option selected="selected" disabled>
+                              Choose a Project
+                            </option>
                             {options}
                           </Input>
                         </FormGroup>

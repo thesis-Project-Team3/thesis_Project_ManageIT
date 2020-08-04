@@ -74,6 +74,17 @@ router.get('/projectsByDepartment/:department', (req, res) => {
   });
 });
 
+// Router for getting specified projects by department
+router.get('/update/projectsByDepartment/:department', (req, res) => {
+  Project.find({ department: req.params.department }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 // Router for adding features to projects
 router.patch('/create/:title', (req, res) => {
   Project.findOneAndUpdate(
