@@ -96,30 +96,38 @@ router.patch('/update/:featureTitle', (req, res) => {
   );
 });
 
-// Router for filtering method projects
+// Router for filtering methods projects
 router.get('/methods', (req, res) => {
   Project.find({}, function (err, result) {
     if (err) {
       res.send(err);
     } else {
-      var arr1 = []
-      var arr2 = []
-      var arr3 = []
-      var arr4 = []
+      var arr1 = [];
+      var arr2 = [];
+      var arr3 = [];
+      var arr4 = [];
       for (var i = 0; i < result.length; i++) {
-        if (result[i].department === "Methods") {
-          arr1.push(result[i])
+        if (result[i].department === 'Methods') {
+          arr1.push(result[i]);
+        } else if (result[i].progress === 'Sent back to Method Department') {
+          arr3.push(result[i]);
         }
-        else if (result[i].progress === "Sent to Method Department") {
-          arr2.push(result[i])
-        }
-        else if (result[i].progress === "Sent back to Method Department") {
-          arr3.push(result[i])
+
+        for (var j in result[i].feature) {
+          if (
+            result[i].feature[j].featureProgress ===
+            'Sent to Methods Department'
+          ) {
+            if (!arr2.includes(result[i])) {
+              arr2.push(result[i]);
+            }
+          }
         }
       }
-      arr4.push(arr1)
-      arr4.push(arr2)
-      arr4.push(arr3)
+
+      arr4.push(arr1);
+      arr4.push(arr2);
+      arr4.push(arr3);
       res.send(arr4);
     }
   });
@@ -131,19 +139,18 @@ router.get('/it', (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      var arr1 = []
-      var arr2 = []
-      var arr4 = []
+      var arr1 = [];
+      var arr2 = [];
+      var arr4 = [];
       for (var i = 0; i < result.length; i++) {
-        if (result[i].department === "IT") {
-          arr1.push(result[i])
-        }
-        else if (result[i].progress === "Sent to IT Department") {
-          arr2.push(result[i])
+        if (result[i].department === 'IT') {
+          arr1.push(result[i]);
+        } else if (result[i].progress === 'Sent to IT Department') {
+          arr2.push(result[i]);
         }
       }
-      arr4.push(arr1)
-      arr4.push(arr2)
+      arr4.push(arr1);
+      arr4.push(arr2);
       res.send(arr4);
     }
   });

@@ -36,20 +36,11 @@ class ProjectInfoMethods extends React.Component {
     this.setState({ modal: !this.state.modal });
   };
 
-  handleDecline = () => {
-    this.setState({ modal: !this.state.modal });
-    axios.post('http://localhost:5000/project/decline', {
-      status: 'Finished',
-      progress: 'Declined by the Head of Department',
-      title: this.state.info.title,
-    });
-  };
-
   handleAccept = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
-      featureProgress: 'Sent to Methods Department',
+      featureProgress: 'Sent to IT Department',
     });
   };
 
@@ -127,16 +118,9 @@ class ProjectInfoMethods extends React.Component {
                 type="submit"
                 onClick={() => this.handleAccept(feat.featureTitle)}
               >
-                Submit To Methods
+                Submit To IT
               </Button>
-              <Button
-                className="btn-fill"
-                color="primary"
-                type="submit"
-                onClick={this.handleDecline}
-              >
-                Decline
-              </Button>
+
               <div>
                 <Modal
                   isOpen={this.state.modal}

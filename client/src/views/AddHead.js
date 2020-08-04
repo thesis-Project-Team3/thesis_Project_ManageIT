@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 // reactstrap components
 import {
   Button,
@@ -18,56 +18,56 @@ import {
   Container,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 
 class RegisterHead extends React.Component {
   componentDidMount() {
-    document.body.classList.toggle("register-page");
+    document.body.classList.toggle('register-page');
   }
   componentWillUnmount() {
-    document.body.classList.toggle("register-page");
+    document.body.classList.toggle('register-page');
   }
   // const DatePicker = require("reactstrap-date-picker");
   async fillHeadFormOnSubmit(e) {
     e.preventDefault();
-    var firstName = document.getElementById("firstName").value;
-    var lastName = document.getElementById("lastName").value;
-    var fullname = firstName + " " + lastName;
-    var email = document.getElementById("email").value;
-    var headDepartment = document.getElementById("department").value;
-    const department;
-    if(headDepartment === "Head of Financial Department"){
-      department = "Financial"
-    }else if(headDepartment === "Head of Accounting Department"){
-      department = "Accounting"
-    }else if(headDepartment === "Head of Marketing Department"){
-      department = "Marketing"
-    }else if(headDepartment === "Head of Human Ressources Department"){
-      department = "Human Ressources"
-    }else if(headDepartment === "Head of Methods Department"){
-      department = "Methods"
-    }else if(headDepartment === "Head of IT Department"){
-      department = "IT"
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var fullname = firstName + ' ' + lastName;
+    var email = document.getElementById('email').value;
+    var headDepartment = document.getElementById('department').value;
+    const department = 0;
+    if (headDepartment === 'Head of Financial Department') {
+      department = 'Financial';
+    } else if (headDepartment === 'Head of Accounting Department') {
+      department = 'Accounting';
+    } else if (headDepartment === 'Head of Marketing Department') {
+      department = 'Marketing';
+    } else if (headDepartment === 'Head of Human Ressources Department') {
+      department = 'Human Ressources';
+    } else if (headDepartment === 'Head of Methods Department') {
+      department = 'Methods';
+    } else if (headDepartment === 'Head of IT Department') {
+      department = 'IT';
     }
-    var role = "Head";
-    var dateOfBirth = document.getElementById("dateOfBirth").value;
-    var phoneNumber = document.getElementById("phoneNumber").value;
-    var password = document.getElementById("Password").value;
+    var role = 'Head';
+    var dateOfBirth = document.getElementById('dateOfBirth').value;
+    var phoneNumber = document.getElementById('phoneNumber').value;
+    var password = document.getElementById('Password').value;
     if (
-      firstName === "" ||
-      lastName === "" ||
-      email === "" ||
-      headDepartment === "" ||
-      role === "" ||
-      dateOfBirth === "" ||
-      phoneNumber === "" ||
-      password === ""
+      firstName === '' ||
+      lastName === '' ||
+      email === '' ||
+      headDepartment === '' ||
+      role === '' ||
+      dateOfBirth === '' ||
+      phoneNumber === '' ||
+      password === ''
     ) {
-      alert("fill all the form please!!");
+      alert('fill all the form please!!');
       return;
     }
-    await fetch("http://localhost:5000/CreateNewHeadDepartment", {
-      method: "POST",
+    await fetch('http://localhost:5000/CreateNewHeadDepartment', {
+      method: 'POST',
       body: JSON.stringify({
         fullname,
         email,
@@ -78,17 +78,17 @@ class RegisterHead extends React.Component {
         password,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     // .then(() => {});
-    document.getElementById("firstName").value = "";
-    document.getElementById("lastName").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("department").value = "";
-    document.getElementById("dateOfBirth").value = "";
-    document.getElementById("phoneNumber").value = "";
-    document.getElementById("Password").value = "";
+    document.getElementById('firstName').value = '';
+    document.getElementById('lastName').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('department').value = '';
+    document.getElementById('dateOfBirth').value = '';
+    document.getElementById('phoneNumber').value = '';
+    document.getElementById('Password').value = '';
   }
   render() {
     return (
@@ -99,7 +99,7 @@ class RegisterHead extends React.Component {
               <Form className="form">
                 <Card className="card-register card-white">
                   <CardHeader>
-                    <img alt="..." src={require("./card-primary.png")} />
+                    <img alt="..." src={require('./card-primary.png')} />
                     <CardTitle tag="h1">Add Head of Department</CardTitle>
                   </CardHeader>
                   <CardBody>
