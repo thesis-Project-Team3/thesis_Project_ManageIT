@@ -47,8 +47,8 @@ class CreateProject extends React.Component {
         this.setState(
           {
             profileInformations: response.data[0],
-          },
-          () => console.log(this.state.profileInformations.fullname)
+          }
+          // () => console.log(this.state.profileInformations.fullname)
         );
       })
       .catch((err) => console.log('Error', err));
@@ -66,7 +66,8 @@ class CreateProject extends React.Component {
       .post('http://localhost:5000/project/create', {
         department: this.state.profileInformations.department,
         ...this.state.newProject,
-        status: `Created by ${this.state.profileInformations.fullname}`,
+        status: 'Created',
+        progress: `Created by ${this.state.profileInformations.fullname}`,
       })
       .then((response) => {})
 

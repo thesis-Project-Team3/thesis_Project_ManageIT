@@ -51,13 +51,12 @@ class UpdateProject extends React.Component {
     newFeature[input.name] = input.value;
     switch (user.role) {
       case 'Employee':
-        newFeature.featureStatus =
-          'Created by ' + user.department + ' Employee';
-        newFeature.featureProgress =
-          'Created by ' + user.department + ' Employee';
+        newFeature.featureStatus = 'Created';
+        newFeature.featureProgress = `Created by ${this.state.profileInformations.fullname}`;
         break;
       case 'Head':
-        newFeature.featureStatus = 'Created by ' + user.department + ' Head';
+        newFeature.featureStatus = 'Created';
+        newFeature.featureProgress = `Created by ${this.state.profileInformations.fullname} Head`;
         break;
     }
     this.setState({ newFeature });
@@ -80,20 +79,20 @@ class UpdateProject extends React.Component {
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
-    switch (user.role) {
-      case 'Employee':
-        this.state.featureStatus =
-          'Created by ' + user.department + ' Employee';
-        break;
-      case 'Head':
-        this.state.featureStatus = 'Created by ' + user.department + ' Head';
-        break;
-    }
+    // switch (user.role) {
+    //   case 'Employee':
+    //     this.state.featureStatus =
+    //       'Created by ' + user.department + ' Employee';
+    //     break;
+    //   case 'Head':
+    //     this.state.featureStatus = 'Created by ' + user.department + ' Head';
+    //     break;
+    // }
     //getting user department
     axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         this.setState({
           profileInformations: response.data[0],
         });
@@ -107,7 +106,7 @@ class UpdateProject extends React.Component {
         `http://localhost:5000/project/update/projectsByDepartment/${user.department}`
       )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({ projects: response.data });
       });
   }
