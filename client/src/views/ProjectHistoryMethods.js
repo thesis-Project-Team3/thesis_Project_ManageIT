@@ -162,6 +162,7 @@ class ProjectHistoryMethods extends React.Component {
       return (
         <tr key={project._id}>
           <td>{project.title}</td>
+          <td>{project.department}</td>
           <td>{project.deadline.slice(0, 10)}</td>
           <th>{project.status}</th>
           <th>{project.progress}</th>
@@ -292,6 +293,10 @@ class ProjectHistoryMethods extends React.Component {
                       <thead className="text-primary">
                         <tr>
                           <th>Title</th>
+                          {this.state.ProjHistory === 'data2' ||
+                          this.state.ProjHistory === 'data3' ? (
+                            <th>Department</th>
+                          ) : null}
                           <th>Do before</th>
                           <th>Status</th>
                           <th>Progress</th>
