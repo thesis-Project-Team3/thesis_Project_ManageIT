@@ -177,7 +177,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -258,7 +258,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -356,7 +356,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -437,7 +437,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -497,7 +497,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
