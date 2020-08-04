@@ -257,5 +257,4 @@ class ProjectInfoMethods extends React.Component {
     );
   }
 }
-
 export default ProjectInfoMethods;
