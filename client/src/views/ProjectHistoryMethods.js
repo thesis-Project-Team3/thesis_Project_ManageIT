@@ -297,7 +297,7 @@ class ProjectHistoryMethods extends React.Component {
                           this.state.ProjHistory === 'data3' ? (
                             <th>Department</th>
                           ) : null}
-                          <th>Do before</th>
+                          <th>Do it before</th>
                           <th>Status</th>
                           <th>Progress</th>
                           <th className="text-center">Info</th>

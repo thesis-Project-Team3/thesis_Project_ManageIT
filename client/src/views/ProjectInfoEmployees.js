@@ -123,7 +123,7 @@ class ProjectInfoEmployees extends React.Component {
                     <td>{feat.featureStatus}</td>
                   </tr>
                   <tr>
-                    <th scope="row">In Progress</th>
+                    <th scope="row">Progress</th>
                     <td>{feat.featureProgress}</td>
                   </tr>
                 </tbody>

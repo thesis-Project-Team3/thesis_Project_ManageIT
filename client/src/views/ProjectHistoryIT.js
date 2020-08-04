@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import classNames from "classnames";
+import classNames from 'classnames';
 // reactstrap components
 import {
   Card,
@@ -11,7 +11,7 @@ import {
   Row,
   Col,
   Button,
-  ButtonGroup
+  ButtonGroup,
 } from 'reactstrap';
 
 class Tables extends React.Component {
@@ -20,13 +20,13 @@ class Tables extends React.Component {
     this.state = {
       projects1: [],
       projects2: [],
-      ProjHistory: "data1"
+      ProjHistory: 'data1',
     };
   }
 
-  setProject = name => {
+  setProject = (name) => {
     this.setState({
-      ProjHistory: name
+      ProjHistory: name,
     });
   };
 
@@ -51,43 +51,47 @@ class Tables extends React.Component {
 
   render() {
     var ProjectHistory1 = this.state.projects1.map((proj, i) => {
-      return (<tr key={i}>
-        <td>{proj.title}</td>
-        <td>{proj.deadline}</td>
-        <th>{proj.status}</th>
-        <th>{proj.progress}</th>
-        <td className="text-center">
-          <Button
-            onClick={this.handleSubmit.bind(this, i)}
-            color="link"
-            id="buttonInfo"
-            title=""
-            type="button"
-          >
-            <i className="tim-icons icon-notes" />
-          </Button>
-        </td>
-      </tr>)
-    })
+      return (
+        <tr key={i}>
+          <td>{proj.title}</td>
+          <td>{proj.deadline}</td>
+          <th>{proj.status}</th>
+          <th>{proj.progress}</th>
+          <td className="text-center">
+            <Button
+              onClick={this.handleSubmit.bind(this, i)}
+              color="link"
+              id="buttonInfo"
+              title=""
+              type="button"
+            >
+              <i className="tim-icons icon-notes" />
+            </Button>
+          </td>
+        </tr>
+      );
+    });
     var ProjectHistory2 = this.state.projects2.map((proj, i) => {
-      return (<tr key={i}>
-        <td>{proj.title}</td>
-        <td>{proj.deadline}</td>
-        <th>{proj.status}</th>
-        <th>{proj.progress}</th>
-        <td className="text-center">
-          <Button
-            onClick={this.handleSubmit.bind(this, i)}
-            color="link"
-            id="buttonInfo"
-            title=""
-            type="button"
-          >
-            <i className="tim-icons icon-notes" />
-          </Button>
-        </td>
-      </tr>)
-    })
+      return (
+        <tr key={i}>
+          <td>{proj.title}</td>
+          <td>{proj.deadline}</td>
+          <th>{proj.status}</th>
+          <th>{proj.progress}</th>
+          <td className="text-center">
+            <Button
+              onClick={this.handleSubmit.bind(this, i)}
+              color="link"
+              id="buttonInfo"
+              title=""
+              type="button"
+            >
+              <i className="tim-icons icon-notes" />
+            </Button>
+          </td>
+        </tr>
+      );
+    });
     return (
       <>
         <div className="content">
@@ -97,8 +101,7 @@ class Tables extends React.Component {
                 <CardHeader>
                   <CardTitle tag="h4">Project List</CardTitle>
                   <Row>
-                    <Col className="text-left" sm="6">
-                    </Col>
+                    <Col className="text-left" sm="6"></Col>
                     <Col sm="6">
                       <ButtonGroup
                         className="btn-group-toggle float-right"
@@ -106,13 +109,13 @@ class Tables extends React.Component {
                       >
                         <Button
                           tag="label"
-                          className={classNames("btn-simple", {
-                            active: this.state.ProjHistory === "data1"
+                          className={classNames('btn-simple', {
+                            active: this.state.ProjHistory === 'data1',
                           })}
                           color="info"
                           id="0"
                           size="sm"
-                          onClick={() => this.setProject("data1")}
+                          onClick={() => this.setProject('data1')}
                         >
                           <input
                             defaultChecked
@@ -132,10 +135,10 @@ class Tables extends React.Component {
                           id="1"
                           size="sm"
                           tag="label"
-                          className={classNames("btn-simple", {
-                            active: this.state.ProjHistory === "data2"
+                          className={classNames('btn-simple', {
+                            active: this.state.ProjHistory === 'data2',
                           })}
-                          onClick={() => this.setProject("data2")}
+                          onClick={() => this.setProject('data2')}
                         >
                           <input
                             className="d-none"
@@ -158,15 +161,17 @@ class Tables extends React.Component {
                     <thead className="text-primary">
                       <tr>
                         <th>Title</th>
-                        <th>Do before</th>
+                        <th>Do it before</th>
                         <th>Status</th>
                         <th>Progress</th>
                         <th className="text-center">Info</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.ProjHistory === "data1" ? ProjectHistory1 :
-                        ProjectHistory2}</tbody>
+                      {this.state.ProjHistory === 'data1'
+                        ? ProjectHistory1
+                        : ProjectHistory2}
+                    </tbody>
                   </Table>
                 </CardBody>
               </Card>
