@@ -46,7 +46,7 @@ class ProjectInfoEmployees extends React.Component {
     });
   };
 
-  handleAccept = (featureTitle) => {
+  handleSubmit = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
@@ -133,7 +133,7 @@ class ProjectInfoEmployees extends React.Component {
                 className="btn-fill"
                 color="primary"
                 type="submit"
-                onClick={() => this.handleAccept(feat.featureTitle)}
+                onClick={() => this.handleSubmit(feat.featureTitle)}
               >
                 Submit To Head
               </Button>

@@ -31,6 +31,7 @@ class UpdateProject extends React.Component {
       modal: false,
       profileInformations: '',
       newFeature: {
+        featureCreator: '',
         featureTitle: '',
         featureDescription: '',
         featureDeadline: '',
@@ -48,6 +49,7 @@ class UpdateProject extends React.Component {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     const newFeature = { ...this.state.newFeature };
+    newFeature.featureCreator = user._id;
     newFeature[input.name] = input.value;
     switch (user.role) {
       case 'Employee':
@@ -56,7 +58,7 @@ class UpdateProject extends React.Component {
         break;
       case 'Head':
         newFeature.featureStatus = 'Created';
-        newFeature.featureProgress = `Created by ${this.state.profileInformations.fullname} Head`;
+        newFeature.featureProgress = `Created by ${this.state.profileInformations.department} Head`;
         break;
     }
     this.setState({ newFeature });

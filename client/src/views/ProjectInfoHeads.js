@@ -28,6 +28,7 @@ class ProjectInfoHeads extends React.Component {
     this.state = {
       oneProjectInfo: [],
       profileInformations: '',
+      usersList: [],
       modal: false,
     };
   }
@@ -53,6 +54,14 @@ class ProjectInfoHeads extends React.Component {
     });
   };
 
+  getFeatureCreator = (id) => {
+    for (var i in this.state.usersList) {
+      if (this.state.usersList[i]._id === id) {
+        return this.state.usersList[i].fullname;
+      }
+    }
+  };
+
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
@@ -76,6 +85,12 @@ class ProjectInfoHeads extends React.Component {
         console.log(response.data[0]);
         this.setState({ oneProjectInfo: response.data[0] });
       });
+    //-------------------------------
+    //get all the list of all users for feature creator
+    axios.get('http://localhost:5000/users/').then((response) => {
+      console.log(response.data);
+      this.setState({ usersList: response.data });
+    });
   }
 
   render() {
@@ -97,6 +112,10 @@ class ProjectInfoHeads extends React.Component {
             <div key={key}>
               <Table striped>
                 <tbody>
+                  <tr>
+                    <th scope="row">Creator</th>
+                    <td>{this.getFeatureCreator(feat.featureCreator)}</td>
+                  </tr>
                   <tr>
                     <th scope="row">Title</th>
                     <td>{feat.featureTitle}</td>
