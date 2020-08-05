@@ -20,10 +20,15 @@ class ProjectHistoryEmployees extends React.Component {
     this.state = {
       projects: [],
       userFeatures: [],
+      users: [],
       currentIndex: '',
       view: 'false',
     };
   }
+  findUser = (projectUser) => {
+    var user = this.state.users.find((u) => u._id === projectUser);
+    if (user) return user.fullname;
+  };
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
@@ -31,7 +36,7 @@ class ProjectHistoryEmployees extends React.Component {
     axios
       .get(`http://localhost:5000/project/projectsByEmployee/${user._id}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({ projects: response.data });
       });
 
@@ -40,9 +45,14 @@ class ProjectHistoryEmployees extends React.Component {
     axios
       .get(`http://localhost:5000/project/featuresByEmployee/${user._id}`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({ userFeatures: response.data });
       });
+    //get the the list of projects by user
+    axios.get('http://localhost:5000/users').then((response) => {
+      console.log(response.data);
+      this.setState({ users: response.data });
+    });
   }
 
   handleInfo = (id) => {
@@ -70,27 +80,29 @@ class ProjectHistoryEmployees extends React.Component {
       }
     }
     console.log(all);
-    var ProjectHistory = this.state.projects.map((project) => {
-      return (
-        <tr key={project._id}>
-          <td>{project.title}</td>
-          <td>{project.creator}</td>
-          <td>{project.deadline.slice(0, 10)}</td>
-          <th>{project.status}</th>
-          <th>{project.progress}</th>
-          <td className="text-center">
-            <Button
-              onClick={() => this.handleInfo(project._id)}
-              color="link"
-              id="buttonInfo"
-              title=""
-              type="button"
-            >
-              <i className="tim-icons icon-notes" />
-            </Button>
-          </td>
-        </tr>
-      );
+    var ProjectHistory = all.map((project) => {
+      if (project) {
+        return (
+          <tr key={project._id}>
+            <td>{project.title}</td>
+            <td>{this.findUser(project.user)}</td>
+            <td>{project.deadline.slice(0, 10)}</td>
+            <th>{project.status}</th>
+            <th>{project.progress}</th>
+            <td className="text-center">
+              <Button
+                onClick={() => this.handleInfo(project._id)}
+                color="link"
+                id="buttonInfo"
+                title=""
+                type="button"
+              >
+                <i className="tim-icons icon-notes" />
+              </Button>
+            </td>
+          </tr>
+        );
+      }
     });
 
     if (this.state.view === 'false') {

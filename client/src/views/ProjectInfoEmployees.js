@@ -213,11 +213,6 @@ class ProjectInfoEmployees extends React.Component {
                                   </Button>
                                   <UncontrolledCollapse toggler="#toggler">
                                     <Card>
-                                      <CardHeader>
-                                        <h5 className="feature-title">
-                                          Feature title
-                                        </h5>
-                                      </CardHeader>
                                       <CardBody>{list}</CardBody>
                                     </Card>
                                   </UncontrolledCollapse>
