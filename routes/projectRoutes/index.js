@@ -50,6 +50,20 @@ router.get('/projectsByEmployee/:userId', (req, res) => {
   });
 });
 
+// Router for getting specified features by employee
+router.get('/featuresByEmployee/:userId', (req, res) => {
+  Project.find({ 'feature.featureCreator': req.params.userId }, function (
+    err,
+    result
+  ) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 // Router for getting specified projects by department
 router.get('/projectsByDepartment/:department', (req, res) => {
   Project.find({ department: req.params.department }, function (err, result) {

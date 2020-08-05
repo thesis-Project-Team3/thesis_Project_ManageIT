@@ -19,6 +19,7 @@ class ProjectHistoryEmployees extends React.Component {
     super(props);
     this.state = {
       projects: [],
+      userFeatures: [],
       currentIndex: '',
       view: 'false',
     };
@@ -26,11 +27,21 @@ class ProjectHistoryEmployees extends React.Component {
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
+    //get the the list of projects by user
     axios
       .get(`http://localhost:5000/project/projectsByEmployee/${user._id}`)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         this.setState({ projects: response.data });
+      });
+
+    //get the the list of features by user
+
+    axios
+      .get(`http://localhost:5000/project/featuresByEmployee/${user._id}`)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ userFeatures: response.data });
       });
   }
 
@@ -51,10 +62,18 @@ class ProjectHistoryEmployees extends React.Component {
   // };
 
   render() {
-    var ProjectHistory = this.state.projects.map((project) => {
+    // var userProjFeat = [...this.state.projects, ...this.state.userFeatures];
+    // var all = [];
+    // for (var i in userProjFeat) {
+    //   if (!all.includes(userProjFeat[i])) {
+    //     all.push(userProjFeat[i]);
+    //   }
+    // }
+    var ProjectHistory = this.state.userFeatures.map((project) => {
       return (
         <tr key={project._id}>
           <td>{project.title}</td>
+          {/* <td>{project.creator}</td> */}
           <td>{project.deadline.slice(0, 10)}</td>
           <th>{project.status}</th>
           <th>{project.progress}</th>

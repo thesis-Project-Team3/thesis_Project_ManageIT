@@ -29,6 +29,7 @@ class ProjectInfoEmployees extends React.Component {
       oneProjectInfo: [],
       relatedFeatures: [],
       profileInformations: '',
+      usersList: [],
       modal: false,
     };
   }
@@ -52,6 +53,14 @@ class ProjectInfoEmployees extends React.Component {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to the Head of Department',
     });
+  };
+
+  getFeatureCreator = (id) => {
+    for (var i in this.state.usersList) {
+      if (this.state.usersList[i]._id === id) {
+        return this.state.usersList[i].fullname;
+      }
+    }
   };
 
   componentDidMount() {
@@ -78,6 +87,12 @@ class ProjectInfoEmployees extends React.Component {
         this.setState({ oneProjectInfo: response.data[0] });
         console.log(this.state.oneProjectInfo);
       });
+
+    //get all the list of all users for feature creator
+    axios.get('http://localhost:5000/users/').then((response) => {
+      console.log(response.data);
+      this.setState({ usersList: response.data });
+    });
 
     //
     // axios
@@ -106,6 +121,10 @@ class ProjectInfoEmployees extends React.Component {
             <>
               <Table striped key={key}>
                 <tbody>
+                  <tr>
+                    <th scope="row">Creator</th>
+                    <td>{this.getFeatureCreator(feat.featureCreator)}</td>
+                  </tr>
                   <tr>
                     <th scope="row">Title</th>
                     <td>{feat.featureTitle}</td>
@@ -137,6 +156,8 @@ class ProjectInfoEmployees extends React.Component {
               >
                 Submit To Head
               </Button>
+              <br></br>
+              <br></br>
             </>
           );
         }))
