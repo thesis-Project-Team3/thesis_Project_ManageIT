@@ -104,6 +104,8 @@ class ProjectInfoEmployees extends React.Component {
   }
 
   render() {
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
     const { oneProjectInfo, profileInformations } = this.state;
     const externalCloseBtn = (
       <button
@@ -117,49 +119,51 @@ class ProjectInfoEmployees extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          return (
-            <>
-              <Table striped key={key}>
-                <tbody>
-                  <tr>
-                    <th scope="row">Creator</th>
-                    <td>{this.getFeatureCreator(feat.featureCreator)}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Title</th>
-                    <td>{feat.featureTitle}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Description</th>
-                    <td>{feat.featureDescription}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Deadline</th>
-                    <td>{feat.featureDeadline}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Status</th>
-                    <td>{feat.featureStatus}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Progress</th>
-                    <td>{feat.featureProgress}</td>
-                  </tr>
-                </tbody>
-              </Table>
-              <br></br>
-              <Button
-                className="btn-fill"
-                color="primary"
-                type="submit"
-                onClick={() => this.handleSubmit(feat.featureTitle)}
-              >
-                Submit To Head
-              </Button>
-              <br></br>
-              <br></br>
-            </>
-          );
+          if (feat.featureCreator === user._id) {
+            return (
+              <>
+                <Table striped key={key}>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Creator</th>
+                      <td>{this.getFeatureCreator(feat.featureCreator)}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Title</th>
+                      <td>{feat.featureTitle}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{feat.featureDescription}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Deadline</th>
+                      <td>{feat.featureDeadline}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Status</th>
+                      <td>{feat.featureStatus}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Progress</th>
+                      <td>{feat.featureProgress}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <br></br>
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={() => this.handleSubmit(feat.featureTitle)}
+                >
+                  Submit To Head
+                </Button>
+                <br></br>
+                <br></br>
+              </>
+            );
+          }
         }))
       : (list = undefined);
 

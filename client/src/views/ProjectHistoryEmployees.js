@@ -62,18 +62,19 @@ class ProjectHistoryEmployees extends React.Component {
   // };
 
   render() {
-    // var userProjFeat = [...this.state.projects, ...this.state.userFeatures];
-    // var all = [];
-    // for (var i in userProjFeat) {
-    //   if (!all.includes(userProjFeat[i])) {
-    //     all.push(userProjFeat[i]);
-    //   }
-    // }
-    var ProjectHistory = this.state.userFeatures.map((project) => {
+    var userProjFeat = [...this.state.projects, ...this.state.userFeatures];
+    var all = [userProjFeat[0]];
+    for (var i in userProjFeat) {
+      if (!all.includes(userProjFeat[i])) {
+        all.push(userProjFeat[i]);
+      }
+    }
+    console.log(all);
+    var ProjectHistory = this.state.projects.map((project) => {
       return (
         <tr key={project._id}>
           <td>{project.title}</td>
-          {/* <td>{project.creator}</td> */}
+          <td>{project.creator}</td>
           <td>{project.deadline.slice(0, 10)}</td>
           <th>{project.status}</th>
           <th>{project.progress}</th>
@@ -107,6 +108,7 @@ class ProjectHistoryEmployees extends React.Component {
                       <thead className="text-primary">
                         <tr>
                           <th>Title</th>
+                          <th>Creator</th>
                           <th>Do it before</th>
                           <th>Status</th>
                           <th>Progress</th>

@@ -108,7 +108,7 @@ class ProjectInfoHeads extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          if (feat.featureProgress === 'Sent to the Head of Department') {
+          if (feat.featureStatus === 'In Progress') {
             return (
               <div key={key}>
                 <Table striped>

@@ -199,7 +199,7 @@ class CreateProject extends React.Component {
                         <Button
                           color="secondary"
                           onClick={this.toggle}
-                          href="/admin/project"
+                          href="/admin/projects-history-employees"
                         >
                           Close
                         </Button>
