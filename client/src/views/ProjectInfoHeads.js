@@ -108,84 +108,86 @@ class ProjectInfoHeads extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          return (
-            <div key={key}>
-              <Table striped>
-                <tbody>
-                  <tr>
-                    <th scope="row">Creator</th>
-                    <td>{this.getFeatureCreator(feat.featureCreator)}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Title</th>
-                    <td>{feat.featureTitle}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Description</th>
-                    <td>{feat.featureDescription}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Deadline</th>
-                    <td>{feat.featureDeadline}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Status</th>
-                    <td>{feat.featureStatus}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Progress</th>
-                    <td>{feat.featureProgress}</td>
-                  </tr>
-                </tbody>
-              </Table>
-              <br></br>
+          if (feat.featureProgress === 'Sent to the Head of Department') {
+            return (
+              <div key={key}>
+                <Table striped>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Creator</th>
+                      <td>{this.getFeatureCreator(feat.featureCreator)}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Title</th>
+                      <td>{feat.featureTitle}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{feat.featureDescription}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Deadline</th>
+                      <td>{feat.featureDeadline}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Status</th>
+                      <td>{feat.featureStatus}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Progress</th>
+                      <td>{feat.featureProgress}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <br></br>
 
-              <Button
-                className="btn-fill"
-                color="primary"
-                type="submit"
-                onClick={() => this.handleAccept(feat.featureTitle)}
-              >
-                Submit To Methods
-              </Button>
-              <Button
-                className="btn-fill"
-                color="primary"
-                type="submit"
-                onClick={this.handleDecline}
-              >
-                Decline
-              </Button>
-              <div>
-                <Modal
-                  isOpen={this.state.modal}
-                  toggle={this.toggle}
-                  external={externalCloseBtn}
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={() => this.handleAccept(feat.featureTitle)}
                 >
-                  <ModalBody>
-                    {' '}
-                    <br />{' '}
-                    <center>
-                      <Label for="exampleText">Reason :</Label>
-                      <Input type="textarea" name="text" id="exampleText" />
-                      <br />
-                      Project has been declined !
-                    </center>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      color="secondary"
-                      onClick={this.toggle}
-                      href="/admin/projects-history"
-                    >
-                      Close
-                    </Button>
-                  </ModalFooter>
-                </Modal>
+                  Submit To Methods
+                </Button>
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={this.handleDecline}
+                >
+                  Decline
+                </Button>
+                <div>
+                  <Modal
+                    isOpen={this.state.modal}
+                    toggle={this.toggle}
+                    external={externalCloseBtn}
+                  >
+                    <ModalBody>
+                      {' '}
+                      <br />{' '}
+                      <center>
+                        <Label for="exampleText">Reason :</Label>
+                        <Input type="textarea" name="text" id="exampleText" />
+                        <br />
+                        Project has been declined !
+                      </center>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        color="secondary"
+                        onClick={this.toggle}
+                        href="/admin/projects-history"
+                      >
+                        Close
+                      </Button>
+                    </ModalFooter>
+                  </Modal>
+                </div>
+                <br></br>
               </div>
-              <br></br>
-            </div>
-          );
+            );
+          }
         }))
       : (list = undefined);
     return (
