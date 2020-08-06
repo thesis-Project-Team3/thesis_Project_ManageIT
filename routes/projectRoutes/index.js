@@ -154,7 +154,7 @@ router.get('/methods', (req, res) => {
 
         for (var j in result[i].feature) {
           if (
-            result[i].feature[j].featureStatus !== 'Created' ||
+            result[i].feature[j].featureStatus !== 'Created' &&
             result[i].feature[j].featureProgress !==
               'Sent to the Head of Department'
           ) {
