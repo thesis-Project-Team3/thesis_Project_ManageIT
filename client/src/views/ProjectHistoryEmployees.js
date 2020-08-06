@@ -82,8 +82,6 @@ class ProjectHistoryEmployees extends React.Component {
 
   render() {
     var userProjFeat = [...this.state.projects, ...this.state.userFeatures];
-    console.log(userProjFeat);
-    console.log(this.removeDuplicates(userProjFeat));
     var ProjectHistory = this.removeDuplicates(userProjFeat).map((project) => {
       if (project) {
         return (

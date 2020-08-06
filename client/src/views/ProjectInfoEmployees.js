@@ -124,10 +124,7 @@ class ProjectInfoEmployees extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          if (
-            feat.featureCreator === user._id ||
-            oneProjectInfo.user === user._id
-          ) {
+          if (feat.featureCreator === user._id) {
             return (
               <div key={key}>
                 <Table striped>
