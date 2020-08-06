@@ -37,6 +37,7 @@ class Tables extends React.Component {
     axios.get('http://localhost:5000/project/it/').then((response) => {
       var projects1 = response.data[0];
       var projects2 = response.data[1];
+      console.log(response.data);
       this.setState({ projects1, projects2 });
     });
   }
@@ -88,7 +89,7 @@ class Tables extends React.Component {
           <th>{proj.progress}</th>
           <td className="text-center">
             <Button
-              onClick={this.handleSubmit.bind(this, i)}
+              onClick={() => this.handleInfo(proj._id)}
               color="link"
               id="buttonInfo"
               title=""
@@ -133,7 +134,7 @@ class Tables extends React.Component {
                               type="radio"
                             />
                             <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                              IT
+                              Internal
                             </span>
                             <span className="d-block d-sm-none">
                               <i className="tim-icons icon-single-02" />

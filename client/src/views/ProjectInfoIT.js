@@ -36,11 +36,19 @@ class ProjectInfoMethods extends React.Component {
     this.setState({ modal: !this.state.modal });
   };
 
-  handleAccept = (featureTitle) => {
+  handleSendToMethods = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
+    });
+  };
+
+  handleReturnBackToMethods = (featureTitle) => {
+    this.setState({ modal: !this.state.modal });
+    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
+      featureStatus: 'In Progress',
+      featureProgress: 'Estimate Sent back from IT',
     });
   };
 
@@ -88,9 +96,8 @@ class ProjectInfoMethods extends React.Component {
       ? (list = oneProjectInfo.feature.map((feat, key) => {
           if (
             (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
-            (feat.featureProgress ===
-              'Sent from IT back to Methods Department' &&
-              infoView === 'data3')
+            (feat.featureProgress === 'Sent to IT Department' &&
+              infoView === 'data2')
           ) {
             return (
               <div key={key}>
@@ -124,7 +131,7 @@ class ProjectInfoMethods extends React.Component {
                   className="btn-fill"
                   color="primary"
                   type="submit"
-                  onClick={() => this.handleAccept(feat._id)}
+                  onClick={() => this.handleSendToMethods(feat._id)}
                 >
                   Submit To Methods
                 </Button>

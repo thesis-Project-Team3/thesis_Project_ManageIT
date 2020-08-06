@@ -86,11 +86,11 @@ class ProjectInfoMethods extends React.Component {
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
           if (
-            (feat.featureProgress === 'Sent to Methods Department' &&
+            (feat.featureStatus !== 'Created' &&
+              feat.featureProgress !== 'Sent to the Head of Department' &&
               infoView === 'data2') ||
             (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
-            (feat.featureProgress ===
-              'Sent from IT back to Methods Department' &&
+            (feat.featureProgress === 'Estimate Sent back from IT' &&
               infoView === 'data3')
           ) {
             return (
@@ -149,7 +149,7 @@ class ProjectInfoMethods extends React.Component {
                   className="btn-fill"
                   color="primary"
                   type="submit"
-                  onClick={() => this.handleAccept(feat.featureTitle)}
+                  onClick={() => this.handleAccept(feat._id)}
                 >
                   Submit To IT
                 </Button>
