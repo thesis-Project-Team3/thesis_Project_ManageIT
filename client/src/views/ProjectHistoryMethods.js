@@ -80,63 +80,6 @@ class ProjectHistoryMethods extends React.Component {
   // }
 
   render() {
-    // oussema
-    //     var ProjectHistory = this.state.projects.map((project) => {
-    //       return (
-    //         <tr key={project._id}>
-    //           <td>{project.title}</td>
-    //           <td>{project.deadline.slice(0, 10)}</td>
-    //           <th>{project.status}</th>
-    //           <th>{project.progress}</th>
-    //           <td className="text-center">
-    //             <Button
-    //               onClick={() => this.handleInfo(project._id)}
-    //               color="link"
-    //               id="buttonInfo"
-    //               title=""
-    //               type="button"
-    //             >
-    //               <i className="tim-icons icon-notes" />
-    //             </Button>
-    //           </td>
-    //         </tr>
-    //       );
-    //     });
-
-    //     if (this.state.view === 'false') {
-    //       return (
-    //         <>
-    //           <div className="content">
-    //             <Row>
-    //               <Col md="12">
-    //                 <Card>
-    //                   <CardHeader>
-    //                     <CardTitle tag="h4">Project List</CardTitle>
-    //                   </CardHeader>
-    //                   <CardBody>
-    //                     <Table className="tablesorter" responsive>
-    //                       <thead className="text-primary">
-    //                         <tr>
-    //                           <th>Title</th>
-    //                           <th>Do before</th>
-    //                           <th>Status</th>
-    //                           <th>Progress</th>
-    //                           <th className="text-center">Info</th>
-    //                         </tr>
-    //                       </thead>
-    //                       <tbody>{ProjectHistory}</tbody>
-    //                     </Table>
-    //                   </CardBody>
-    //                 </Card>
-    //               </Col>
-    //             </Row>
-    //           </div>
-    //         </>
-    //       );
-    //     } else {
-    //       return <ProjectInfoMethods currentIndex={this.state.currentIndex} />;
-    //     }
-    // oussema
     var ProjectHistory1 = this.state.projects1.map((project) => {
       return (
         <tr key={project._id}>
@@ -319,7 +262,12 @@ class ProjectHistoryMethods extends React.Component {
         </>
       );
     } else {
-      return <ProjectInfoMethods currentIndex={this.state.currentIndex} />;
+      return (
+        <ProjectInfoMethods
+          currentIndex={this.state.currentIndex}
+          infoView={this.state.ProjHistory}
+        />
+      );
     }
   }
 }

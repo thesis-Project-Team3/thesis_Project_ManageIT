@@ -146,7 +146,9 @@ router.get('/methods', (req, res) => {
       for (var i = 0; i < result.length; i++) {
         if (result[i].department === 'Methods') {
           arr1.push(result[i]);
-        } else if (result[i].progress === 'Sent back to Methods Department') {
+        } else if (
+          result[i].progress === 'Sent from IT back to Methods Department'
+        ) {
           arr3.push(result[i]);
         }
 

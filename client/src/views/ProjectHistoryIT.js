@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
+import ProjectInfoIT from './ProjectInfoIT.js';
 // reactstrap components
 import {
   Card,
@@ -18,6 +19,8 @@ class Tables extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentIndex: '',
+      view: 'false',
       projects1: [],
       projects2: [],
       ProjHistory: 'data1',
@@ -37,6 +40,11 @@ class Tables extends React.Component {
       this.setState({ projects1, projects2 });
     });
   }
+
+  handleInfo = (id) => {
+    console.log(id);
+    this.setState({ currentIndex: id, view: 'true' });
+  };
 
   handleSubmit(i) {
     // e.preventDefault();
@@ -59,7 +67,7 @@ class Tables extends React.Component {
           <th>{proj.progress}</th>
           <td className="text-center">
             <Button
-              onClick={this.handleSubmit.bind(this, i)}
+              onClick={() => this.handleInfo(proj._id)}
               color="link"
               id="buttonInfo"
               title=""
@@ -92,94 +100,105 @@ class Tables extends React.Component {
         </tr>
       );
     });
-    return (
-      <>
-        <div className="content">
-          <Row>
-            <Col md="12">
-              <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Project List</CardTitle>
-                  <Row>
-                    <Col className="text-left" sm="6"></Col>
-                    <Col sm="6">
-                      <ButtonGroup
-                        className="btn-group-toggle float-right"
-                        data-toggle="buttons"
-                      >
-                        <Button
-                          tag="label"
-                          className={classNames('btn-simple', {
-                            active: this.state.ProjHistory === 'data1',
-                          })}
-                          color="info"
-                          id="0"
-                          size="sm"
-                          onClick={() => this.setProject('data1')}
+    if (this.state.view === 'false') {
+      return (
+        <>
+          <div className="content">
+            <Row>
+              <Col md="12">
+                <Card>
+                  <CardHeader>
+                    <CardTitle tag="h4">Project List</CardTitle>
+                    <Row>
+                      <Col className="text-left" sm="6"></Col>
+                      <Col sm="6">
+                        <ButtonGroup
+                          className="btn-group-toggle float-right"
+                          data-toggle="buttons"
                         >
-                          <input
-                            defaultChecked
-                            className="d-none"
-                            name="options"
-                            type="radio"
-                          />
-                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            IT
-                          </span>
-                          <span className="d-block d-sm-none">
-                            <i className="tim-icons icon-single-02" />
-                          </span>
-                        </Button>
-                        <Button
-                          color="info"
-                          id="1"
-                          size="sm"
-                          tag="label"
-                          className={classNames('btn-simple', {
-                            active: this.state.ProjHistory === 'data2',
-                          })}
-                          onClick={() => this.setProject('data2')}
-                        >
-                          <input
-                            className="d-none"
-                            name="options"
-                            type="radio"
-                          />
-                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            From Methods
-                          </span>
-                          <span className="d-block d-sm-none">
-                            <i className="tim-icons icon-gift-2" />
-                          </span>
-                        </Button>
-                      </ButtonGroup>
-                    </Col>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  <Table className="tablesorter" responsive>
-                    <thead className="text-primary">
-                      <tr>
-                        <th>Title</th>
-                        <th>Do it before</th>
-                        <th>Status</th>
-                        <th>Progress</th>
-                        <th className="text-center">Info</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.state.ProjHistory === 'data1'
-                        ? ProjectHistory1
-                        : ProjectHistory2}
-                    </tbody>
-                  </Table>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      </>
-    );
+                          <Button
+                            tag="label"
+                            className={classNames('btn-simple', {
+                              active: this.state.ProjHistory === 'data1',
+                            })}
+                            color="info"
+                            id="0"
+                            size="sm"
+                            onClick={() => this.setProject('data1')}
+                          >
+                            <input
+                              defaultChecked
+                              className="d-none"
+                              name="options"
+                              type="radio"
+                            />
+                            <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                              IT
+                            </span>
+                            <span className="d-block d-sm-none">
+                              <i className="tim-icons icon-single-02" />
+                            </span>
+                          </Button>
+                          <Button
+                            color="info"
+                            id="1"
+                            size="sm"
+                            tag="label"
+                            className={classNames('btn-simple', {
+                              active: this.state.ProjHistory === 'data2',
+                            })}
+                            onClick={() => this.setProject('data2')}
+                          >
+                            <input
+                              className="d-none"
+                              name="options"
+                              type="radio"
+                            />
+                            <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                              From Methods
+                            </span>
+                            <span className="d-block d-sm-none">
+                              <i className="tim-icons icon-gift-2" />
+                            </span>
+                          </Button>
+                        </ButtonGroup>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Table className="tablesorter" responsive>
+                      <thead className="text-primary">
+                        <tr>
+                          <th>Title</th>
+                          <th>Do it before</th>
+                          <th>Status</th>
+                          <th>Progress</th>
+                          <th className="text-center">Info</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {this.state.ProjHistory === 'data1'
+                          ? ProjectHistory1
+                          : this.state.ProjHistory === 'data2'
+                          ? ProjectHistory2
+                          : null}
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <ProjectInfoIT
+          currentIndex={this.state.currentIndex}
+          infoView={this.state.ProjHistory}
+        />
+      );
+    }
   }
 }
 

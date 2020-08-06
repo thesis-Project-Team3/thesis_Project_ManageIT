@@ -40,7 +40,7 @@ class ProjectInfoMethods extends React.Component {
     this.setState({ modal: !this.state.modal });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
-      featureProgress: 'Sent to IT Department',
+      featureProgress: 'Sent to Methods Department',
     });
   };
 
@@ -71,6 +71,7 @@ class ProjectInfoMethods extends React.Component {
 
   render() {
     const { infoView } = this.props;
+    console.log(infoView);
     const { oneProjectInfo, profileInformations } = this.state;
     const externalCloseBtn = (
       <button
@@ -86,8 +87,6 @@ class ProjectInfoMethods extends React.Component {
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
           if (
-            (feat.featureProgress === 'Sent to Methods Department' &&
-              infoView === 'data2') ||
             (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
             (feat.featureProgress ===
               'Sent from IT back to Methods Department' &&
@@ -121,37 +120,21 @@ class ProjectInfoMethods extends React.Component {
                 </Table>
                 <br></br>
 
-                <Row>
-                  <Col className="pr-md-1" md="6">
-                    <FormGroup>
-                      <Label for="exampleFile">Upload your files :</Label>
-                      <CustomInput
-                        type="file"
-                        id="exampleFile"
-                        name="customFile"
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pr-md-1" md="4">
-                    <Button
-                      style={{ marginTop: 24 }}
-                      className="btn-fill"
-                      color="primary"
-                      type="submit"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Upload
-                    </Button>
-                  </Col>
-                </Row>
-
                 <Button
                   className="btn-fill"
                   color="primary"
                   type="submit"
-                  onClick={() => this.handleAccept(feat.featureTitle)}
+                  onClick={() => this.handleAccept(feat._id)}
                 >
-                  Submit To IT
+                  Submit To Methods
+                </Button>
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={this.handleDecline}
+                >
+                  Decline
                 </Button>
 
                 <div>
