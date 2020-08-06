@@ -154,8 +154,9 @@ router.get('/methods', (req, res) => {
 
         for (var j in result[i].feature) {
           if (
-            result[i].feature[j].featureProgress ===
-            'Sent to Methods Department'
+            result[i].feature[j].featureStatus !== 'Created' ||
+            result[i].feature[j].featureProgress !==
+              'Sent to the Head of Department'
           ) {
             if (!arr2.includes(result[i])) {
               arr2.push(result[i]);
