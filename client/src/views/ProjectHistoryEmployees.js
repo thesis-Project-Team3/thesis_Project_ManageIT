@@ -60,6 +60,15 @@ class ProjectHistoryEmployees extends React.Component {
     this.setState({ currentIndex: id, view: 'true' });
   };
 
+  removeDuplicates = (array) => {
+    const uniqueProjects = Array.from(new Set(array.map((a) => a._id))).map(
+      (id) => {
+        return array.find((a) => a._id === id);
+      }
+    );
+    return uniqueProjects;
+  };
+
   // handleSubmit = (id) => {
   //   e.preventDefault();
   //   axios
@@ -73,14 +82,9 @@ class ProjectHistoryEmployees extends React.Component {
 
   render() {
     var userProjFeat = [...this.state.projects, ...this.state.userFeatures];
-    var all = [userProjFeat[0]];
-    for (var i in userProjFeat) {
-      if (!all.includes(userProjFeat[i])) {
-        all.push(userProjFeat[i]);
-      }
-    }
-    console.log(all);
-    var ProjectHistory = all.map((project) => {
+    console.log(userProjFeat);
+    console.log(this.removeDuplicates(userProjFeat));
+    var ProjectHistory = this.removeDuplicates(userProjFeat).map((project) => {
       if (project) {
         return (
           <tr key={project._id}>

@@ -9,9 +9,9 @@ router.post('/create', (req, res) => {
   var project = new Project(req.body);
   project.save(function (err, result) {
     if (err) {
-      console.log(err);
+      res.send(err);
     } else {
-      console.log(result);
+      res.send(result);
     }
     res.end();
   });
@@ -116,8 +116,10 @@ router.patch('/create/:title', (req, res) => {
 
 // Router for updating status of projects features
 router.patch('/update/:featureTitle', (req, res) => {
+  console.log(req.params);
+  console.log(req.body);
   Project.findOneAndUpdate(
-    { 'feature.featureTitle': req.params.featureTitle },
+    { 'feature._id': req.params.featureTitle },
     {
       $set: {
         'feature.$.featureStatus': req.body.featureStatus,
@@ -126,9 +128,9 @@ router.patch('/update/:featureTitle', (req, res) => {
     },
     (err, result) => {
       if (err) {
-        res.send(err);
+        console.log(err);
       } else {
-        res.send(result);
+        console.log(result);
       }
     }
   );

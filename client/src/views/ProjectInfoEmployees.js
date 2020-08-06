@@ -47,13 +47,18 @@ class ProjectInfoEmployees extends React.Component {
     });
   };
 
-  handleSubmit = (featureTitle) => {
-    this.setState({ modal: !this.state.modal });
-    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
-      featureStatus: 'In Progress',
-      featureProgress: 'Sent to the Head of Department',
-    });
-  };
+  handleSubmit(featureTitle, e) {
+    e.preventDefault();
+    // this.setState({ modal: !this.state.modal });
+    axios
+      .patch(`http://localhost:5000/project/update/${featureTitle}`, {
+        featureStatus: 'In Progress',
+        featureProgress: 'Sent to the Head of Department',
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
+  }
 
   getFeatureCreator = (id) => {
     for (var i in this.state.usersList) {
@@ -119,10 +124,13 @@ class ProjectInfoEmployees extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          if (feat.featureCreator === user._id) {
+          if (
+            feat.featureCreator === user._id ||
+            oneProjectInfo.user === user._id
+          ) {
             return (
-              <>
-                <Table striped key={key}>
+              <div key={key}>
+                <Table striped>
                   <tbody>
                     <tr>
                       <th scope="row">Creator</th>
@@ -155,13 +163,13 @@ class ProjectInfoEmployees extends React.Component {
                   className="btn-fill"
                   color="primary"
                   type="submit"
-                  onClick={() => this.handleSubmit(feat.featureTitle)}
+                  onClick={this.handleSubmit.bind(this, feat._id)}
                 >
                   Submit To Head
                 </Button>
                 <br></br>
                 <br></br>
-              </>
+              </div>
             );
           }
         }))
