@@ -74,8 +74,7 @@ router.get('/projectsByDepartment/:department', (req, res) => {
       for (var i in result) {
         for (var j in result[i].feature) {
           if (
-            result[i].feature[j].featureProgress ===
-              'Sent to the Head of Department' &&
+            result[i].feature[j].featureStatus === 'In Progress' &&
             !arr.includes(result[i])
           ) {
             arr.push(result[i]);
@@ -147,7 +146,7 @@ router.get('/methods', (req, res) => {
       for (var i = 0; i < result.length; i++) {
         if (result[i].department === 'Methods') {
           arr1.push(result[i]);
-        } else if (result[i].progress === 'Sent back to Method Department') {
+        } else if (result[i].progress === 'Sent back to Methods Department') {
           arr3.push(result[i]);
         }
 
