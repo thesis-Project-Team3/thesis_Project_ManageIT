@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const Features = require('./featuresSchema');
 
 const featuresSchema = new Schema({
+  featureCreator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   featureTitle: { type: String },
   featureDescription: { type: String },
   featureDeadline: { type: String },

@@ -56,6 +56,7 @@ userSchema.methods.generateAuthToken = function () {
     {
       _id: this._id,
       email: this.email,
+      fullname: this.fullname,
       role: this.role,
       department: this.department,
     },

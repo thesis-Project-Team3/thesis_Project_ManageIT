@@ -26,7 +26,6 @@ class CreateProject extends React.Component {
       department: '',
       description: '',
       deadline: '',
-      status: 'Created',
       user: jwtDecode(localStorage.getItem('token')),
     },
     profileInformations: '',
@@ -44,12 +43,12 @@ class CreateProject extends React.Component {
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         console.log(response.data);
-        this.state.newProject.department = response.data[0].department
+        this.state.newProject.department = response.data[0].department;
         this.setState(
           {
             profileInformations: response.data[0],
-          },
-          () => console.log(this.state.profileInformations.fullname)
+          }
+          // () => console.log(this.state.profileInformations.fullname)
         );
       })
       .catch((err) => console.log('Error', err));
@@ -63,15 +62,12 @@ class CreateProject extends React.Component {
   handleSubmit = (e) => {
     this.setState({ modal: !this.state.modal });
     e.preventDefault();
-    var ouss = {
-      department: this.state.profileInformations.department,
-      ...this.state.newProject,
-    };
-    console.log(ouss);
     axios
       .post('http://localhost:5000/project/create', {
         department: this.state.profileInformations.department,
         ...this.state.newProject,
+        status: 'Created',
+        progress: `Created by ${this.state.profileInformations.fullname}`,
       })
       .then((response) => {})
 
@@ -203,7 +199,7 @@ class CreateProject extends React.Component {
                         <Button
                           color="secondary"
                           onClick={this.toggle}
-                          href="/admin/project"
+                          href="/admin/projects-history-employees"
                         >
                           Close
                         </Button>
