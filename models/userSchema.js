@@ -42,7 +42,7 @@ const userSchema = new Schema({
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id, email: this.email, role: this.role, department: this.department },
+    { _id: this._id, email: this.email, fullname: this.fullname, role: this.role, department: this.department },
     "jwtPrivateKey"
   );
   return token;

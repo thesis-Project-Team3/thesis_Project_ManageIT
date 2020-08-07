@@ -26,7 +26,7 @@ class UpdateProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      singleSelect: null,
+      singleSelect: '',
       projects: [],
       modal: false,
       profileInformations: '',
@@ -35,6 +35,10 @@ class UpdateProject extends React.Component {
         featureDescription: '',
         featureDeadline: '',
       },
+      titleError: '',
+      descriptionError: '',
+      deadlineError: '',
+      singleSelectError: ''
     };
   }
 
@@ -49,17 +53,20 @@ class UpdateProject extends React.Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.singleSelect);
-    axios
-      .patch(
-        `http://localhost:5000/project/create/${this.state.singleSelect}`,
-        this.state.newFeature
-      )
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((err) => console.log('Error', err));
+    var isValid = this.validate();
+    if (isValid) {
+      e.preventDefault();
+      console.log(this.state.singleSelect);
+      axios
+        .patch(
+          `http://localhost:5000/project/create/${this.state.singleSelect}`,
+          this.state.newFeature
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => console.log('Error', err));
+    }
   };
 
   componentDidMount() {
@@ -89,6 +96,31 @@ class UpdateProject extends React.Component {
       .catch((err) => console.log('Error', err));
     // this.setState({ projects: arr })
   }
+
+  validate = () => {
+    let singleSelectError = ''
+    let titleError = ''
+    let descriptionError = ''
+    let deadlineError = ''
+    if (this.state.newFeature.featureTitle.length < 6) {
+      titleError = "invalid title"
+    }
+    if (this.state.newFeature.featureDescription.length < 16) {
+      descriptionError = "invalid description"
+    }
+    if (!this.state.newFeature.featureDeadline) {
+      deadlineError = "you need to set a deadline"
+    }
+    if (!this.state.singleSelect) {
+      singleSelectError = "you need to choose a project"
+    }
+    if (titleError || descriptionError || deadlineError || singleSelectError) {
+      this.setState({ titleError, descriptionError, deadlineError, singleSelectError })
+      return false
+    }
+    return true
+  }
+
   render() {
     const { newFeature } = this.state;
     const externalCloseBtn = (
@@ -150,6 +182,9 @@ class UpdateProject extends React.Component {
                             <option selected="selected" disabled>Choose a Project</option>
                             {options}
                           </Input>
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.singleSelectError}
+                          </div>
                         </FormGroup>
                       </Col>
                       <Col className="pr-md-1" md="5">
@@ -162,6 +197,9 @@ class UpdateProject extends React.Component {
                             onChange={this.handleChange}
                             name="featureTitle"
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.titleError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -179,6 +217,9 @@ class UpdateProject extends React.Component {
                             onChange={this.handleChange}
                             name="featureDescription"
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.descriptionError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -198,6 +239,9 @@ class UpdateProject extends React.Component {
                                 onChange={this.handleChange}
                                 name="featureDeadline"
                               />
+                              <div style={{ fontSize: 12, color: "red" }}>
+                                {this.state.deadlineError}
+                              </div>
                             </FormGroup>
                           </CardBody>
                         </Card>

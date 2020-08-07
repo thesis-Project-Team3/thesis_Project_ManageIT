@@ -31,6 +31,9 @@ class CreateProject extends React.Component {
     },
     profileInformations: '',
     modal: false,
+    titleError: '',
+    descriptionError: '',
+    deadlineError: ''
   };
 
   toggle = () => {
@@ -61,14 +64,34 @@ class CreateProject extends React.Component {
   };
 
   handleSubmit = (e) => {
-    this.setState({ modal: !this.state.modal });
-    e.preventDefault();
-    axios
-      .post('http://localhost:5000/project/create', this.state.newProject)
-      .then((response) => { })
-
-      .catch((err) => console.log('Error', err));
+    var isValid = this.validate();
+    if (isValid) {
+      this.setState({ modal: !this.state.modal });
+      e.preventDefault();
+      axios.post('http://localhost:5000/project/create', this.state.newProject)
+    }
   };
+
+  validate = () => {
+    let titleError = ''
+    let descriptionError = ''
+    let deadlineError = ''
+
+    if (this.state.newProject.title.length < 6) {
+      titleError = "invalid title"
+    }
+    if (this.state.newProject.description.length < 16) {
+      descriptionError = "invalid description"
+    }
+    if (!this.state.newProject.deadline) {
+      deadlineError = "you need to set a deadline"
+    }
+    if (titleError || descriptionError || deadlineError) {
+      this.setState({ titleError, descriptionError, deadlineError })
+      return false
+    }
+    return true
+  }
 
   render() {
     const { newProject, profileInformations } = this.state;
@@ -116,6 +139,9 @@ class CreateProject extends React.Component {
                             id="title"
                             name="title"
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.titleError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -134,6 +160,9 @@ class CreateProject extends React.Component {
                             id="description"
                             name="description"
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.descriptionError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -155,6 +184,9 @@ class CreateProject extends React.Component {
                                 min="2020-07-18"
                                 placeholder="date placeholder"
                               />
+                              <div style={{ fontSize: 12, color: "red" }}>
+                                {this.state.deadlineError}
+                              </div>
                             </FormGroup>
                           </CardBody>
                         </Card>
@@ -191,11 +223,10 @@ class CreateProject extends React.Component {
                         </center>
                       </ModalBody>
                       <ModalFooter>
-                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
                         <Button
                           color="secondary"
                           onClick={this.toggle}
-                          href="/admin/project"
+                          href="/admin/create-project"
                         >
                           Close
                         </Button>
