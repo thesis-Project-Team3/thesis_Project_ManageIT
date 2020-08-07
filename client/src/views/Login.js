@@ -42,9 +42,9 @@ class Login extends React.Component {
         .then((response) => {
           console.log(response.data);
           localStorage.setItem('token', response.data);
-          window.location = '/admin/dashboard';
+          window.location = '/admin/user-profile';
         });
-    } catch (ex) { }
+    } catch (ex) {}
   };
 
   render() {

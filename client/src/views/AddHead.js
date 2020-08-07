@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 // reactstrap components
 import {
   Button,
@@ -18,7 +18,7 @@ import {
   Container,
   Row,
   Col,
-} from "reactstrap";
+} from 'reactstrap';
 
 class RegisterHead extends React.Component {
   state = {
@@ -31,10 +31,10 @@ class RegisterHead extends React.Component {
     phoneError: ''
   }
   componentDidMount() {
-    document.body.classList.toggle("register-page");
+    document.body.classList.toggle('register-page');
   }
   componentWillUnmount() {
-    document.body.classList.toggle("register-page");
+    document.body.classList.toggle('register-page');
   }
   // const DatePicker = require("reactstrap-date-picker");
   async fillHeadFormOnSubmit(e) {
@@ -159,7 +159,7 @@ class RegisterHead extends React.Component {
               <Form className="form">
                 <Card className="card-register card-white">
                   <CardHeader>
-                    <img alt="..." src={require("./card-primary.png")} />
+                    <img alt="..." src={require('./card-primary.png')} />
                     <CardTitle tag="h1">Add Head of Department</CardTitle>
                   </CardHeader>
                   <CardBody>
