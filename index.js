@@ -69,6 +69,8 @@ app.use('/filterMeetingsRoutes', routes.filterMeetingsRoutes);
 app.use('/users', routes.userRoutes);
 //dashboard Route
 app.use('/project', routes.dashboardRoutes);
+//notification Route
+app.use('/notification', routes.notificationRoutes);
 //auth Route
 app.use('/auth', routes.authRoutes);
 app.use('/getAllTheUsers', routes.getAllTheUsers);
@@ -77,9 +79,28 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log('App is listetning on PORT', PORT);
+
+
+// notification (socket.io)
+
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+
+http.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`)
+
+  io.on("connection", (socket) => {
+    console.log("User connected");
+
+    socket.on("messageSent", function (message) {
+      socket.broadcast.emit("messageSent", message)
+    })
+  })
 });
+
+// app.listen(PORT, () => {
+//   console.log('App is listetning on PORT', PORT);
+// });
 
 //Session
 // app.use(

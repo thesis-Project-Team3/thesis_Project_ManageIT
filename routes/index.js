@@ -12,4 +12,5 @@ module.exports = {
   meetingRoutes: require('./meetingRoutes'),
   filterMeetingsRoutes: require("./filterMeetings/filterMeetingsRoutes"),
   dashboardRoutes: require('./dashboardRoutes'),
+  notificationRoutes: require('./notificationRoutes'),
 };

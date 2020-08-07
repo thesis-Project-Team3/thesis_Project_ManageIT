@@ -1,6 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
+import Notifications, { notify } from 'react-notify-toast';
+import jwtDecode from "jwt-decode";
+import socketIOClient from "socket.io-client";
 
 // reactstrap components
 import {
@@ -19,6 +23,7 @@ import {
   Container,
   Modal,
 } from 'reactstrap';
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class AdminNavbar extends React.Component {
   constructor(props) {
@@ -27,10 +32,66 @@ class AdminNavbar extends React.Component {
       collapseOpen: false,
       modalSearch: false,
       color: 'navbar-transparent',
+      notifs: []
     };
   }
+
+  // handleNotifs = () => {
+  //   const token = localStorage.getItem("token");
+  //   const user = jwtDecode(token);
+  //   axios.get('http://localhost:5000/notification/store').then((response) => {
+  //     var notifs = response.data;
+  //     console.log(notifs)
+  //     var arr = []
+  //     for (var i = notifs.length - 1; i >= 0; i--) {
+  //       for (var j = 0; j < notifs[i].employees.length; j++)
+  //         if (notifs[i].employees[j].label === user.fullname && arr.leng < 5) {
+  //           arr.unshift(notifs[i])
+  //         }
+  //     }
+  //     this.setState({ notifs: arr });
+  //   });
+  // }
+
   componentDidMount() {
     window.addEventListener('resize', this.updateColor);
+
+    // notifications
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("messageSent", (msg) => {
+      for (var i = 0; i < msg.employees.length; i++) {
+        if (msg.employees[i].label === user.fullname) {
+          notify.show("New message : " + msg.subject + " meeting in " + msg.date + " From Amine"
+            , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
+        }
+      }
+      axios.get('http://localhost:5000/notification/store').then((response) => {
+        var notifs = response.data;
+        console.log(notifs)
+        var arr = []
+        for (var i = notifs.length - 1; i >= 0; i--) {
+          for (var j = 0; j < notifs[i].employees.length; j++)
+            if (notifs[i].employees[j].label === user.fullname && arr.length < 5) {
+              arr.push(notifs[i])
+            }
+        }
+        this.setState({ notifs: arr });
+      });
+    })
+    axios.get('http://localhost:5000/notification/store').then((response) => {
+      var notifs = response.data;
+      console.log(notifs)
+      var arr = []
+      for (var i = notifs.length - 1; i >= 0; i--) {
+        for (var j = 0; j < notifs[i].employees.length; j++)
+          if (notifs[i].employees[j].label === user.fullname && arr.length < 5) {
+            arr.push(notifs[i])
+          }
+      }
+      this.setState({ notifs: arr });
+    });
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateColor);
@@ -75,6 +136,15 @@ class AdminNavbar extends React.Component {
     window.location = '/login';
   };
   render() {
+    var notification = this.state.notifs.map((notif) => {
+      return (
+        <NavLink tag="li">
+          <DropdownItem className="nav-item">
+            You have a new meeting scheduled for {notif.date}
+          </DropdownItem>
+        </NavLink>
+      )
+    })
     return (
       <>
         <Navbar
@@ -130,8 +200,10 @@ class AdminNavbar extends React.Component {
                     <span className="d-lg-none d-md-block">Search</span>
                   </Button>
                 </InputGroup>
+                <Notifications options={{ zIndex: 200, top: '50px' }} />
                 <UncontrolledDropdown nav>
                   <DropdownToggle
+                    onClick={this.handleNotifs}
                     caret
                     color="default"
                     data-toggle="dropdown"
@@ -142,31 +214,7 @@ class AdminNavbar extends React.Component {
                     <p className="d-lg-none">Notifications</p>
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-navbar" right tag="ul">
-                    <NavLink tag="li">
-                      <DropdownItem className="nav-item">
-                        A meeting has been scheduled
-                      </DropdownItem>
-                    </NavLink>
-                    <NavLink tag="li">
-                      <DropdownItem className="nav-item">
-                        You have 3 new emails
-                      </DropdownItem>
-                    </NavLink>
-                    <NavLink tag="li">
-                      <DropdownItem className="nav-item">
-                        Your friend Michael is in town
-                      </DropdownItem>
-                    </NavLink>
-                    <NavLink tag="li">
-                      <DropdownItem className="nav-item">
-                        Another notification
-                      </DropdownItem>
-                    </NavLink>
-                    <NavLink tag="li">
-                      <DropdownItem className="nav-item">
-                        Another one
-                      </DropdownItem>
-                    </NavLink>
+                    {notification}
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <UncontrolledDropdown nav>

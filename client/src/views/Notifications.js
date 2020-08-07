@@ -1,5 +1,7 @@
 
 import React from "react";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 // react plugin for creating notifications over the dashboard
 import NotificationAlert from "react-notification-alert";
 
@@ -17,6 +19,31 @@ import {
 } from "reactstrap";
 
 class Notifications extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      notifs: []
+    }
+  }
+
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+    axios.get('http://localhost:5000/notification/store').then((response) => {
+      var notifs = response.data;
+      console.log(notifs)
+      var arr = []
+      for (var i = notifs.length - 1; i >= 0; i--) {
+        for (var j = 0; j < notifs[i].employees.length; j++) {
+          if (notifs[i].employees[j].label === user.fullname) {
+            arr.push(notifs[i])
+          }
+        }
+      }
+      this.setState({ notifs: arr });
+    });
+  }
+
   notify = place => {
     var color = Math.floor(Math.random() * 5 + 1);
     var type;
@@ -57,6 +84,20 @@ class Notifications extends React.Component {
     this.refs.notificationAlert.notificationAlert(options);
   };
   render() {
+    console.log(this.state.notifs)
+    var notification = this.state.notifs.map((notif) => {
+      return (
+        <UncontrolledAlert className="alert-with-icon" color="info">
+          <span
+            className="tim-icons icon-bell-55"
+            data-notify="icon"
+          />
+          <span data-notify="message">
+            New message : you have a {notif.subject} meeting in {notif.date} From your head of department
+                    </span>
+        </UncontrolledAlert>
+      )
+    })
     return (
       <>
         <div className="content">
@@ -67,36 +108,10 @@ class Notifications extends React.Component {
             <Col md="6">
               <Card>
                 <CardHeader>
-                  <CardTitle tag="h4">Notifications Style</CardTitle>
+                  <CardTitle tag="h4">Notifications</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Alert color="info">
-                    <span>This is a plain notification</span>
-                  </Alert>
-                  <UncontrolledAlert color="info">
-                    <span>This is a notification with close button.</span>
-                  </UncontrolledAlert>
-                  <UncontrolledAlert className="alert-with-icon" color="info">
-                    <span
-                      className="tim-icons icon-bell-55"
-                      data-notify="icon"
-                    />
-                    <span data-notify="message">
-                      This is a notification with close button and icon.
-                    </span>
-                  </UncontrolledAlert>
-                  <UncontrolledAlert className="alert-with-icon" color="info">
-                    <span
-                      className="tim-icons icon-bell-55"
-                      data-notify="icon"
-                    />
-                    <span data-notify="message">
-                      This is a notification with close button and icon and have
-                      many lines. You can see that the icon and the close button
-                      are always vertically aligned. This is a beautiful
-                      notification. So you don't have to worry about the style.
-                    </span>
-                  </UncontrolledAlert>
+                  {notification}
                 </CardBody>
               </Card>
             </Col>
