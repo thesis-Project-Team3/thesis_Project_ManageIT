@@ -59,12 +59,9 @@ class ProjectInfoMethods extends React.Component {
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         // console.log(response.data);
-        this.setState(
-          {
-            profileInformations: response.data[0],
-          }
-          // () => console.log(this.state.profileInformations)
-        );
+        this.setState({
+          profileInformations: response.data[0],
+        });
       })
       .catch((err) => console.log('Error', err));
     //-------------------------------
