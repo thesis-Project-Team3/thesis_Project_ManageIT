@@ -64,19 +64,21 @@ class UserProfile extends React.Component {
 
   onClickHandler = (e) => {
     e.preventDefault();
-    const newInfos = { ...this.state.newInfos };
-    const data = new FormData();
-    data.append('file', this.state.selectedFile);
-    axios
-      .post('http://localhost:5000/upload-images/', data, {
-        // receive two    parameter endpoint url ,form data
-      })
-      .then((response) => {
-        newInfos.profileImageURL = response.data.data[0].url;
-        // then print response status
-        console.log(response.data.data[0].url);
-        this.setState({ newInfos });
-      });
+    if (this.state.newInfos.profileImageURL) {
+      const newInfos = { ...this.state.newInfos };
+      const data = new FormData();
+      data.append('file', this.state.selectedFile);
+      axios
+        .post('http://localhost:5000/upload-images/', data, {
+          // receive two    parameter endpoint url ,form data
+        })
+        .then((response) => {
+          newInfos.profileImageURL = response.data.data[0].url;
+          // then print response status
+          console.log(response.data.data[0].url);
+          this.setState({ newInfos });
+        });
+    }
   };
 
   componentDidMount() {
