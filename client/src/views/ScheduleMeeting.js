@@ -1,8 +1,8 @@
-import React from "react";
-import Select from "react-select";
-import axios from "axios";
-import socketIOClient from "socket.io-client";
-import jwtDecode from "jwt-decode";
+import React from 'react';
+import Select from 'react-select';
+import axios from 'axios';
+import socketIOClient from 'socket.io-client';
+import jwtDecode from 'jwt-decode';
 import {
   Button,
   Card,
@@ -19,9 +19,8 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-} from "reactstrap";
-const ENDPOINT = "http://127.0.0.1:5000";
-
+} from 'reactstrap';
+const ENDPOINT = 'http://127.0.0.1:5000';
 
 class ScheduleMeeting extends React.Component {
   constructor(props) {
@@ -29,15 +28,15 @@ class ScheduleMeeting extends React.Component {
     this.state = {
       options: [],
       usersData: [],
-      profileInformations: "",
-      subject: "",
+      profileInformations: '',
+      subject: '',
       // singleSelect: null,
-      date: "",
+      date: '',
       employees: [],
       modal: false,
       subjectError: '',
       employeeError: '',
-      dateError: ''
+      dateError: '',
     };
   }
 
@@ -54,7 +53,7 @@ class ScheduleMeeting extends React.Component {
     );
   };
   handleChange1 = (e) => {
-    this.setState({ employees: e }, () => { });
+    this.setState({ employees: e }, () => {});
   };
 
   makeOptions() {
@@ -69,33 +68,38 @@ class ScheduleMeeting extends React.Component {
     if (isValid) {
       // notification
       const socket = socketIOClient(ENDPOINT);
-      var subject = this.state.subject
-      var date = this.state.date
-      var employees = this.state.employees
-      socket.emit("messageSent", { subject, date, employees })
+      var subject = this.state.subject;
+      var date = this.state.date;
+      var employees = this.state.employees;
+      socket.emit('messageSent', { subject, date, employees });
 
-      axios.post("http://localhost:5000/meeting/store", {
-        subject, date, employees,
+      axios.post('http://localhost:5000/meeting/store', {
+        subject,
+        date,
+        employees,
         department: this.state.profileInformations.department,
-      })
+      });
       //-----------------
       this.setState({ modal: !this.state.modal });
       e.preventDefault();
-      axios.post("http://localhost:5000/meeting/create", {
-        subject, date, employees,
-        department: this.state.profileInformations.department,
-      })
+      axios
+        .post('http://localhost:5000/meeting/create', {
+          subject,
+          date,
+          employees,
+          department: this.state.profileInformations.department,
+        })
         .then(() => {
-          console.log("data sent");
+          console.log('data sent');
         })
         .catch(() => {
-          console.log("error");
+          console.log('error');
         });
     }
   };
 
   async componentDidMount() {
-    const jwt = localStorage.getItem("token");
+    const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     await axios
       .get(`http://localhost:5000/users/${user._id}`)
@@ -108,16 +112,16 @@ class ScheduleMeeting extends React.Component {
           // () => console.log(this.state.profileInformations)
         );
       })
-      .catch((err) => console.log("Error", err));
+      .catch((err) => console.log('Error', err));
     const filterOptions = {
       department: this.state.profileInformations.department,
       role: this.state.profileInformations.role,
     };
-    fetch("http://localhost:5000/getAllTheUsers", {
-      method: "post",
+    fetch('http://localhost:5000/getAllTheUsers', {
+      method: 'post',
       body: JSON.stringify(filterOptions),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((res) => res.json())
@@ -128,30 +132,32 @@ class ScheduleMeeting extends React.Component {
   }
 
   validate = () => {
-    let subjectError = ''
-    let employeeError = ''
-    let dateError = ''
+    let subjectError = '';
+    let employeeError = '';
+    let dateError = '';
     if (this.state.subject.length < 6) {
-      subjectError = "invalid subject"
+      subjectError = 'invalid subject';
     }
     if (this.state.employees.length === 0) {
-      employeeError = "no employees selected"
+      employeeError = 'no employees selected';
     }
     if (!this.state.date) {
-      dateError = "you need to pick a date"
+      dateError = 'you need to pick a date';
     }
     if (subjectError || employeeError || dateError) {
-      this.setState({ subjectError, employeeError, dateError })
-      return false
+      this.setState({ subjectError, employeeError, dateError });
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   render() {
+    const defaultImageURL =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
     const externalCloseBtn = (
       <button
         className="close"
-        style={{ position: "absolute", top: "15px", right: "15px" }}
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
         onClick={this.toggle}
       >
         &times;
@@ -191,7 +197,7 @@ class ScheduleMeeting extends React.Component {
                             onChange={this.handleChange}
                             id="subject"
                           />
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.subjectError}
                           </div>
                         </FormGroup>
@@ -212,7 +218,7 @@ class ScheduleMeeting extends React.Component {
                             onChange={this.handleChange1}
                             options={this.state.options}
                           ></Select>
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.employeeError}
                           </div>
                         </FormGroup>
@@ -234,7 +240,7 @@ class ScheduleMeeting extends React.Component {
                                 onChange={this.handleChange}
                                 placeholder="date placeholder"
                               />
-                              <div style={{ fontSize: 12, color: "red" }}>
+                              <div style={{ fontSize: 12, color: 'red' }}>
                                 {this.state.dateError}
                               </div>
                             </FormGroup>
@@ -261,8 +267,8 @@ class ScheduleMeeting extends React.Component {
                     >
                       {/* <ModalHeader>Adding Alert !</ModalHeader> */}
                       <ModalBody>
-                        {" "}
-                        <br />{" "}
+                        {' '}
+                        <br />{' '}
                         <center>
                           <img
                             src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
@@ -300,7 +306,11 @@ class ScheduleMeeting extends React.Component {
                       <img
                         alt="..."
                         className="avatar"
-                        src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
+                        src={
+                          profileInformations.profileImageURL
+                            ? profileInformations.profileImageURL
+                            : defaultImageURL
+                        }
                       />
                       <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
