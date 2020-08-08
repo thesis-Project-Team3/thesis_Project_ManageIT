@@ -300,7 +300,6 @@ class ProjectInfoMethods extends React.Component {
                       {profileInformations.department} Department Employee
                     </p>
                   </div>
-                  <div className="card-description">ME .......</div>
                 </CardBody>
                 <CardFooter>
                   <div className="button-container">
