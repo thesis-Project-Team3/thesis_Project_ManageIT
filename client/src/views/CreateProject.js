@@ -32,7 +32,7 @@ class CreateProject extends React.Component {
     modal: false,
     titleError: '',
     descriptionError: '',
-    deadlineError: ''
+    deadlineError: '',
   };
 
   toggle = () => {
@@ -65,40 +65,40 @@ class CreateProject extends React.Component {
   handleSubmit = (e) => {
     var isValid = this.validate();
     if (isValid) {
-    this.setState({ modal: !this.state.modal });
-    e.preventDefault();
-    axios
-      .post('http://localhost:5000/project/create', {
-        department: this.state.profileInformations.department,
-        ...this.state.newProject,
-        status: 'Created',
-        progress: `Created by ${this.state.profileInformations.fullname}`,
-      })
-      .then((response) => {})
+      this.setState({ modal: !this.state.modal });
+      e.preventDefault();
+      axios
+        .post('http://localhost:5000/project/create', {
+          department: this.state.profileInformations.department,
+          ...this.state.newProject,
+          status: 'Created',
+          progress: `Created by ${this.state.profileInformations.fullname}`,
+        })
+        .then((response) => {})
 
-      .catch((err) => console.log('Error', err));
+        .catch((err) => console.log('Error', err));
+    }
   };
-
   validate = () => {
-    let titleError = ''
-    let descriptionError = ''
-    let deadlineError = ''
+    let titleError = '';
+    let descriptionError = '';
+    let deadlineError = '';
 
     if (this.state.newProject.title.length < 6) {
-      titleError = "invalid title"
+      titleError = 'invalid title';
     }
     if (this.state.newProject.description.length < 16) {
-      descriptionError = "invalid description"
+      descriptionError = 'invalid description';
     }
     if (!this.state.newProject.deadline) {
-      deadlineError = "you need to set a deadline"
+      deadlineError = 'you need to set a deadline';
     }
     if (titleError || descriptionError || deadlineError) {
-      this.setState({ titleError, descriptionError, deadlineError })
-      return false
+      this.setState({ titleError, descriptionError, deadlineError });
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   render() {
     const { newProject, profileInformations } = this.state;
@@ -146,7 +146,7 @@ class CreateProject extends React.Component {
                             id="title"
                             name="title"
                           />
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.titleError}
                           </div>
                         </FormGroup>
@@ -167,7 +167,7 @@ class CreateProject extends React.Component {
                             id="description"
                             name="description"
                           />
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.descriptionError}
                           </div>
                         </FormGroup>
@@ -191,7 +191,7 @@ class CreateProject extends React.Component {
                                 min="2020-07-18"
                                 placeholder="date placeholder"
                               />
-                              <div style={{ fontSize: 12, color: "red" }}>
+                              <div style={{ fontSize: 12, color: 'red' }}>
                                 {this.state.deadlineError}
                               </div>
                             </FormGroup>

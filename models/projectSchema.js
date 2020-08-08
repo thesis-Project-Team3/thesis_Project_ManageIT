@@ -8,6 +8,8 @@ const featuresSchema = new Schema({
   featureDeadline: { type: String },
   featureStatus: { type: String },
   featureProgress: { type: String },
+  featureSpecificationsFile: { type: String },
+  featureEstimateFile: { type: String },
 });
 
 const projectSchema = new Schema({
