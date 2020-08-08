@@ -94,6 +94,8 @@ class UserProfile extends React.Component {
       .catch((err) => console.log('Error', err));
   }
   render() {
+    const defaultImageURL =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
     const externalCloseBtn = (
       <button
         className="close"
@@ -302,7 +304,11 @@ class UserProfile extends React.Component {
                       <img
                         alt="..."
                         className="avatar"
-                        src={profileInformations.profileImageURL}
+                        src={
+                          profileInformations.profileImageURL
+                            ? profileInformations.profileImageURL
+                            : defaultImageURL
+                        }
                       />
                       <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
