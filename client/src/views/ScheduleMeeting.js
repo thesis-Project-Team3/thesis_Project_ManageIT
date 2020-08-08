@@ -315,7 +315,8 @@ class ScheduleMeeting extends React.Component {
                       <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      {profileInformations.department} Department Employee
+                      {profileInformations.department} Department{' '}
+                      {jwtDecode(localStorage.getItem('token')).role}
                     </p>
                   </div>
                 </CardBody>
