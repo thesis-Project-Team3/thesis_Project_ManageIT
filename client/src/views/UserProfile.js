@@ -27,6 +27,7 @@ class UserProfile extends React.Component {
     modal: false,
     selectedFile: null,
     newInfos: {
+      position: '',
       address: '',
       city: '',
       postalCode: '',
@@ -64,22 +65,22 @@ class UserProfile extends React.Component {
 
   onClickHandler = (e) => {
     e.preventDefault();
-    // if (this.state.newInfos.profileImageURL) {
-    const newInfos = { ...this.state.newInfos };
-    const data = new FormData();
-    data.append('file', this.state.selectedFile);
-    axios
-      .post('http://localhost:5000/upload-images/', data, {
-        // receive two    parameter endpoint url ,form data
-      })
-      .then((response) => {
-        newInfos.profileImageURL = response.data.data[0].url;
-        // then print response status
-        console.log(response.data.data[0].url);
-        this.setState({ newInfos });
-      });
+    if (this.state.selectedFile) {
+      const newInfos = { ...this.state.newInfos };
+      const data = new FormData();
+      data.append('file', this.state.selectedFile);
+      axios
+        .post('http://localhost:5000/upload-images/', data, {
+          // receive two    parameter endpoint url ,form data
+        })
+        .then((response) => {
+          newInfos.profileImageURL = response.data.data[0].url;
+          // then print response status
+          console.log(response.data.data[0].url);
+          this.setState({ newInfos });
+        });
+    }
   };
-
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
@@ -118,7 +119,7 @@ class UserProfile extends React.Component {
                 <CardBody>
                   <Form>
                     <Row>
-                      <Col className="pr-md-1" md="5">
+                      <Col className="pr-md-1" md="6">
                         <FormGroup>
                           <label>Department</label>
                           <Input
@@ -130,7 +131,7 @@ class UserProfile extends React.Component {
                         </FormGroup>
                       </Col>
 
-                      <Col className="pr-md-1" md="6">
+                      <Col className="pl-md-1" md="6">
                         <FormGroup>
                           <label>Fullname</label>
                           <Input
@@ -142,24 +143,40 @@ class UserProfile extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label htmlFor="exampleInputEmail1">
-                          Email address
-                        </label>
-                        <Input
-                          defaultValue={profileInformations.email}
-                          type="email"
-                          disabled
-                        />
-                      </FormGroup>
-                    </Col>
+
+                    <Row>
+                      <Col className="pr-md-1" md="6">
+                        <FormGroup>
+                          <label htmlFor="exampleInputEmail1">
+                            Email address
+                          </label>
+                          <Input
+                            defaultValue={profileInformations.email}
+                            type="email"
+                            disabled
+                          />
+                        </FormGroup>
+                      </Col>
+
+                      <Col className="pl-md-1" md="6">
+                        <FormGroup>
+                          <label>Position</label>
+                          <Input
+                            defaultValue={profileInformations.position}
+                            placeholder="Position"
+                            type="text"
+                            name="position"
+                            onChange={this.handleChange}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
                     <Row>
                       <Col md="12">
                         <FormGroup>
                           <label>Address</label>
                           <Input
-                            defaultValue=""
+                            defaultValue={profileInformations.address}
                             placeholder="Home Address"
                             type="text"
                             name="address"
@@ -173,7 +190,7 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>City</label>
                           <Input
-                            defaultValue=""
+                            defaultValue={profileInformations.city}
                             placeholder="City"
                             type="text"
                             name="city"
@@ -181,23 +198,13 @@ class UserProfile extends React.Component {
                           />
                         </FormGroup>
                       </Col>
-                      {/* <Col className="px-md-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue=""
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col> */}
                       <Col className="pl-md-1" md="6">
                         <FormGroup>
                           <label>Postal Code</label>
                           <Input
                             placeholder="ZIP Code"
                             type="number"
-                            defaultValue=""
+                            defaultValue={profileInformations.postalCode}
                             name="postalCode"
                             onChange={this.handleChange}
                           />
@@ -210,7 +217,7 @@ class UserProfile extends React.Component {
                           <label>About Me</label>
                           <Input
                             cols="80"
-                            // defaultValue=""
+                            defaultValue={profileInformations.aboutMe}
                             placeholder="Here can be your description"
                             rows="4"
                             type="textarea"

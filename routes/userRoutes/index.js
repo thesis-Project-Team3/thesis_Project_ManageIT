@@ -51,6 +51,7 @@ router.patch('/:id', (req, res) => {
   User.findOneAndUpdate(
     { _id: req.params.id },
     {
+      position: req.body.position,
       address: req.body.address,
       city: req.body.city,
       postalCode: req.body.postalCode,
