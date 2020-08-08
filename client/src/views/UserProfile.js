@@ -17,17 +17,21 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
+  Label,
+  CustomInput,
 } from 'reactstrap';
 
 class UserProfile extends React.Component {
   state = {
     profileInformations: '',
     modal: false,
+    selectedFile: null,
     newInfos: {
       address: '',
       city: '',
       postalCode: '',
       aboutMe: '',
+      profileImageURL: '',
     },
   };
 
@@ -50,6 +54,31 @@ class UserProfile extends React.Component {
     this.setState({ newInfos });
   };
 
+  onChangeFile = (e) => {
+    console.log(e.target.files[0]);
+    this.setState({
+      selectedFile: e.target.files[0],
+      loaded: 0,
+    });
+  };
+
+  onClickHandler = (e) => {
+    e.preventDefault();
+    const newInfos = { ...this.state.newInfos };
+    const data = new FormData();
+    data.append('file', this.state.selectedFile);
+    axios
+      .post('http://localhost:5000/upload-images/', data, {
+        // receive two    parameter endpoint url ,form data
+      })
+      .then((response) => {
+        newInfos.profileImageURL = response.data.data[0].url;
+        // then print response status
+        console.log(response.data.data[0].url);
+        this.setState({ newInfos });
+      });
+  };
+
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
@@ -57,12 +86,9 @@ class UserProfile extends React.Component {
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         console.log(response.data);
-        this.setState(
-          {
-            profileInformations: response.data[0],
-          },
-          () => console.log(this.state.profileInformations)
-        );
+        this.setState({
+          profileInformations: response.data[0],
+        });
       })
       .catch((err) => console.log('Error', err));
   }
@@ -191,6 +217,32 @@ class UserProfile extends React.Component {
                         </FormGroup>
                       </Col>
                     </Row>
+                    <Row>
+                      <Col className="pr-md-1" md="3">
+                        <FormGroup>
+                          <Label for="exampleFile">
+                            Change Your Profile Picture :
+                          </Label>
+                          <CustomInput
+                            type="file"
+                            id="exampleFile"
+                            name="customFile"
+                            onChange={this.onChangeFile}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="pr-md-1" md="4">
+                        <Button
+                          style={{ marginTop: 24 }}
+                          className="btn-fill"
+                          color="primary"
+                          type="submit"
+                          onClick={this.onClickHandler}
+                        >
+                          Submit Picture
+                        </Button>
+                      </Col>
+                    </Row>
                   </Form>
                 </CardBody>
                 <CardFooter>
@@ -249,7 +301,7 @@ class UserProfile extends React.Component {
                       <img
                         alt="..."
                         className="avatar"
-                        src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
+                        src={profileInformations.profileImageURL}
                       />
                       <h5 className="title">{profileInformations.fullname}</h5>
                     </a>

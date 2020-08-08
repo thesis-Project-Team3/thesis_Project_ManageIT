@@ -49,6 +49,9 @@ const userSchema = new Schema({
   aboutMe: {
     type: String,
   },
+  profileImageURL: {
+    type: String,
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {
