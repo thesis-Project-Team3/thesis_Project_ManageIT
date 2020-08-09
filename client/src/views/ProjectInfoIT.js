@@ -75,6 +75,8 @@ class ProjectInfoMethods extends React.Component {
   }
 
   render() {
+    const defaultImageURL =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
     const { infoView } = this.props;
     console.log(infoView);
     const { oneProjectInfo, profileInformations } = this.state;
@@ -247,15 +249,19 @@ class ProjectInfoMethods extends React.Component {
                       <img
                         alt="..."
                         className="avatar"
-                        src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
+                        src={
+                          profileInformations.profileImageURL
+                            ? profileInformations.profileImageURL
+                            : defaultImageURL
+                        }
                       />
                       <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      {profileInformations.department} Department Employee
+                      {profileInformations.department} Department{' '}
+                      {jwtDecode(localStorage.getItem('token')).role}
                     </p>
                   </div>
-                  <div className="card-description">ME .......</div>
                 </CardBody>
                 <CardFooter>
                   <div className="button-container">

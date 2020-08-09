@@ -62,7 +62,7 @@ class Sidebar extends React.Component {
             target="_blank"
             onClick={this.props.toggleSidebar}
           >
-            {logo.text}
+            manage IT
           </a>
         );
       } else {
