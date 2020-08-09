@@ -28,8 +28,8 @@ class RegisterHead extends React.Component {
     emailError: '',
     passwordError: '',
     dateError: '',
-    phoneError: ''
-  }
+    phoneError: '',
+  };
   componentDidMount() {
     document.body.classList.toggle('register-page');
   }
@@ -41,44 +41,44 @@ class RegisterHead extends React.Component {
     var isValid = this.validate();
     if (isValid) {
       e.preventDefault();
-      var firstName = document.getElementById("firstName").value;
-      var lastName = document.getElementById("lastName").value;
-      var fullname = firstName + " " + lastName;
-      var email = document.getElementById("email").value;
-      var headDepartment = document.getElementById("department").value;
-      const department = "";
-      if (headDepartment === "Head of Financial Department") {
-        department = "Financial"
-      } else if (headDepartment === "Head of Accounting Department") {
-        department = "Accounting"
-      } else if (headDepartment === "Head of Marketing Department") {
-        department = "Marketing"
-      } else if (headDepartment === "Head of Human Ressources Department") {
-        department = "Human Ressources"
-      } else if (headDepartment === "Head of Methods Department") {
-        department = "Methods"
-      } else if (headDepartment === "Head of IT Department") {
-        department = "IT"
+      var firstName = document.getElementById('firstName').value;
+      var lastName = document.getElementById('lastName').value;
+      var fullname = firstName + ' ' + lastName;
+      var email = document.getElementById('email').value;
+      var headDepartment = document.getElementById('department').value;
+      const department = '';
+      if (headDepartment === 'Head of Financial Department') {
+        department = 'Financial';
+      } else if (headDepartment === 'Head of Accounting Department') {
+        department = 'Accounting';
+      } else if (headDepartment === 'Head of Marketing Department') {
+        department = 'Marketing';
+      } else if (headDepartment === 'Head of Human Ressources Department') {
+        department = 'Human Ressources';
+      } else if (headDepartment === 'Head of Methods Department') {
+        department = 'Methods';
+      } else if (headDepartment === 'Head of IT Department') {
+        department = 'IT';
       }
-      var role = "Head";
-      var dateOfBirth = document.getElementById("dateOfBirth").value;
-      var phoneNumber = document.getElementById("phoneNumber").value;
-      var password = document.getElementById("Password").value;
+      var role = 'Head';
+      var dateOfBirth = document.getElementById('dateOfBirth').value;
+      var phoneNumber = document.getElementById('phoneNumber').value;
+      var password = document.getElementById('Password').value;
       if (
-        firstName === "" ||
-        lastName === "" ||
-        email === "" ||
-        headDepartment === "" ||
-        role === "" ||
-        dateOfBirth === "" ||
-        phoneNumber === "" ||
-        password === ""
+        firstName === '' ||
+        lastName === '' ||
+        email === '' ||
+        headDepartment === '' ||
+        role === '' ||
+        dateOfBirth === '' ||
+        phoneNumber === '' ||
+        password === ''
       ) {
-        alert("fill all the form please!!");
+        alert('fill all the form please!!');
         return;
       }
-      await fetch("http://localhost:5000/CreateNewHeadDepartment", {
-        method: "POST",
+      await fetch('http://localhost:5000/CreateNewHeadDepartment', {
+        method: 'POST',
         body: JSON.stringify({
           fullname,
           email,
@@ -89,66 +89,78 @@ class RegisterHead extends React.Component {
           password,
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
       // .then(() => {});
-      document.getElementById("firstName").value = "";
-      document.getElementById("lastName").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("department").value = "";
-      document.getElementById("dateOfBirth").value = "";
-      document.getElementById("phoneNumber").value = "";
-      document.getElementById("Password").value = "";
+      document.getElementById('firstName').value = '';
+      document.getElementById('lastName').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('department').value = '';
+      document.getElementById('dateOfBirth').value = '';
+      document.getElementById('phoneNumber').value = '';
+      document.getElementById('Password').value = '';
     }
   }
 
   validate = () => {
-    var firstName = document.getElementById("firstName").value;
-    var lastName = document.getElementById("lastName").value;
-    var email = document.getElementById("email").value;
-    var headDepartment = document.getElementById("department").value;
-    var password = document.getElementById("Password").value;
-    var dateOfBirth = document.getElementById("dateOfBirth").value;
-    var phoneNumber = document.getElementById("phoneNumber").value;
-    var firstNameError = ''
-    var lastNameError = ''
-    var emailError = ''
-    var departmentError = ''
-    var passwordError = ''
-    var dateError = ''
-    var phoneError = ''
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var email = document.getElementById('email').value;
+    var headDepartment = document.getElementById('department').value;
+    var password = document.getElementById('Password').value;
+    var dateOfBirth = document.getElementById('dateOfBirth').value;
+    var phoneNumber = document.getElementById('phoneNumber').value;
+    var firstNameError = '';
+    var lastNameError = '';
+    var emailError = '';
+    var departmentError = '';
+    var passwordError = '';
+    var dateError = '';
+    var phoneError = '';
     if (firstName.length < 3) {
-      firstNameError = "invalid firstname"
+      firstNameError = 'invalid firstname';
     }
     if (lastName.length < 3) {
-      lastNameError = "invalid lastname"
+      lastNameError = 'invalid lastname';
     }
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
-      emailError = "invalid or existing email"
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      emailError = 'invalid or existing email';
     }
     if (!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)) {
-      passwordError = 'invalid password'
+      passwordError = 'invalid password';
     }
-    if (headDepartment === "choose a department") {
-      departmentError = "you need to choose a department"
+    if (headDepartment === 'choose a department') {
+      departmentError = 'you need to choose a department';
     }
     if (!dateOfBirth) {
-      dateError = "you need to pick a date of birth"
+      dateError = 'you need to pick a date of birth';
     }
     if (!phoneNumber.match(/^(1?(-?\d{2})-?)?(\d{3})(-?\d{3})$/)) {
-      phoneError = "invalid phone number"
+      phoneError = 'invalid phone number';
     }
-    if (firstNameError || lastNameError || departmentError || emailError || passwordError ||
-      dateError || phoneError) {
+    if (
+      firstNameError ||
+      lastNameError ||
+      departmentError ||
+      emailError ||
+      passwordError ||
+      dateError ||
+      phoneError
+    ) {
       this.setState({
-        firstNameError, lastNameError, departmentError, emailError, passwordError,
-        dateError, phoneError
-      })
-      return false
+        firstNameError,
+        lastNameError,
+        departmentError,
+        emailError,
+        passwordError,
+        dateError,
+        phoneError,
+      });
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   render() {
     return (
@@ -171,7 +183,10 @@ class RegisterHead extends React.Component {
                         id="department"
                         required
                       >
-                        <option selected disabled> choose a department </option>
+                        <option selected disabled>
+                          {' '}
+                          choose a department{' '}
+                        </option>
                         <option> Head of Financial Department </option>
                         <option> Head of Accounting Department </option>
                         <option> Head of Marketing Department </option>
@@ -180,7 +195,7 @@ class RegisterHead extends React.Component {
                         <option> Head of IT Department </option>
                       </Input>
                     </FormGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.departmentError}
                     </div>
                     <Row>
@@ -198,7 +213,7 @@ class RegisterHead extends React.Component {
                             required
                           />
                         </InputGroup>
-                        <div style={{ fontSize: 12, color: "red" }}>
+                        <div style={{ fontSize: 12, color: 'red' }}>
                           {this.state.firstNameError}
                         </div>
                       </Col>
@@ -216,7 +231,7 @@ class RegisterHead extends React.Component {
                             required
                           />
                         </InputGroup>
-                        <div style={{ fontSize: 12, color: "red" }}>
+                        <div style={{ fontSize: 12, color: 'red' }}>
                           {this.state.lastNameError}
                         </div>
                       </Col>
@@ -234,7 +249,7 @@ class RegisterHead extends React.Component {
                         required
                       />
                     </InputGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.emailError}
                     </div>
                     <FormGroup>
@@ -246,7 +261,7 @@ class RegisterHead extends React.Component {
                         required
                       />
                     </FormGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.dateError}
                     </div>
                     <InputGroup>
@@ -264,7 +279,7 @@ class RegisterHead extends React.Component {
                         required
                       />
                     </InputGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.phoneError}
                     </div>
                     <InputGroup>
@@ -280,7 +295,7 @@ class RegisterHead extends React.Component {
                         required
                       />
                     </InputGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.passwordError}
                     </div>
                   </CardBody>
@@ -291,11 +306,11 @@ class RegisterHead extends React.Component {
                       // href="#pablo"
                       onClick={
                         ((e) => e.preventDefault(),
-                          this.fillHeadFormOnSubmit.bind(this))
+                        this.fillHeadFormOnSubmit.bind(this))
                       }
                       size="lg"
                     >
-                      Register
+                      Confirm
                     </Button>
                   </CardFooter>
                 </Card>
