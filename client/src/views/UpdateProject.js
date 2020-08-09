@@ -41,7 +41,7 @@ class UpdateProject extends React.Component {
       titleError: '',
       descriptionError: '',
       deadlineError: '',
-      singleSelectError: ''
+      singleSelectError: '',
     };
   }
 
@@ -131,30 +131,37 @@ class UpdateProject extends React.Component {
   }
 
   validate = () => {
-    let singleSelectError = ''
-    let titleError = ''
-    let descriptionError = ''
-    let deadlineError = ''
+    let singleSelectError = '';
+    let titleError = '';
+    let descriptionError = '';
+    let deadlineError = '';
     if (this.state.newFeature.featureTitle.length < 6) {
-      titleError = "invalid title"
+      titleError = 'invalid title';
     }
     if (this.state.newFeature.featureDescription.length < 16) {
-      descriptionError = "invalid description"
+      descriptionError = 'invalid description';
     }
     if (!this.state.newFeature.featureDeadline) {
-      deadlineError = "you need to set a deadline"
+      deadlineError = 'you need to set a deadline';
     }
     if (!this.state.singleSelect) {
-      singleSelectError = "you need to choose a project"
+      singleSelectError = 'you need to choose a project';
     }
     if (titleError || descriptionError || deadlineError || singleSelectError) {
-      this.setState({ titleError, descriptionError, deadlineError, singleSelectError })
-      return false
+      this.setState({
+        titleError,
+        descriptionError,
+        deadlineError,
+        singleSelectError,
+      });
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   render() {
+    const defaultImageURL =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
     const { newFeature } = this.state;
     const externalCloseBtn = (
       <button
@@ -217,7 +224,7 @@ class UpdateProject extends React.Component {
                             </option>
                             {options}
                           </Input>
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.singleSelectError}
                           </div>
                         </FormGroup>
@@ -232,7 +239,7 @@ class UpdateProject extends React.Component {
                             onChange={this.handleChange}
                             name="featureTitle"
                           />
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.titleError}
                           </div>
                         </FormGroup>
@@ -252,7 +259,7 @@ class UpdateProject extends React.Component {
                             onChange={this.handleChange}
                             name="featureDescription"
                           />
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.descriptionError}
                           </div>
                         </FormGroup>
@@ -274,7 +281,7 @@ class UpdateProject extends React.Component {
                                 onChange={this.handleChange}
                                 name="featureDeadline"
                               />
-                              <div style={{ fontSize: 12, color: "red" }}>
+                              <div style={{ fontSize: 12, color: 'red' }}>
                                 {this.state.deadlineError}
                               </div>
                             </FormGroup>
@@ -340,15 +347,19 @@ class UpdateProject extends React.Component {
                       <img
                         alt="..."
                         className="avatar"
-                        src="https://i.postimg.cc/2ysnx7H8/photo-1511367461989-f85a21fda167.jpg"
+                        src={
+                          profileInformations.profileImageURL
+                            ? profileInformations.profileImageURL
+                            : defaultImageURL
+                        }
                       />
                       <h5 className="title">{profileInformations.fullname}</h5>
                     </a>
                     <p className="description">
-                      {profileInformations.department} Department Employee
+                      {profileInformations.department} Department{' '}
+                      {jwtDecode(localStorage.getItem('token')).role}
                     </p>
                   </div>
-                  <div className="card-description">ME .......</div>
                 </CardBody>
                 <CardFooter>
                   <div className="button-container">

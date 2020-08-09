@@ -3,8 +3,8 @@ import axios from 'axios';
 // nodejs library that concatenates classes
 import classNames from 'classnames';
 import Notifications, { notify } from 'react-notify-toast';
-import jwtDecode from "jwt-decode";
-import socketIOClient from "socket.io-client";
+import jwtDecode from 'jwt-decode';
+import socketIOClient from 'socket.io-client';
 
 // reactstrap components
 import {
@@ -23,7 +23,7 @@ import {
   Container,
   Modal,
 } from 'reactstrap';
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = 'http://127.0.0.1:5000';
 
 class AdminNavbar extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class AdminNavbar extends React.Component {
       collapseOpen: false,
       modalSearch: false,
       color: 'navbar-transparent',
-      notifs: []
+      notifs: [],
     };
   }
 
@@ -57,7 +57,7 @@ class AdminNavbar extends React.Component {
     window.addEventListener('resize', this.updateColor);
 
     // notifications
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     const user = jwtDecode(token);
     const socket = socketIOClient(ENDPOINT);
     console.log(user)
@@ -84,8 +84,8 @@ class AdminNavbar extends React.Component {
       }
       axios.get('http://localhost:5000/notification/store').then((response) => {
         var notifs = response.data;
-        console.log(notifs)
-        var arr = []
+        console.log(notifs);
+        var arr = [];
         for (var i = notifs.length - 1; i >= 0; i--) {
           if (notifs[i].employees.length !== 0 && user.role !== "Head") {
             for (var j = 0; j < notifs[i].employees.length; j++)
@@ -99,11 +99,11 @@ class AdminNavbar extends React.Component {
         }
         this.setState({ notifs: arr });
       });
-    })
+    });
     axios.get('http://localhost:5000/notification/store').then((response) => {
       var notifs = response.data;
-      console.log(notifs)
-      var arr = []
+      console.log(notifs);
+      var arr = [];
       for (var i = notifs.length - 1; i >= 0; i--) {
         if (notifs[i].employees.length !== 0 && user.role !== "Head") {
           for (var j = 0; j < notifs[i].employees.length; j++)
@@ -164,10 +164,10 @@ class AdminNavbar extends React.Component {
   };
   render() {
     console.log(this.state.notifs)
-    var notification = this.state.notifs.map((notif) => {
+    var notification = this.state.notifs.map((notif, key) => {
       if (notif.employees.length !== 0) {
         return (
-          <NavLink tag="li">
+          <NavLink key={key} tag="li">
             <DropdownItem className="nav-item">
               You have a new meeting scheduled for {notif.date}
             </DropdownItem>
