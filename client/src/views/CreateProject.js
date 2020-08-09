@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import socketIOClient from "socket.io-client";
 import jwtDecode from 'jwt-decode';
 import {
   Button,
@@ -18,6 +19,7 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class CreateProject extends React.Component {
   state = {
@@ -65,19 +67,37 @@ class CreateProject extends React.Component {
   handleSubmit = (e) => {
     var isValid = this.validate();
     if (isValid) {
-    this.setState({ modal: !this.state.modal });
-    e.preventDefault();
-    axios
-      .post('http://localhost:5000/project/create', {
+      this.setState({ modal: !this.state.modal });
+      e.preventDefault();
+      axios
+        .post('http://localhost:5000/project/create', {
+          department: this.state.profileInformations.department,
+          ...this.state.newProject,
+          status: 'Created',
+          progress: `Created by ${this.state.profileInformations.fullname}`,
+        })
+        .then((response) => { })
+
+        .catch((err) => console.log('Error', err));
+
+      // notification
+      const socket = socketIOClient(ENDPOINT);
+      socket.emit("messageSent", {
         department: this.state.profileInformations.department,
         ...this.state.newProject,
         status: 'Created',
-        progress: `Created by ${this.state.profileInformations.fullname}`,
+        progress: `Created by ${this.state.profileInformations.fullname}`
       })
-      .then((response) => {})
-
-      .catch((err) => console.log('Error', err));
-  };
+      axios
+        .post('http://localhost:5000/meeting/store', {
+          department: this.state.profileInformations.department,
+          ...this.state.newProject,
+          status: 'Created',
+          progress: `Created by ${this.state.profileInformations.fullname}`,
+        })
+      //-----------------
+    };
+  }
 
   validate = () => {
     let titleError = ''
