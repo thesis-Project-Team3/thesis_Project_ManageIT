@@ -82,6 +82,16 @@ class UpdateProject extends React.Component {
           console.log(response.data);
         })
         .catch((err) => console.log('Error', err));
+
+      axios
+        .patch(
+          `http://localhost:5000/notification/update/${this.state.singleSelect}`,
+          this.state.newFeature
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => console.log('Error', err));
     }
   };
 

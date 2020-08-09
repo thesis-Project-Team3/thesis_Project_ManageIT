@@ -34,13 +34,20 @@ class Notifications extends React.Component {
       console.log(notifs)
       var arr = []
       for (var i = notifs.length - 1; i >= 0; i--) {
-        for (var j = 0; j < notifs[i].employees.length; j++) {
-          if (notifs[i].employees[j].label === user.fullname) {
+        if (notifs[i].employees.length !== 0 && user.role !== "Head") {
+          for (var j = 0; j < notifs[i].employees.length; j++) {
+            if (notifs[i].employees[j].label === user.fullname) {
+              arr.push(notifs[i])
+            }
+          }
+        }
+        else {
+          if (user.role === "Head" && notifs[i].department === user.department) {
             arr.push(notifs[i])
           }
         }
+        this.setState({ notifs: arr });
       }
-      this.setState({ notifs: arr });
     });
   }
 
@@ -86,17 +93,32 @@ class Notifications extends React.Component {
   render() {
     console.log(this.state.notifs)
     var notification = this.state.notifs.map((notif) => {
-      return (
-        <UncontrolledAlert className="alert-with-icon" color="info">
-          <span
-            className="tim-icons icon-bell-55"
-            data-notify="icon"
-          />
-          <span data-notify="message">
-            New message : you have a {notif.subject} meeting in {notif.date} From your head of department
+      if (notif.employees.length !== 0) {
+        return (
+          <UncontrolledAlert className="alert-with-icon" color="info">
+            <span
+              className="tim-icons icon-bell-55"
+              data-notify="icon"
+            />
+            <span data-notify="message">
+              New message : you have a {notif.subject} meeting in {notif.date} From your head of department
                     </span>
-        </UncontrolledAlert>
-      )
+          </UncontrolledAlert>
+        )
+      }
+      else {
+        return (
+          <UncontrolledAlert className="alert-with-icon" color="info">
+            <span
+              className="tim-icons icon-bell-55"
+              data-notify="icon"
+            />
+            <span data-notify="message">
+              New message : You received a new project {notif.progress}
+            </span>
+          </UncontrolledAlert>
+        )
+      }
     })
     return (
       <>
