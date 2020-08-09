@@ -28,6 +28,7 @@ class ProjectInfoMethods extends React.Component {
     this.state = {
       oneProjectInfo: [],
       profileInformations: '',
+      usersList: [],
       modal: false,
       selectedFile: null,
       fileGeneratedUrl: '',
@@ -36,6 +37,14 @@ class ProjectInfoMethods extends React.Component {
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
+  };
+
+  getFeatureCreator = (id) => {
+    for (var i in this.state.usersList) {
+      if (this.state.usersList[i]._id === id) {
+        return this.state.usersList[i].fullname;
+      }
+    }
   };
 
   onChangeFile = (e) => {
@@ -92,6 +101,12 @@ class ProjectInfoMethods extends React.Component {
         console.log(response.data[0]);
         this.setState({ oneProjectInfo: response.data[0] });
       });
+
+    //get all the list of all users for feature creator
+    axios.get('http://localhost:5000/users/').then((response) => {
+      console.log(response.data);
+      this.setState({ usersList: response.data });
+    });
   }
 
   render() {
@@ -124,6 +139,10 @@ class ProjectInfoMethods extends React.Component {
               <div key={key}>
                 <Table striped>
                   <tbody>
+                    <tr>
+                      <th scope="row">Creator</th>
+                      <td>{this.getFeatureCreator(feat.featureCreator)}</td>
+                    </tr>
                     <tr>
                       <th scope="row">Title</th>
                       <td>{feat.featureTitle}</td>
