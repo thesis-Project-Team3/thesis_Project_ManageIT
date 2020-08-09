@@ -14,7 +14,7 @@ import {
   Button,
 } from 'reactstrap';
 
-class ProjectHistoryHeads extends React.Component {
+class ProjectHistoryMethodsInternal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +31,6 @@ class ProjectHistoryHeads extends React.Component {
         `http://localhost:5000/project/projectsByDepartment/${user.department}`
       )
       .then((response) => {
-        console.log(response.data);
         this.setState({ projects: response.data });
       });
   }
@@ -111,4 +110,4 @@ class ProjectHistoryHeads extends React.Component {
   }
 }
 
-export default ProjectHistoryHeads;
+export default ProjectHistoryMethodsInternal;

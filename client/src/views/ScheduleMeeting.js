@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import axios from "axios";
+import socketIOClient from "socket.io-client";
 import jwtDecode from "jwt-decode";
 import {
   Button,
@@ -19,6 +20,8 @@ import {
   ModalBody,
   ModalFooter,
 } from "reactstrap";
+const ENDPOINT = "http://127.0.0.1:5000";
+
 
 class ScheduleMeeting extends React.Component {
   constructor(props) {
@@ -31,8 +34,10 @@ class ScheduleMeeting extends React.Component {
       // singleSelect: null,
       date: "",
       employees: [],
-      // tagsinput: ["Amsterdam", "Washington", "Sydney", "Beijing"]
       modal: false,
+      subjectError: '',
+      employeeError: '',
+      dateError: ''
     };
   }
 
@@ -49,7 +54,7 @@ class ScheduleMeeting extends React.Component {
     );
   };
   handleChange1 = (e) => {
-    this.setState({ employees: e }, () => {});
+    this.setState({ employees: e }, () => { });
   };
 
   makeOptions() {
@@ -60,21 +65,33 @@ class ScheduleMeeting extends React.Component {
   }
 
   submit = (e) => {
-    this.setState({ modal: !this.state.modal });
-    e.preventDefault();
-    axios
-      .post("http://localhost:5000/meeting/create", {
-        subject: this.state.subject,
-        date: this.state.date,
-        employees: this.state.employees,
+    var isValid = this.validate();
+    if (isValid) {
+      // notification
+      const socket = socketIOClient(ENDPOINT);
+      var subject = this.state.subject
+      var date = this.state.date
+      var employees = this.state.employees
+      socket.emit("messageSent", { subject, date, employees })
+
+      axios.post("http://localhost:5000/meeting/store", {
+        subject, date, employees,
         department: this.state.profileInformations.department,
       })
-      .then(() => {
-        console.log("data sent");
+      //-----------------
+      this.setState({ modal: !this.state.modal });
+      e.preventDefault();
+      axios.post("http://localhost:5000/meeting/create", {
+        subject, date, employees,
+        department: this.state.profileInformations.department,
       })
-      .catch(() => {
-        console.log("error");
-      });
+        .then(() => {
+          console.log("data sent");
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    }
   };
 
   async componentDidMount() {
@@ -83,7 +100,7 @@ class ScheduleMeeting extends React.Component {
     await axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
-        // console.log(response.data);
+        console.log(response.data);
         this.setState(
           {
             profileInformations: response.data[0],
@@ -106,10 +123,28 @@ class ScheduleMeeting extends React.Component {
       .then((res) => res.json())
       .then((usersData) => {
         this.setState({ usersData });
-        // console.log(this.state.usersData);
         this.makeOptions();
       });
-    console.log(this.state.profileInformations);
+  }
+
+  validate = () => {
+    let subjectError = ''
+    let employeeError = ''
+    let dateError = ''
+    if (this.state.subject.length < 6) {
+      subjectError = "invalid subject"
+    }
+    if (this.state.employees.length === 0) {
+      employeeError = "no employees selected"
+    }
+    if (!this.state.date) {
+      dateError = "you need to pick a date"
+    }
+    if (subjectError || employeeError || dateError) {
+      this.setState({ subjectError, employeeError, dateError })
+      return false
+    }
+    return true
   }
 
   render() {
@@ -156,6 +191,9 @@ class ScheduleMeeting extends React.Component {
                             onChange={this.handleChange}
                             id="subject"
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.subjectError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -174,6 +212,9 @@ class ScheduleMeeting extends React.Component {
                             onChange={this.handleChange1}
                             options={this.state.options}
                           ></Select>
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.employeeError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -193,6 +234,9 @@ class ScheduleMeeting extends React.Component {
                                 onChange={this.handleChange}
                                 placeholder="date placeholder"
                               />
+                              <div style={{ fontSize: 12, color: "red" }}>
+                                {this.state.dateError}
+                              </div>
                             </FormGroup>
                           </CardBody>
                         </Card>

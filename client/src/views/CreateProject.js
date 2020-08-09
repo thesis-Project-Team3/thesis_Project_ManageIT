@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import socketIOClient from "socket.io-client";
 import jwtDecode from 'jwt-decode';
 import {
   Button,
@@ -18,6 +19,7 @@ import {
   ModalBody,
   ModalFooter,
 } from 'reactstrap';
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class CreateProject extends React.Component {
   state = {
@@ -26,11 +28,13 @@ class CreateProject extends React.Component {
       department: '',
       description: '',
       deadline: '',
-      status: 'Created',
       user: jwtDecode(localStorage.getItem('token')),
     },
     profileInformations: '',
     modal: false,
+    titleError: '',
+    descriptionError: '',
+    deadlineError: ''
   };
 
   toggle = () => {
@@ -44,12 +48,12 @@ class CreateProject extends React.Component {
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
         console.log(response.data);
-        this.state.newProject.department = response.data[0].department
+        this.state.newProject.department = response.data[0].department;
         this.setState(
           {
             profileInformations: response.data[0],
-          },
-          () => console.log(this.state.profileInformations.fullname)
+          }
+          // () => console.log(this.state.profileInformations.fullname)
         );
       })
       .catch((err) => console.log('Error', err));
@@ -61,14 +65,60 @@ class CreateProject extends React.Component {
   };
 
   handleSubmit = (e) => {
-    this.setState({ modal: !this.state.modal });
-    e.preventDefault();
-    axios
-      .post('http://localhost:5000/project/create', this.state.newProject)
-      .then((response) => { })
+    var isValid = this.validate();
+    if (isValid) {
+      this.setState({ modal: !this.state.modal });
+      e.preventDefault();
+      axios
+        .post('http://localhost:5000/project/create', {
+          department: this.state.profileInformations.department,
+          ...this.state.newProject,
+          status: 'Created',
+          progress: `Created by ${this.state.profileInformations.fullname}`,
+        })
+        .then((response) => { })
 
-      .catch((err) => console.log('Error', err));
-  };
+        .catch((err) => console.log('Error', err));
+
+      // notification
+      const socket = socketIOClient(ENDPOINT);
+      socket.emit("messageSent", {
+        department: this.state.profileInformations.department,
+        ...this.state.newProject,
+        status: 'Created',
+        progress: `Created by ${this.state.profileInformations.fullname}`
+      })
+      axios
+        .post('http://localhost:5000/meeting/store', {
+          department: this.state.profileInformations.department,
+          ...this.state.newProject,
+          status: 'Created',
+          progress: `Created by ${this.state.profileInformations.fullname}`,
+        })
+      //-----------------
+    };
+  }
+
+  validate = () => {
+    let titleError = ''
+    let descriptionError = ''
+    let deadlineError = ''
+
+    if (this.state.newProject.title.length < 6) {
+      titleError = "invalid title"
+    }
+    if (this.state.newProject.description.length < 16) {
+      descriptionError = "invalid description"
+    }
+    if (!this.state.newProject.deadline) {
+      deadlineError = "you need to set a deadline"
+    }
+    if (titleError || descriptionError || deadlineError) {
+      this.setState({ titleError, descriptionError, deadlineError })
+      return false
+    }
+    return true
+  }
 
   render() {
     const { newProject, profileInformations } = this.state;
@@ -116,6 +166,9 @@ class CreateProject extends React.Component {
                             id="title"
                             name="title"
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.titleError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -134,6 +187,9 @@ class CreateProject extends React.Component {
                             id="description"
                             name="description"
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.descriptionError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -155,6 +211,9 @@ class CreateProject extends React.Component {
                                 min="2020-07-18"
                                 placeholder="date placeholder"
                               />
+                              <div style={{ fontSize: 12, color: "red" }}>
+                                {this.state.deadlineError}
+                              </div>
                             </FormGroup>
                           </CardBody>
                         </Card>
@@ -191,11 +250,10 @@ class CreateProject extends React.Component {
                         </center>
                       </ModalBody>
                       <ModalFooter>
-                        {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
                         <Button
                           color="secondary"
                           onClick={this.toggle}
-                          href="/admin/project"
+                          href="/admin/create-project"
                         >
                           Close
                         </Button>

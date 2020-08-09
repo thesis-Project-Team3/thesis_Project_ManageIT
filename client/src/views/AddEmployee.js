@@ -31,6 +31,10 @@ class AddEmployee extends React.Component {
       password: '',
       role: 'Employee',
     },
+    departmentError: '',
+    fullnameError: '',
+    emailError: '',
+    passwordError: '',
   };
   componentDidMount() {
     document.body.classList.toggle('register-page');
@@ -52,16 +56,42 @@ class AddEmployee extends React.Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.RegisterInformations);
-    axios
-      .post('http://localhost:5000/users', this.state.RegisterInformations)
-      .then((response) => {
-        console.log(response.data);
-      })
-
-      .catch((err) => console.log('Error', err));
+    var isValid = this.validate();
+    if (isValid) {
+      e.preventDefault();
+      console.log(this.state.RegisterInformations);
+      axios.post('http://localhost:5000/users', this.state.RegisterInformations)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => console.log('Error', err));
+    }
   };
+
+  validate = () => {
+    let departmentError = ''
+    let fullnameError = ''
+    let emailError = ''
+    let passwordError = ''
+    if (!this.state.RegisterInformations.department) {
+      departmentError = "you need to choose a department"
+    }
+    if (this.state.RegisterInformations.fullname.length < 6) {
+      fullnameError = "invalid fullName"
+    }
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.RegisterInformations.email))) {
+      emailError = "invalid or existing email"
+    }
+    if (!this.state.RegisterInformations.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)) {
+      passwordError = "invalid password"
+    }
+    if (departmentError || fullnameError || emailError || passwordError) {
+      this.setState({ departmentError, fullnameError, emailError, passwordError })
+      return false
+    }
+    return true
+  }
+
   render() {
     const { RegisterInformations } = this.state;
     return (
@@ -149,6 +179,9 @@ class AddEmployee extends React.Component {
                               { value: 'IT', label: 'IT Department' },
                             ]}
                           />
+                          <div style={{ fontSize: 12, color: "red" }}>
+                            {this.state.departmentError}
+                          </div>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -168,6 +201,9 @@ class AddEmployee extends React.Component {
                         onChange={this.handleChange}
                       />
                     </InputGroup>
+                    <div style={{ fontSize: 12, color: "red" }}>
+                      {this.state.fullnameError}
+                    </div>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -183,6 +219,9 @@ class AddEmployee extends React.Component {
                         onChange={this.handleChange}
                       />
                     </InputGroup>
+                    <div style={{ fontSize: 12, color: "red" }}>
+                      {this.state.emailError}
+                    </div>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
@@ -197,7 +236,11 @@ class AddEmployee extends React.Component {
                         value={RegisterInformations.password}
                         onChange={this.handleChange}
                       />
+                      <br />
                     </InputGroup>
+                    <div style={{ fontSize: 12, color: "red" }}>
+                      {this.state.passwordError}
+                    </div>
                     {/* <FormGroup check className="text-left">
                       <Label check>
                         <Input type="checkbox" />

@@ -2,17 +2,20 @@ import jwtDecode from 'jwt-decode';
 import Dashboard from 'views/Dashboard.js';
 // import Icons from "views/Icons.js";
 // import Map from "views/Map.js";
-import Notifications from "views/Notifications.js";
+import Notifications from 'views/Notifications.js';
 // import Rtl from "views/Rtl.js";
-
+//Projects Histories
 import ProjectHistoryEmployees from 'views/ProjectHistoryEmployees';
 import ProjectHistoryHeads from 'views/ProjectHistoryHeads';
 import ProjectHistoryMethods from 'views/ProjectHistoryMethods.js';
 import ProjectHistoryIT from 'views/ProjectHistoryIT.js';
 import ProjectHistoryCEO from 'views/ProjectHistoryCEO.js';
+// Projects Informations
+import ProjectInfoEmployees from 'views/ProjectInfoEmployees.js';
+import ProjectInfoHeads from 'views/ProjectInfoHeads.js';
 
 import CreateProject from 'views/CreateProject.js';
-import ProjectInfo from 'views/ProjectInfo.js';
+
 import Login from 'views/Login.js';
 import AddEmployee from 'views/AddEmployee.js';
 import AddHead from 'views/AddHead.js';
@@ -62,14 +65,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: ProjectHistoryEmployees,
       layout: '/admin',
     },
-    {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
-      component: ProjectInfo,
-      layout: '/admin',
-    },
+    // {
+    //   path: '/project-info-employees',
+    //   name: 'Project Info',
+    //   rtlName: 'أرشيف المشاريع',
+    //   icon: 'tim-icons icon-notes',
+    //   component: ProjectInfoEmployees,
+    //   layout: '/admin',
+    // },
     {
       path: '/my-scheduled-meetings',
       name: 'My Scheduled Meetings',
@@ -141,14 +144,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: ProjectHistoryHeads,
       layout: '/admin',
     },
-    {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
-      component: ProjectInfo,
-      layout: '/admin',
-    },
+    // {
+    //   path: '/project-info-heads',
+    //   name: 'Project Info',
+    //   rtlName: 'أرشيف المشاريع',
+    //   icon: 'tim-icons icon-notes',
+    //   component: ProjectInfoHeads,
+    //   layout: '/admin',
+    // },
     {
       path: '/ScheduleMeeting',
       name: 'Schedule A Meeting',
@@ -174,7 +177,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -222,14 +225,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: ProjectHistoryHeads,
       layout: '/admin',
     },
-    {
-      path: '/project-Info',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
-      component: ProjectInfo,
-      layout: '/admin',
-    },
+    // {
+    //   path: '/project-info-heads',
+    //   name: 'Project Info',
+    //   rtlName: 'أرشيف المشاريع',
+    //   icon: 'tim-icons icon-notes',
+    //   component: ProjectInfoHeads,
+    //   layout: '/admin',
+    // },
     {
       path: '/ScheduleMeeting',
       name: 'Schedule A Meeting',
@@ -255,7 +258,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -320,14 +323,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: ProjectHistoryIT,
       layout: '/admin',
     },
-    {
-      path: "/project-Info",
-      name: "Project Info",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-notes",
-      component: ProjectInfo,
-      layout: "/admin",
-    },
+    // {
+    //   path: '/project-info-heads',
+    //   name: 'Project Info',
+    //   rtlName: 'أرشيف المشاريع',
+    //   icon: 'tim-icons icon-notes',
+    //   component: ProjectInfoHeads,
+    //   layout: '/admin',
+    // },
     {
       path: '/ScheduleMeeting',
       name: 'Schedule A Meeting',
@@ -353,7 +356,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -401,14 +404,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: ProjectHistoryMethods,
       layout: '/admin',
     },
-    {
-      path: "/project-Info",
-      name: "Project Info",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-notes",
-      component: ProjectInfo,
-      layout: "/admin",
-    },
+    // {
+    //   path: '/project-info-heads',
+    //   name: 'Project Info',
+    //   rtlName: 'أرشيف المشاريع',
+    //   icon: 'tim-icons icon-notes',
+    //   component: ProjectInfoHeads,
+    //   layout: '/admin',
+    // },
     {
       path: '/ScheduleMeeting',
       name: 'Schedule A Meeting',
@@ -434,7 +437,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',
@@ -462,12 +465,12 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: "/project-Info",
-      name: "Project Info",
-      rtlName: "أرشيف المشاريع",
-      icon: "tim-icons icon-notes",
-      component: ProjectInfo,
-      layout: "/admin",
+      path: '/project-info-heads',
+      name: 'Project Info',
+      rtlName: 'أرشيف المشاريع',
+      icon: 'tim-icons icon-notes',
+      component: ProjectInfoHeads,
+      layout: '/admin',
     },
     {
       path: '/ScheduleMeeting',
@@ -494,7 +497,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       layout: '/admin',
     },
     {
-      path: '/dashboard',
+      path: '/my-dashboard',
       name: 'My Dashboard',
       rtlName: 'لوحة القيادة',
       icon: 'tim-icons icon-chart-pie-36',

@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "axios";
 import jwtDecode from "jwt-decode";
+
 
 // reactstrap components
 import {
@@ -13,6 +13,7 @@ import {
   Table,
 } from "reactstrap";
 
+
 class ScheduledMeeting extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +24,6 @@ class ScheduledMeeting extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem("token");
     const user = jwtDecode(token);
-    // console.log(user);
     const obj = {
       role: user.role,
       email: user.email,
@@ -64,6 +64,7 @@ class ScheduledMeeting extends React.Component {
     return (
       <>
         <div className="content">
+          {/* <Notifications options={{ zIndex: 200, top: '50px' }} /> */}
           <Row>
             <Col md="12">
               <Card>

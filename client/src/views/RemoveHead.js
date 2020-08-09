@@ -43,7 +43,7 @@ class RemoveHead extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:5000/deleteEmployee", {
+    fetch("http://localhost:5000/deleteHeadDepartment", {
       method: "POST",
       body: JSON.stringify(this.state),
       headers: {
