@@ -29,11 +29,36 @@ class ProjectInfoMethods extends React.Component {
       oneProjectInfo: [],
       profileInformations: '',
       modal: false,
+      selectedFile: null,
+      fileGeneratedUrl: '',
     };
   }
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
+  };
+
+  onChangeFile = (e) => {
+    console.log(e.target.files[0]);
+    this.setState({
+      selectedFile: e.target.files[0],
+      loaded: 0,
+    });
+  };
+
+  onClickHandler = (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append('file', this.state.selectedFile);
+    axios
+      .post('http://localhost:5000/upload-images/', data, {
+        // receive two    parameter endpoint url ,form data
+      })
+      .then((response) => {
+        // then print response status
+        console.log(response.data.data[0].url);
+        this.setState({ fileGeneratedUrl: response.data.data[0].url });
+      });
   };
 
   handleSendToMethods = (featureTitle) => {
@@ -163,13 +188,29 @@ class ProjectInfoMethods extends React.Component {
                         </Button>
                       </Col>
                     </Row>
+                    <Row>
+                      <Col className="pr-md-1" md="5">
+                        <FormGroup>
+                          <label>Estimated Budget</label>
+                          <Input
+                            placeholder="Enter the estimated budget"
+                            type="number"
+                            step="100"
+                            // value={newFeature.featureTitle}
+                            // onChange={this.handleChange}
+                            name="featureTitle"
+                          />
+                          <div style={{ fontSize: 12, color: 'red' }}></div>
+                        </FormGroup>
+                      </Col>
+                    </Row>
                     <Button
                       className="btn-fill"
                       color="primary"
                       type="submit"
-                      onClick={() => this.handleAccept(feat._id)}
+                      onClick={() => this.handleReturnBackToMethods(feat._id)}
                     >
-                      Submit To IT
+                      Submit Estimate To Methods
                     </Button>{' '}
                   </>
                 )}
