@@ -51,7 +51,7 @@ class ProjectInfoEmployees extends React.Component {
 
   handleSubmit(featureTitle, e) {
     e.preventDefault();
-    // this.setState({ modal: !this.state.modal });
+    this.setState({ modal: !this.state.modal });
     axios
       .patch(`http://localhost:5000/project/update/${featureTitle}`, {
         featureStatus: 'In Progress',
@@ -64,14 +64,11 @@ class ProjectInfoEmployees extends React.Component {
     const user = jwtDecode(jwt);
     const socket = socketIOClient(ENDPOINT);
     socket.emit("messageSent", {
+      featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Sent to the Head of Department',
-      department: user.department
-    })
-
-    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
-      featureStatus: 'In Progress',
-      featureProgress: 'Sent to the Head of Department',
+      department: user.department,
+      feature: user.fullname
     })
     //-----------------
   }
@@ -180,6 +177,37 @@ class ProjectInfoEmployees extends React.Component {
               >
                 Submit To Head
                 </Button>
+              <div>
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  external={externalCloseBtn}
+                >
+                  {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                  <ModalBody>
+                    {' '}
+                    <br />{' '}
+                    <center>
+                      <img
+                        src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                        width="200px"
+                      />
+                      <br />
+                          Feature has been successfully sent to the Head of department !
+                        </center>
+                  </ModalBody>
+                  <ModalFooter>
+                    {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle}
+                      href="/admin/Update-Project"
+                    >
+                      Close
+                        </Button>
+                  </ModalFooter>
+                </Modal>
+              </div>
               <br></br>
               <br></br>
             </div>

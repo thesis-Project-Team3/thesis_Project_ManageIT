@@ -69,6 +69,8 @@ class CreateProject extends React.Component {
     if (isValid) {
       this.setState({ modal: !this.state.modal });
       e.preventDefault();
+      const jwt = localStorage.getItem('token');
+      const user = jwtDecode(jwt);
       axios
         .post('http://localhost:5000/project/create', {
           department: this.state.profileInformations.department,
@@ -86,15 +88,16 @@ class CreateProject extends React.Component {
         department: this.state.profileInformations.department,
         ...this.state.newProject,
         status: 'Created',
-        progress: `Created by ${this.state.profileInformations.fullname}`
+        progress: `Created by ${this.state.profileInformations.fullname}`,
+        fullname: user.fullname
       })
-      axios
-        .post('http://localhost:5000/meeting/store', {
-          department: this.state.profileInformations.department,
-          ...this.state.newProject,
-          status: 'Created',
-          progress: `Created by ${this.state.profileInformations.fullname}`,
-        })
+      axios.post('http://localhost:5000/notification/store', {
+        department: this.state.profileInformations.department,
+        ...this.state.newProject,
+        status: 'Created',
+        progress: `Created by ${this.state.profileInformations.fullname}`,
+        fullname: user.fullname
+      });
       //-----------------
     };
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import socketIOClient from "socket.io-client";
 import {
   Button,
   Card,
@@ -21,6 +22,7 @@ import {
   UncontrolledCollapse,
   Table,
 } from 'reactstrap';
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class ProjectInfoMethods extends React.Component {
   constructor(props) {
@@ -67,6 +69,24 @@ class ProjectInfoMethods extends React.Component {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to IT Department',
     });
+
+    const jwt = localStorage.getItem("token");
+    const user = jwtDecode(jwt);
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit("messageSent", {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to IT Department',
+      receiveddepartment: "IT",
+      sentdepartment: user.department
+    })
+    axios.post('http://localhost:5000/notification/store', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to IT Department',
+      receiveddepartment: "IT",
+      sentdepartment: user.department
+    });
   };
 
   componentDidMount() {
@@ -112,108 +132,112 @@ class ProjectInfoMethods extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          if (
-            (feat.featureStatus !== 'Created' &&
-              feat.featureProgress !== 'Sent to the Head of Department' &&
-              infoView === 'data2') ||
-            (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
-            (feat.featureProgress === 'Estimate Sent back from IT' &&
-              infoView === 'data3')
-          ) {
-            return (
-              <div key={key}>
-                <Table striped>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Title</th>
-                      <td>{feat.featureTitle}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Description</th>
-                      <td>{feat.featureDescription}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Deadline</th>
-                      <td>{feat.featureDeadline}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Status</th>
-                      <td>{feat.featureStatus}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Progress</th>
-                      <td>{feat.featureProgress}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <br></br>
+        if (
+          (feat.featureStatus !== 'Created' &&
+            feat.featureProgress !== 'Sent to the Head of Department' &&
+            infoView === 'data2') ||
+          (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
+          (feat.featureProgress === 'Estimate Sent back from IT' &&
+            infoView === 'data3')
+        ) {
+          return (
+            <div key={key}>
+              <Table striped>
+                <tbody>
+                  <tr>
+                    <th scope="row">Title</th>
+                    <td>{feat.featureTitle}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{feat.featureDescription}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Deadline</th>
+                    <td>{feat.featureDeadline}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Status</th>
+                    <td>{feat.featureStatus}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Progress</th>
+                    <td>{feat.featureProgress}</td>
+                  </tr>
+                </tbody>
+              </Table>
+              <br></br>
 
-                <Row>
-                  <Col className="pr-md-1" md="6">
-                    <FormGroup>
-                      <Label for="exampleFile">Upload your files :</Label>
-                      <CustomInput
-                        type="file"
-                        id="exampleFile"
-                        name="customFile"
-                        onChange={this.onChangeFile}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pr-md-1" md="4">
-                    <Button
-                      style={{ marginTop: 24 }}
-                      className="btn-fill"
-                      color="primary"
-                      type="submit"
-                      onClick={this.onClickHandler}
-                    >
-                      Upload
+              <Row>
+                <Col className="pr-md-1" md="6">
+                  <FormGroup>
+                    <Label for="exampleFile">Upload your files :</Label>
+                    <CustomInput
+                      type="file"
+                      id="exampleFile"
+                      name="customFile"
+                      onChange={this.onChangeFile}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col className="pr-md-1" md="4">
+                  <Button
+                    style={{ marginTop: 24 }}
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.onClickHandler}
+                  >
+                    Upload
                     </Button>
-                  </Col>
-                </Row>
+                </Col>
+              </Row>
 
-                <Button
-                  className="btn-fill"
-                  color="primary"
-                  type="submit"
-                  // onClick={() => this.handleAccept(feat._id)}
-                >
-                  Submit To IT
+              <Button
+                className="btn-fill"
+                color="primary"
+                type="submit"
+                onClick={() => this.handleAccept(feat._id)}
+              >
+                Submit To IT
                 </Button>
 
-                <div>
-                  <Modal
-                    isOpen={this.state.modal}
-                    toggle={this.toggle}
-                    external={externalCloseBtn}
-                  >
-                    <ModalBody>
-                      {' '}
-                      <br />{' '}
-                      <center>
-                        <Label for="exampleText">Reason :</Label>
-                        <Input type="textarea" name="text" id="exampleText" />
-                        <br />
-                        Project has been declined !
-                      </center>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button
-                        color="secondary"
-                        onClick={this.toggle}
-                        href="/admin/projects-history"
-                      >
-                        Close
-                      </Button>
-                    </ModalFooter>
-                  </Modal>
-                </div>
-                <br></br>
+              <div>
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  external={externalCloseBtn}
+                >
+                  {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                  <ModalBody>
+                    {' '}
+                    <br />{' '}
+                    <center>
+                      <img
+                        src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                        width="200px"
+                      />
+                      <br />
+                          Feature has been successfully sent to IT department !
+                        </center>
+                  </ModalBody>
+                  <ModalFooter>
+                    {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle}
+                      href="/admin/Update-Project"
+                    >
+                      Close
+                        </Button>
+                  </ModalFooter>
+                </Modal>
               </div>
-            );
-          }
-        }))
+              <br></br>
+            </div>
+          );
+        }
+      }))
       : (list = undefined);
     return (
       <>
