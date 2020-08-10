@@ -127,7 +127,7 @@ class ChangePassword extends React.Component {
                           <label>New Password</label>
                           <Input
                             placeholder="Enter your new password"
-                            type="text"
+                            type="password"
                             value={newCredentials.newPassword}
                             onChange={this.handleChange}
                             name="newPassword"

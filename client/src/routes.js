@@ -44,7 +44,7 @@ if (user && jwtDecode(user).role === 'Employee') {
       path: '/change-password',
       name: 'Change Password',
       rtlName: 'تحديث مشروع',
-      icon: 'tim-icons icon-pencil',
+      icon: 'tim-icons icon-key-25',
       component: ChangePassword,
       layout: '/admin',
     },

@@ -196,7 +196,7 @@ class ProjectInfoMethods extends React.Component {
                   className="btn-fill"
                   color="primary"
                   type="submit"
-                  // onClick={() => this.handleAccept(feat._id)}
+                  onClick={() => this.handleAccept(feat._id)}
                 >
                   Submit To IT
                 </Button>
