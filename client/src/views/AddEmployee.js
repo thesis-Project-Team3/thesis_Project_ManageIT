@@ -79,7 +79,7 @@ class AddEmployee extends React.Component {
     if (this.state.RegisterInformations.fullname.length < 6) {
       fullnameError = "invalid fullName"
     }
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.RegisterInformations.email))) {
+    if (!((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(this.state.RegisterInformations.email))) {
       emailError = "invalid or existing email"
     }
     if (!this.state.RegisterInformations.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)) {

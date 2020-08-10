@@ -12,7 +12,6 @@ import {
   CardText,
   FormGroup,
   Form,
-  Input,
   Label,
   Row,
   Col,
@@ -215,7 +214,7 @@ class ProjectInfoMethods extends React.Component {
                     <center>
                       <img
                         src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                        width="200px"
+                        alt="logo" width="200px"
                       />
                       <br />
                           Feature has been successfully sent to IT department !

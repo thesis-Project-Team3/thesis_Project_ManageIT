@@ -46,7 +46,7 @@ class RegisterHead extends React.Component {
       var fullname = firstName + " " + lastName;
       var email = document.getElementById("email").value;
       var headDepartment = document.getElementById("department").value;
-      const department = "";
+      var department = "";
       if (headDepartment === "Head of Financial Department") {
         department = "Financial"
       } else if (headDepartment === "Head of Accounting Department") {

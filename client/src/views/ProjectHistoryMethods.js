@@ -39,8 +39,6 @@ class ProjectHistoryMethods extends React.Component {
   };
 
   componentDidMount() {
-    const jwt = localStorage.getItem('token');
-    const user = jwtDecode(jwt);
     axios.get('http://localhost:5000/project/methods/').then((response) => {
       var projects1 = response.data[0];
       var projects2 = response.data[1];
@@ -237,9 +235,9 @@ class ProjectHistoryMethods extends React.Component {
                         <tr>
                           <th>Title</th>
                           {this.state.ProjHistory === 'data2' ||
-                          this.state.ProjHistory === 'data3' ? (
-                            <th>Department</th>
-                          ) : null}
+                            this.state.ProjHistory === 'data3' ? (
+                              <th>Department</th>
+                            ) : null}
                           <th>Do it before</th>
                           <th>Status</th>
                           <th>Progress</th>
@@ -250,8 +248,8 @@ class ProjectHistoryMethods extends React.Component {
                         {this.state.ProjHistory === 'data1'
                           ? ProjectHistory1
                           : this.state.ProjHistory === 'data2'
-                          ? ProjectHistory2
-                          : ProjectHistory3}
+                            ? ProjectHistory2
+                            : ProjectHistory3}
                       </tbody>
                     </Table>
                   </CardBody>
