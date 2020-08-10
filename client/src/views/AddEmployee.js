@@ -60,7 +60,8 @@ class AddEmployee extends React.Component {
     if (isValid) {
       e.preventDefault();
       console.log(this.state.RegisterInformations);
-      axios.post('http://localhost:5000/users', this.state.RegisterInformations)
+      axios
+        .post('http://localhost:5000/users', this.state.RegisterInformations)
         .then((response) => {
           console.log(response.data);
         })
@@ -69,28 +70,41 @@ class AddEmployee extends React.Component {
   };
 
   validate = () => {
-    let departmentError = ''
-    let fullnameError = ''
-    let emailError = ''
-    let passwordError = ''
+    let departmentError = '';
+    let fullnameError = '';
+    let emailError = '';
+    let passwordError = '';
     if (!this.state.RegisterInformations.department) {
-      departmentError = "you need to choose a department"
+      departmentError = 'you need to choose a department';
     }
     if (this.state.RegisterInformations.fullname.length < 6) {
-      fullnameError = "invalid fullName"
+      fullnameError = 'invalid fullName';
     }
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.RegisterInformations.email))) {
-      emailError = "invalid or existing email"
+    if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        this.state.RegisterInformations.email
+      )
+    ) {
+      emailError = 'invalid or existing email';
     }
-    if (!this.state.RegisterInformations.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/)) {
-      passwordError = "invalid password"
+    if (
+      !this.state.RegisterInformations.password.match(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+      )
+    ) {
+      passwordError = 'invalid password';
     }
     if (departmentError || fullnameError || emailError || passwordError) {
-      this.setState({ departmentError, fullnameError, emailError, passwordError })
-      return false
+      this.setState({
+        departmentError,
+        fullnameError,
+        emailError,
+        passwordError,
+      });
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   render() {
     const { RegisterInformations } = this.state;
@@ -149,7 +163,6 @@ class AddEmployee extends React.Component {
                     <Row>
                       <Col lg="10" md="10" sm="3">
                         <FormGroup>
-                          <label>Employees</label>
                           <Select
                             className="react-select info"
                             classNamePrefix="react-select"
@@ -179,7 +192,7 @@ class AddEmployee extends React.Component {
                               { value: 'IT', label: 'IT Department' },
                             ]}
                           />
-                          <div style={{ fontSize: 12, color: "red" }}>
+                          <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.departmentError}
                           </div>
                         </FormGroup>
@@ -201,7 +214,7 @@ class AddEmployee extends React.Component {
                         onChange={this.handleChange}
                       />
                     </InputGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.fullnameError}
                     </div>
                     <InputGroup>
@@ -219,7 +232,7 @@ class AddEmployee extends React.Component {
                         onChange={this.handleChange}
                       />
                     </InputGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.emailError}
                     </div>
                     <InputGroup>
@@ -238,7 +251,7 @@ class AddEmployee extends React.Component {
                       />
                       <br />
                     </InputGroup>
-                    <div style={{ fontSize: 12, color: "red" }}>
+                    <div style={{ fontSize: 12, color: 'red' }}>
                       {this.state.passwordError}
                     </div>
                     {/* <FormGroup check className="text-left">
@@ -260,7 +273,7 @@ class AddEmployee extends React.Component {
                       onClick={this.handleSubmit}
                       size="lg"
                     >
-                      Get Started
+                      Confirm
                     </Button>
                   </CardFooter>
                 </Card>

@@ -15,6 +15,7 @@ import ProjectInfoEmployees from 'views/ProjectInfoEmployees.js';
 import ProjectInfoHeads from 'views/ProjectInfoHeads.js';
 
 import CreateProject from 'views/CreateProject.js';
+import ChangePassword from 'views/ChangePassword.js';
 
 import Login from 'views/Login.js';
 import AddEmployee from 'views/AddEmployee.js';
@@ -37,6 +38,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       rtlName: 'ملف تعريفي للمستخدم',
       icon: 'tim-icons icon-single-02',
       component: UserProfile,
+      layout: '/admin',
+    },
+    {
+      path: '/change-password',
+      name: 'Change Password',
+      rtlName: 'تحديث مشروع',
+      icon: 'tim-icons icon-key-25',
+      component: ChangePassword,
       layout: '/admin',
     },
 
