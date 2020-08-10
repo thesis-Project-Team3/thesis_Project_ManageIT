@@ -25,6 +25,36 @@ router.post('/', async (req, res) => {
   res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email']));
 });
 
+// Change user password
+router.patch('/changepassword/:id', async (req, res) => {
+  // console.log(req.body);
+  // const { error } = validate(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
+
+  const salt = await bcrypt.genSalt(10);
+  console.log(req.params);
+  User.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      password: bcrypt.hash(req.body.newPassword, salt),
+    },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        let user = User.findOne({ _id: req.params.id });
+        const token = user.generateAuthToken();
+        res.header('x-auth-token', token).send(_.pick(user, ['_id', 'email']));
+      }
+    }
+  );
+
+  // user.password = await bcrypt.hash(user.newPassword, salt);
+
+  // await user.save();
+  // const token = user.generateAuthToken();
+});
+
 router.get('/', (req, res) => {
   User.find({}, function (err, result) {
     if (err) {

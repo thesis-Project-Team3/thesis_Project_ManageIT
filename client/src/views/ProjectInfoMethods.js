@@ -29,6 +29,7 @@ class ProjectInfoMethods extends React.Component {
     this.state = {
       oneProjectInfo: [],
       profileInformations: '',
+      usersList: [],
       modal: false,
       selectedFile: null,
       fileGeneratedUrl: '',
@@ -37,6 +38,14 @@ class ProjectInfoMethods extends React.Component {
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
+  };
+
+  getFeatureCreator = (id) => {
+    for (var i in this.state.usersList) {
+      if (this.state.usersList[i]._id === id) {
+        return this.state.usersList[i].fullname;
+      }
+    }
   };
 
   onChangeFile = (e) => {
@@ -111,6 +120,12 @@ class ProjectInfoMethods extends React.Component {
         console.log(response.data[0]);
         this.setState({ oneProjectInfo: response.data[0] });
       });
+
+    //get all the list of all users for feature creator
+    axios.get('http://localhost:5000/users/').then((response) => {
+      console.log(response.data);
+      this.setState({ usersList: response.data });
+    });
   }
 
   render() {
@@ -131,42 +146,45 @@ class ProjectInfoMethods extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-        if (
-          (feat.featureStatus !== 'Created' &&
-            feat.featureProgress !== 'Sent to the Head of Department' &&
-            infoView === 'data2') ||
-          (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
-          (feat.featureProgress === 'Estimate Sent back from IT' &&
-            infoView === 'data3')
-        ) {
-          return (
-            <div key={key}>
-              <Table striped>
-                <tbody>
-                  <tr>
-                    <th scope="row">Title</th>
-                    <td>{feat.featureTitle}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Description</th>
-                    <td>{feat.featureDescription}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Deadline</th>
-                    <td>{feat.featureDeadline}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Status</th>
-                    <td>{feat.featureStatus}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Progress</th>
-                    <td>{feat.featureProgress}</td>
-                  </tr>
-                </tbody>
-              </Table>
-              <br></br>
-
+          if (
+            (feat.featureStatus !== 'Created' &&
+              feat.featureProgress !== 'Sent to the Head of Department' &&
+              infoView === 'data2') ||
+            (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
+            (feat.featureProgress === 'Estimate Sent back from IT' &&
+              infoView === 'data3')
+          ) {
+            return (
+              <div key={key}>
+                <Table striped>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Creator</th>
+                      <td>{this.getFeatureCreator(feat.featureCreator)}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Title</th>
+                      <td>{feat.featureTitle}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{feat.featureDescription}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Deadline</th>
+                      <td>{feat.featureDeadline}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Status</th>
+                      <td>{feat.featureStatus}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Progress</th>
+                      <td>{feat.featureProgress}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <br></br>
               <Row>
                 <Col className="pr-md-1" md="6">
                   <FormGroup>
@@ -191,14 +209,13 @@ class ProjectInfoMethods extends React.Component {
                     </Button>
                 </Col>
               </Row>
-
-              <Button
-                className="btn-fill"
-                color="primary"
-                type="submit"
-                onClick={() => this.handleAccept(feat._id)}
-              >
-                Submit To IT
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={() => this.handleAccept(feat._id)}
+                >
+                  Submit To IT
                 </Button>
 
               <div>
