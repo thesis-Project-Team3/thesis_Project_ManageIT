@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import socketIOClient from "socket.io-client";
 import {
   Button,
   Card,
@@ -21,6 +22,7 @@ import {
   UncontrolledCollapse,
   Table,
 } from 'reactstrap';
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class ProjectInfoMethods extends React.Component {
   constructor(props) {
@@ -67,6 +69,24 @@ class ProjectInfoMethods extends React.Component {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
     });
+
+    const jwt = localStorage.getItem("token");
+    const user = jwtDecode(jwt);
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit("messageSent", {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to Methods Department',
+      receiveddepartment: "Methods",
+      sentdepartment: user.department
+    })
+    axios.post('http://localhost:5000/notification/store', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to Methods Department',
+      receiveddepartment: "Methods",
+      sentdepartment: user.department
+    });
   };
 
   handleReturnBackToMethods = (featureTitle) => {
@@ -74,6 +94,23 @@ class ProjectInfoMethods extends React.Component {
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
       featureProgress: 'Estimate Sent back from IT',
+    });
+    const jwt = localStorage.getItem("token");
+    const user = jwtDecode(jwt);
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit("messageSent", {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Estimate Sent back from IT',
+      receiveddepartment: "Methods",
+      sentdepartment: user.department
+    })
+    axios.post('http://localhost:5000/notification/store', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Estimate Sent back from IT',
+      receiveddepartment: "Methods",
+      sentdepartment: user.department
     });
   };
 
@@ -118,39 +155,38 @@ class ProjectInfoMethods extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          if (
-            (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
-            (feat.featureProgress === 'Sent to IT Department' &&
-              infoView === 'data2')
-          ) {
-            return (
-              <div key={key}>
-                <Table striped>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Title</th>
-                      <td>{feat.featureTitle}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Description</th>
-                      <td>{feat.featureDescription}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Deadline</th>
-                      <td>{feat.featureDeadline}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Status</th>
-                      <td>{feat.featureStatus}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Progress</th>
-                      <td>{feat.featureProgress}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <br></br>
-
+        if (
+          (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
+          (feat.featureProgress === 'Sent to IT Department' &&
+            infoView === 'data2')
+        ) {
+          return (
+            <div key={key}>
+              <Table striped>
+                <tbody>
+                  <tr>
+                    <th scope="row">Title</th>
+                    <td>{feat.featureTitle}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{feat.featureDescription}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Deadline</th>
+                    <td>{feat.featureDeadline}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Status</th>
+                    <td>{feat.featureStatus}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Progress</th>
+                    <td>{feat.featureProgress}</td>
+                  </tr>
+                </tbody>
+              </Table>
+              <br></br>
                 {infoView === 'data1' ? (
                   <>
                     <Button
@@ -214,39 +250,38 @@ class ProjectInfoMethods extends React.Component {
                     </Button>{' '}
                   </>
                 )}
-
-                <div>
-                  <Modal
-                    isOpen={this.state.modal}
-                    toggle={this.toggle}
-                    external={externalCloseBtn}
-                  >
-                    <ModalBody>
-                      {' '}
-                      <br />{' '}
-                      <center>
-                        <Label for="exampleText">Reason :</Label>
-                        <Input type="textarea" name="text" id="exampleText" />
-                        <br />
+              <div>
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  external={externalCloseBtn}
+                >
+                  <ModalBody>
+                    {' '}
+                    <br />{' '}
+                    <center>
+                      <Label for="exampleText">Reason :</Label>
+                      <Input type="textarea" name="text" id="exampleText" />
+                      <br />
                         Project has been declined !
                       </center>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button
-                        color="secondary"
-                        onClick={this.toggle}
-                        href="/admin/projects-history"
-                      >
-                        Close
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle}
+                      href="/admin/projects-history"
+                    >
+                      Close
                       </Button>
-                    </ModalFooter>
-                  </Modal>
-                </div>
-                <br></br>
+                  </ModalFooter>
+                </Modal>
               </div>
-            );
-          }
-        }))
+              <br></br>
+            </div>
+          );
+        }
+      }))
       : (list = undefined);
     return (
       <>

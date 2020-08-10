@@ -72,12 +72,31 @@ class UpdateProject extends React.Component {
     var isValid = this.validate();
     if (isValid) {
       e.preventDefault();
+      this.setState({ modal: !this.state.modal });
       console.log(this.state.singleSelect);
+      const jwt = localStorage.getItem('token');
+      const user = jwtDecode(jwt);
       axios
         .patch(
           `http://localhost:5000/project/create/${this.state.singleSelect}`,
           this.state.newFeature
         )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => console.log('Error', err));
+
+      axios
+        .post('http://localhost:5000/notification/store', {
+          featureCreator: this.state.newFeature.featureCreator,
+          featureTitle: this.state.newFeature.featureTitle,
+          featureDeadline: this.state.newFeature.featureDeadline,
+          featureStatus: this.state.newFeature.featureStatus,
+          featureProgress: this.state.newFeature.featureProgress,
+          singleSelect: this.state.singleSelect,
+          fullname: user.fullname,
+          department: user.department
+        })
         .then((response) => {
           console.log(response.data);
         })
@@ -306,7 +325,7 @@ class UpdateProject extends React.Component {
                             width="200px"
                           />
                           <br />
-                          Project has been successfully updated !
+                          Feature has been successfully added !
                         </center>
                       </ModalBody>
                       <ModalFooter>
