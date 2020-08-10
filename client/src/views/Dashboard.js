@@ -29,9 +29,9 @@ import {
 } from "reactstrap";
 
 // core components
-import {
-  chartExample1,
-} from "variables/charts.js";
+// import {
+//   chartExample1,
+// } from "variables/charts.js";
 
 class Dashboard extends React.Component {
   constructor(props) {

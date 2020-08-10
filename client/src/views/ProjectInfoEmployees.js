@@ -6,14 +6,8 @@ import {
   Button,
   Card,
   CardHeader,
-  CustomInput,
   CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
   Form,
-  Input,
-  Label,
   Row,
   Col,
   Modal,
@@ -124,7 +118,7 @@ class ProjectInfoEmployees extends React.Component {
   render() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
-    const { oneProjectInfo, profileInformations } = this.state;
+    const { oneProjectInfo } = this.state;
     const externalCloseBtn = (
       <button
         className="close"
@@ -190,7 +184,7 @@ class ProjectInfoEmployees extends React.Component {
                     <center>
                       <img
                         src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                        width="200px"
+                        alt="logo" width="200px"
                       />
                       <br />
                           Feature has been successfully sent to the Head of department !

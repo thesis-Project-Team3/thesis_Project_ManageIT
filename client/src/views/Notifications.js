@@ -7,7 +7,6 @@ import NotificationAlert from "react-notification-alert";
 
 // reactstrap components
 import {
-  Alert,
   UncontrolledAlert,
   Button,
   Card,
