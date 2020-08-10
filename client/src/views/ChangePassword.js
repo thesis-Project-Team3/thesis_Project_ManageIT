@@ -30,13 +30,10 @@ class ChangePassword extends React.Component {
       projects: [],
       modal: false,
       profileInformations: '',
-      newFeature: {
-        featureCreator: '',
-        featureTitle: '',
-        featureDescription: '',
-        featureDeadline: '',
-        featureStatus: '',
-        featureProgress: '',
+      newCredentials: {
+        existingPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
       },
       titleError: '',
       descriptionError: '',
@@ -45,50 +42,31 @@ class ChangePassword extends React.Component {
     };
   }
 
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
-  };
-
   handleChange = ({ currentTarget: input }) => {
+    const newCredentials = { ...this.state.newCredentials };
+    newCredentials[input.name] = input.value;
+
+    this.setState({ newCredentials });
+  };
+  handleSubmit = (e) => {
+    e.preventDefault();
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
-    const newFeature = { ...this.state.newFeature };
-    newFeature.featureCreator = user._id;
-    newFeature[input.name] = input.value;
-    switch (user.role) {
-      case 'Employee':
-        newFeature.featureStatus = 'Created';
-        newFeature.featureProgress = `Created by ${this.state.profileInformations.fullname}`;
-        break;
-      case 'Head':
-        newFeature.featureStatus = 'Created';
-        newFeature.featureProgress = `Created by ${this.state.profileInformations.department} Head`;
-        break;
-    }
-    this.setState({ newFeature });
-  };
-
-  handleSubmit = (e) => {
-    var isValid = this.validate();
-    if (isValid) {
-      e.preventDefault();
-      console.log(this.state.singleSelect);
-      axios
-        .patch(
-          `http://localhost:5000/project/create/${this.state.singleSelect}`,
-          this.state.newFeature
-        )
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => console.log('Error', err));
-    }
+    axios
+      .patch(
+        `http://localhost:5000/users/changepassword/${user._id}`,
+        this.state.newCredentials
+      )
+      .then((response) => {
+        this.setState({ modal: !this.state.modal });
+        console.log(response.data);
+      })
+      .catch((err) => console.log('Error', err));
   };
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
-
     axios
       .get(`http://localhost:5000/users/${user._id}`)
       .then((response) => {
@@ -98,52 +76,11 @@ class ChangePassword extends React.Component {
         });
       })
       .catch((err) => console.log('Error', err));
-
-    // ---------------------------
-    //getting user projects by department
-    axios
-      .get(
-        `http://localhost:5000/project/update/projectsByDepartment/${user.department}`
-      )
-      .then((response) => {
-        // console.log(response.data);
-        this.setState({ projects: response.data });
-      });
   }
-
-  validate = () => {
-    let singleSelectError = '';
-    let titleError = '';
-    let descriptionError = '';
-    let deadlineError = '';
-    if (this.state.newFeature.featureTitle.length < 6) {
-      titleError = 'invalid title';
-    }
-    if (this.state.newFeature.featureDescription.length < 16) {
-      descriptionError = 'invalid description';
-    }
-    if (!this.state.newFeature.featureDeadline) {
-      deadlineError = 'you need to set a deadline';
-    }
-    if (!this.state.singleSelect) {
-      singleSelectError = 'you need to choose a project';
-    }
-    if (titleError || descriptionError || deadlineError || singleSelectError) {
-      this.setState({
-        titleError,
-        descriptionError,
-        deadlineError,
-        singleSelectError,
-      });
-      return false;
-    }
-    return true;
-  };
 
   render() {
     const defaultImageURL =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
-    const { newFeature } = this.state;
     const externalCloseBtn = (
       <button
         className="close"
@@ -153,14 +90,9 @@ class ChangePassword extends React.Component {
         &times;
       </button>
     );
-    const { profileInformations } = this.state;
-    var options = this.state.projects.map((project, key) => {
-      return (
-        <option key={key} value={project.title}>
-          {project.title}
-        </option>
-      );
-    });
+
+    const { newCredentials, profileInformations } = this.state;
+
     return (
       <>
         <div className="content">
@@ -179,9 +111,9 @@ class ChangePassword extends React.Component {
                           <Input
                             placeholder="Enter your actual password"
                             type="text"
-                            value={newFeature.featureTitle}
+                            value={newCredentials.existingPassword}
                             onChange={this.handleChange}
-                            name="featureTitle"
+                            name="existingPassword"
                           />
                           <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.titleError}
@@ -196,9 +128,9 @@ class ChangePassword extends React.Component {
                           <Input
                             placeholder="Enter your new password"
                             type="text"
-                            value={newFeature.featureTitle}
+                            value={newCredentials.newPassword}
                             onChange={this.handleChange}
-                            name="featureTitle"
+                            name="newPassword"
                           />
                           <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.titleError}
@@ -213,9 +145,9 @@ class ChangePassword extends React.Component {
                           <Input
                             placeholder="Confirm your new password"
                             type="text"
-                            value={newFeature.featureTitle}
+                            value={newCredentials.confirmNewPassword}
                             onChange={this.handleChange}
-                            name="featureTitle"
+                            name="confirmNewPassword"
                           />
                           <div style={{ fontSize: 12, color: 'red' }}>
                             {this.state.titleError}
