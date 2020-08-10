@@ -22,33 +22,47 @@ class Notifications extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      notifs: []
+      notifs: [],
     }
   }
 
   componentDidMount() {
     const token = localStorage.getItem("token");
     const user = jwtDecode(token);
-    axios.get('http://localhost:5000/notification/store').then((response) => {
+    axios.get('http://localhost:5000/notification/retrieve').then((response) => {
       var notifs = response.data;
-      console.log(notifs)
-      var arr = []
+      console.log(notifs);
+      var arr = [];
       for (var i = notifs.length - 1; i >= 0; i--) {
-        if (notifs[i].employees.length !== 0 && user.role !== "Head") {
-          for (var j = 0; j < notifs[i].employees.length; j++) {
-            if (notifs[i].employees[j].label === user.fullname) {
+        if (user.role !== "Head") {
+          for (var j = 0; j < notifs[i].employees.length; j++)
+            // filter meeting notif
+            if (notifs[i].employees[j].label === user.fullname && arr.length < 5) {
               arr.push(notifs[i])
             }
-          }
         }
-        else {
-          if (user.role === "Head" && notifs[i].department === user.department) {
-            arr.push(notifs[i])
-          }
+        // filter feature creation notif
+        else if (user.role === "Head" && notifs[i].department === user.department
+          && notifs[i].singleSelect && arr.length < 5) {
+          arr.push(notifs[i])
         }
-        this.setState({ notifs: arr });
+        // filter project sent to methods notif
+        else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
+          && notifs[i].receiveddepartment === "Methods" && arr.length < 5) {
+          arr.push(notifs[i])
+        }
+        // filter project sent to IT notif
+        else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
+          && notifs[i].receiveddepartment === "IT" && arr.length < 5) {
+          arr.push(notifs[i])
+        }
+        // filter project creation notif
+        else if (user.role === "Head" && notifs[i].department === user.department && arr.length < 5) {
+          arr.push(notifs[i])
+        }
       }
-    });
+      this.setState({ notifs: arr });
+    })
   }
 
   notify = place => {
@@ -91,7 +105,6 @@ class Notifications extends React.Component {
     this.refs.notificationAlert.notificationAlert(options);
   };
   render() {
-    console.log(this.state.notifs)
     var notification = this.state.notifs.map((notif) => {
       if (notif.employees.length !== 0) {
         return (
@@ -106,7 +119,7 @@ class Notifications extends React.Component {
           </UncontrolledAlert>
         )
       }
-      else {
+      else if (notif.status) {
         return (
           <UncontrolledAlert className="alert-with-icon" color="info">
             <span
@@ -115,6 +128,32 @@ class Notifications extends React.Component {
             />
             <span data-notify="message">
               New message : You received a new project {notif.progress}
+            </span>
+          </UncontrolledAlert>
+        )
+      }
+      else if (notif.singleSelect) {
+        return (
+          <UncontrolledAlert className="alert-with-icon" color="info">
+            <span
+              className="tim-icons icon-bell-55"
+              data-notify="icon"
+            />
+            <span data-notify="message">
+              New message : You received a new feature {notif.featureProgress}
+            </span>
+          </UncontrolledAlert>
+        )
+      }
+      else if (notif.receiveddepartment) {
+        return (
+          <UncontrolledAlert className="alert-with-icon" color="info">
+            <span
+              className="tim-icons icon-bell-55"
+              data-notify="icon"
+            />
+            <span data-notify="message">
+              New message : You received a new feature from {notif.sentdepartment} department
             </span>
           </UncontrolledAlert>
         )

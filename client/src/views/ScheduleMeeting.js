@@ -53,7 +53,7 @@ class ScheduleMeeting extends React.Component {
     );
   };
   handleChange1 = (e) => {
-    this.setState({ employees: e }, () => {});
+    this.setState({ employees: e }, () => { });
   };
 
   makeOptions() {
@@ -73,7 +73,7 @@ class ScheduleMeeting extends React.Component {
       var employees = this.state.employees;
       socket.emit('messageSent', { subject, date, employees });
 
-      axios.post('http://localhost:5000/meeting/store', {
+      axios.post('http://localhost:5000/notification/store', {
         subject,
         date,
         employees,
