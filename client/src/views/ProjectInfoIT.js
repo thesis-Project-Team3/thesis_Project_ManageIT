@@ -121,6 +121,8 @@ class ProjectInfoMethods extends React.Component {
           if (
             (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
             (feat.featureProgress === 'Sent to IT Department' &&
+              infoView === 'data2') ||
+            (feat.featureProgress === 'Estimate Sent back from IT' &&
               infoView === 'data2')
           ) {
             return (
