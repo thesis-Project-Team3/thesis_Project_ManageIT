@@ -94,7 +94,7 @@ class UpdateProject extends React.Component {
           featureProgress: this.state.newFeature.featureProgress,
           singleSelect: this.state.singleSelect,
           fullname: user.fullname,
-          department: user.department
+          department: user.department,
         })
         .then((response) => {
           console.log(response.data);
@@ -320,7 +320,8 @@ class UpdateProject extends React.Component {
                         <center>
                           <img
                             src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                            alt="logo" width="200px"
+                            alt="logo"
+                            width="200px"
                           />
                           <br />
                           Feature has been successfully added !

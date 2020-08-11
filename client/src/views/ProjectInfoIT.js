@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import socketIOClient from "socket.io-client";
+import socketIOClient from 'socket.io-client';
 import {
   Button,
   Card,
@@ -21,8 +21,10 @@ import {
   ModalFooter,
   UncontrolledCollapse,
   Table,
+  FormGroup,
+  CustomInput,
 } from 'reactstrap';
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = 'http://127.0.0.1:5000';
 
 class ProjectInfoMethods extends React.Component {
   constructor(props) {
@@ -32,12 +34,19 @@ class ProjectInfoMethods extends React.Component {
       profileInformations: '',
       modal: false,
       selectedFile: null,
-      fileGeneratedUrl: '',
+      EstimateFileStatus: 'false',
+      featureEstimateFile: '',
+      featureEstimatedPrice: '',
     };
   }
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
+  };
+
+  handleChange = (e) => {
+    const featureEstimatedPrice = e.currentTarget.value;
+    this.setState({ featureEstimatedPrice });
   };
 
   onChangeFile = (e) => {
@@ -59,7 +68,7 @@ class ProjectInfoMethods extends React.Component {
       .then((response) => {
         // then print response status
         console.log(response.data.data[0].url);
-        this.setState({ fileGeneratedUrl: response.data.data[0].url });
+        this.setState({ featureEstimateFile: response.data.data[0].url });
       });
   };
 
@@ -70,47 +79,53 @@ class ProjectInfoMethods extends React.Component {
       featureProgress: 'Sent to Methods Department',
     });
 
-    const jwt = localStorage.getItem("token");
+    const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     const socket = socketIOClient(ENDPOINT);
-    socket.emit("messageSent", {
+    socket.emit('messageSent', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
-      receiveddepartment: "Methods",
-      sentdepartment: user.department
-    })
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
+    });
     axios.post('http://localhost:5000/notification/store', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
-      receiveddepartment: "Methods",
-      sentdepartment: user.department
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
     });
   };
 
   handleReturnBackToMethods = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
-    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
-      featureStatus: 'In Progress',
-      featureProgress: 'Estimate Sent back from IT',
-    });
-    const jwt = localStorage.getItem("token");
+    axios.patch(
+      `http://localhost:5000/project/update/estimate/${featureTitle}`,
+      {
+        featureStatus: 'In Progress',
+        featureProgress: 'Estimate Sent back from IT',
+        featureEstimateFile: this.state.featureEstimateFile,
+        featureEstimatedPrice: this.state.featureEstimatedPrice,
+      }
+    );
+    this.setState({ EstimateFileStatus: 'true' });
+    const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     const socket = socketIOClient(ENDPOINT);
-    socket.emit("messageSent", {
+    socket.emit('messageSent', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Estimate Sent back from IT',
-      receiveddepartment: "Methods",
-      sentdepartment: user.department
-    })
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
+    });
     axios.post('http://localhost:5000/notification/store', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Estimate Sent back from IT',
-      receiveddepartment: "Methods",
-      sentdepartment: user.department
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
     });
   };
 
@@ -155,47 +170,67 @@ class ProjectInfoMethods extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-        if (
-          (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
-          (feat.featureProgress === 'Sent to IT Department' &&
-            infoView === 'data2')
-        ) {
-          return (
-            <div key={key}>
-              <Table striped>
-                <tbody>
-                  <tr>
-                    <th scope="row">Title</th>
-                    <td>{feat.featureTitle}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Description</th>
-                    <td>{feat.featureDescription}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Deadline</th>
-                    <td>{feat.featureDeadline}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Status</th>
-                    <td>{feat.featureStatus}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Progress</th>
-                    <td>{feat.featureProgress}</td>
-                  </tr>
-                </tbody>
-              </Table>
-              <br></br>
-              {infoView === 'data1' ? (
-                <>
-                  <Button
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={() => this.handleSendToMethods(feat._id)}
-                  >
-                    Submit To Methods
+          if (
+            (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
+            (feat.featureProgress === 'Sent to IT Department' &&
+              infoView === 'data2') ||
+            (feat.featureProgress === 'Estimate Sent back from IT' &&
+              infoView === 'data2') ||
+            (feat.featureProgress === 'Sent to CEO' && infoView === 'data2')
+          ) {
+            return (
+              <div key={key}>
+                <Table striped>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Title</th>
+                      <td>{feat.featureTitle}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{feat.featureDescription}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Deadline</th>
+                      <td>{feat.featureDeadline}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Status</th>
+                      <td>{feat.featureStatus}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Progress</th>
+                      <td>{feat.featureProgress}</td>
+                    </tr>
+                    {feat.featureSpecificationsFile ? (
+                      <tr>
+                        <th scope="row">Specifications File</th>
+                        <td>
+                          <a href={feat.featureSpecificationsFile}>Download</a>
+                        </td>
+                      </tr>
+                    ) : null}
+                    {feat.featureEstimateFile ? (
+                      <tr>
+                        <th scope="row">Estimate File</th>
+                        <td>
+                          <a href={feat.featureEstimateFile}>Download</a>
+                        </td>
+                      </tr>
+                    ) : null}
+                  </tbody>
+                </Table>
+                <br></br>
+
+                {infoView === 'data1' ? (
+                  <>
+                    <Button
+                      className="btn-fill"
+                      color="primary"
+                      type="submit"
+                      onClick={() => this.handleSendToMethods(feat._id)}
+                    >
+                      Submit To Methods
                     </Button>{' '}
                 </>
               ) : (
@@ -232,8 +267,8 @@ class ProjectInfoMethods extends React.Component {
                             placeholder="Enter the estimated budget"
                             type="number"
                             step="100"
-                            // value={newFeature.featureTitle}
-                            // onChange={this.handleChange}
+                            value={this.state.featureEstimatedPrice}
+                            onChange={this.handleChange}
                             name="featureTitle"
                           />
                           <div style={{ fontSize: 12, color: 'red' }}></div>
@@ -250,38 +285,38 @@ class ProjectInfoMethods extends React.Component {
                     </Button>{' '}
                   </>
                 )}
-              <div>
-                <Modal
-                  isOpen={this.state.modal}
-                  toggle={this.toggle}
-                  external={externalCloseBtn}
-                >
-                  <ModalBody>
-                    {' '}
-                    <br />{' '}
-                    <center>
-                      <Label for="exampleText">Reason :</Label>
-                      <Input type="textarea" name="text" id="exampleText" />
-                      <br />
+                <div>
+                  <Modal
+                    isOpen={this.state.modal}
+                    toggle={this.toggle}
+                    external={externalCloseBtn}
+                  >
+                    <ModalBody>
+                      {' '}
+                      <br />{' '}
+                      <center>
+                        <Label for="exampleText">Reason :</Label>
+                        <Input type="textarea" name="text" id="exampleText" />
+                        <br />
                         Project has been declined !
                       </center>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      color="secondary"
-                      onClick={this.toggle}
-                      href="/admin/projects-history"
-                    >
-                      Close
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        color="secondary"
+                        onClick={this.toggle}
+                        href="/admin/projects-history"
+                      >
+                        Close
                       </Button>
-                  </ModalFooter>
-                </Modal>
+                    </ModalFooter>
+                  </Modal>
+                </div>
+                <br></br>
               </div>
-              <br></br>
-            </div>
-          );
-        }
-      }))
+            );
+          }
+        }))
       : (list = undefined);
     return (
       <>

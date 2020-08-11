@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import socketIOClient from "socket.io-client";
+import socketIOClient from 'socket.io-client';
 import {
   Button,
   Card,
@@ -21,7 +21,7 @@ import {
   UncontrolledCollapse,
   Table,
 } from 'reactstrap';
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = 'http://127.0.0.1:5000';
 
 class ProjectInfoMethods extends React.Component {
   constructor(props) {
@@ -32,7 +32,8 @@ class ProjectInfoMethods extends React.Component {
       usersList: [],
       modal: false,
       selectedFile: null,
-      fileGeneratedUrl: '',
+      specFileStatus: 'false',
+      featureSpecificationsFile: '',
     };
   }
 
@@ -67,34 +68,48 @@ class ProjectInfoMethods extends React.Component {
       .then((response) => {
         // then print response status
         console.log(response.data.data[0].url);
-        this.setState({ fileGeneratedUrl: response.data.data[0].url });
+        this.setState({ featureSpecificationsFile: response.data.data[0].url });
       });
   };
 
   handleAccept = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
-    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
+    axios.patch(`http://localhost:5000/project/update/spec/${featureTitle}`, {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to IT Department',
+      featureSpecificationsFile: this.state.featureSpecificationsFile,
     });
+    this.setState({ specFileStatus: 'true' });
 
-    const jwt = localStorage.getItem("token");
+    const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     const socket = socketIOClient(ENDPOINT);
-    socket.emit("messageSent", {
+    socket.emit('messageSent', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Sent to IT Department',
-      receiveddepartment: "IT",
-      sentdepartment: user.department
-    })
+      receiveddepartment: 'IT',
+      sentdepartment: user.department,
+    });
     axios.post('http://localhost:5000/notification/store', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Sent to IT Department',
-      receiveddepartment: "IT",
-      sentdepartment: user.department
+      receiveddepartment: 'IT',
+      sentdepartment: user.department,
     });
+  };
+
+  handleSendToCEO = (featureTitle) => {
+    this.setState({ modal: !this.state.modal });
+    axios
+      .patch(`http://localhost:5000/project/update/${featureTitle}`, {
+        featureStatus: 'In Progress',
+        featureProgress: 'Sent to CEO',
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
   };
 
   componentDidMount() {
@@ -132,6 +147,7 @@ class ProjectInfoMethods extends React.Component {
     const defaultImageURL =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
     const { infoView } = this.props;
+
     const { oneProjectInfo, profileInformations } = this.state;
     const externalCloseBtn = (
       <button
@@ -152,7 +168,8 @@ class ProjectInfoMethods extends React.Component {
               infoView === 'data2') ||
             (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
             (feat.featureProgress === 'Estimate Sent back from IT' &&
-              infoView === 'data3')
+              infoView === 'data3') ||
+            (feat.featureProgress === 'Sent to CEO' && infoView === 'data3')
           ) {
             return (
               <div key={key}>
@@ -182,78 +199,110 @@ class ProjectInfoMethods extends React.Component {
                       <th scope="row">Progress</th>
                       <td>{feat.featureProgress}</td>
                     </tr>
+                    {feat.featureSpecificationsFile ? (
+                      <tr>
+                        <th scope="row">Specifications File</th>
+                        <td>
+                          <a href={feat.featureSpecificationsFile}>Download</a>
+                        </td>
+                      </tr>
+                    ) : null}
+                    {feat.featureEstimateFile ? (
+                      <tr>
+                        <th scope="row">Estimate File</th>
+                        <td>
+                          <a href={feat.featureEstimateFile}>Download</a>
+                        </td>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </Table>
                 <br></br>
-              <Row>
-                <Col className="pr-md-1" md="6">
-                  <FormGroup>
-                    <Label for="exampleFile">Upload your files :</Label>
-                    <CustomInput
-                      type="file"
-                      id="exampleFile"
-                      name="customFile"
-                      onChange={this.onChangeFile}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col className="pr-md-1" md="4">
-                  <Button
-                    style={{ marginTop: 24 }}
-                    className="btn-fill"
-                    color="primary"
-                    type="submit"
-                    onClick={this.onClickHandler}
-                  >
-                    Upload
-                    </Button>
-                </Col>
-              </Row>
-                <Button
-                  className="btn-fill"
-                  color="primary"
-                  type="submit"
-                  onClick={() => this.handleAccept(feat._id)}
-                >
-                  Submit To IT
-                </Button>
 
-              <div>
-                <Modal
-                  isOpen={this.state.modal}
-                  toggle={this.toggle}
-                  external={externalCloseBtn}
-                >
-                  {/* <ModalHeader>Adding Alert !</ModalHeader> */}
-                  <ModalBody>
-                    {' '}
-                    <br />{' '}
-                    <center>
-                      <img
-                        src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                        alt="logo" width="200px"
-                      />
-                      <br />
-                          Feature has been successfully sent to IT department !
-                        </center>
-                  </ModalBody>
-                  <ModalFooter>
-                    {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                {infoView === 'data3' ? (
+                  <>
                     <Button
-                      color="secondary"
-                      onClick={this.toggle}
-                      href="/admin/Update-Project"
+                      className="btn-fill"
+                      color="primary"
+                      type="submit"
+                      onClick={() => this.handleSendToCEO(feat._id)}
                     >
-                      Close
+                      Submit To CEO
+                    </Button>{' '}
+                  </>
+                ) : (
+                  <>
+                    <Row>
+                      <Col className="pr-md-1" md="6">
+                        <FormGroup>
+                          <Label for="exampleFile">Upload your files :</Label>
+                          <CustomInput
+                            type="file"
+                            id="exampleFile"
+                            name="customFile"
+                            onChange={this.onChangeFile}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="pr-md-1" md="4">
+                        <Button
+                          style={{ marginTop: 24 }}
+                          className="btn-fill"
+                          color="primary"
+                          type="submit"
+                          onClick={this.onClickHandler}
+                        >
+                          Upload
                         </Button>
-                  </ModalFooter>
-                </Modal>
+                      </Col>
+                    </Row>
+                    <Button
+                      className="btn-fill"
+                      color="primary"
+                      type="submit"
+                      onClick={() => this.handleAccept(feat._id)}
+                    >
+                      Submit To IT
+                    </Button>{' '}
+                  </>
+                )}
+                <div>
+                  <Modal
+                    isOpen={this.state.modal}
+                    toggle={this.toggle}
+                    external={externalCloseBtn}
+                  >
+                    {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                    <ModalBody>
+                      {' '}
+                      <br />{' '}
+                      <center>
+                        <img
+                          src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                          alt="logo"
+                          width="200px"
+                        />
+                        <br />
+                        Feature has been successfully sent to IT department !
+                      </center>
+                    </ModalBody>
+                    <ModalFooter>
+                      {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                      <Button
+                        color="secondary"
+                        onClick={this.toggle}
+                        href="/admin/Update-Project"
+                      >
+                        Close
+                      </Button>
+                    </ModalFooter>
+                  </Modal>
+                </div>
+                <br></br>
               </div>
-              <br></br>
-            </div>
-          );
-        }
-      }))
+            );
+          }
+        }))
       : (list = undefined);
     return (
       <>
