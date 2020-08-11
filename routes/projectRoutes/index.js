@@ -121,6 +121,8 @@ router.patch('/update/:featureTitle', (req, res) => {
       $set: {
         'feature.$.featureStatus': req.body.featureStatus,
         'feature.$.featureProgress': req.body.featureProgress,
+        'feature.$.featureSpecificationsFile':
+          req.body.featureSpecificationsFile,
       },
     },
     (err, result) => {

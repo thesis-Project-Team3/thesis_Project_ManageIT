@@ -186,6 +186,14 @@ class ProjectInfoMethods extends React.Component {
                       <th scope="row">Progress</th>
                       <td>{feat.featureProgress}</td>
                     </tr>
+                    {feat.featureSpecificationsFile ? (
+                      <tr>
+                        <th scope="row">Specifications File</th>
+                        <td>
+                          <a href={feat.featureSpecificationsFile}>Download</a>
+                        </td>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </Table>
                 <br></br>
