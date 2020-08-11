@@ -30,33 +30,37 @@ class Notifications extends React.Component {
     const user = jwtDecode(token);
     axios.get('http://localhost:5000/notification/retrieve').then((response) => {
       var notifs = response.data;
-      console.log(notifs);
       var arr = [];
       for (var i = notifs.length - 1; i >= 0; i--) {
-        if (user.role !== "Head") {
+        if (user.role !== "Head" && user.role !== "CEO") {
           for (var j = 0; j < notifs[i].employees.length; j++)
             // filter meeting notif
-            if (notifs[i].employees[j].label === user.fullname && arr.length < 5) {
+            if (notifs[i].employees[j].label === user.fullname) {
               arr.push(notifs[i])
             }
         }
         // filter feature creation notif
         else if (user.role === "Head" && notifs[i].department === user.department
-          && notifs[i].singleSelect && arr.length < 5) {
+          && notifs[i].singleSelect) {
           arr.push(notifs[i])
         }
         // filter project sent to methods notif
         else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
-          && notifs[i].receiveddepartment === "Methods" && arr.length < 5) {
+          && notifs[i].receiveddepartment === "Methods") {
           arr.push(notifs[i])
         }
         // filter project sent to IT notif
         else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
-          && notifs[i].receiveddepartment === "IT" && arr.length < 5) {
+          && notifs[i].receiveddepartment === "IT") {
+          arr.push(notifs[i])
+        }
+        // filter project sent to CEO notif
+        else if (user.role === "CEO"
+          && notifs[i].receiveddepartment === "CEO") {
           arr.push(notifs[i])
         }
         // filter project creation notif
-        else if (user.role === "Head" && notifs[i].department === user.department && arr.length < 5) {
+        else if (user.role === "Head" && notifs[i].department === user.department) {
           arr.push(notifs[i])
         }
       }
@@ -104,6 +108,7 @@ class Notifications extends React.Component {
     this.refs.notificationAlert.notificationAlert(options);
   };
   render() {
+    console.log(this.state.notifs)
     var notification = this.state.notifs.map((notif) => {
       if (notif.employees.length !== 0) {
         return (

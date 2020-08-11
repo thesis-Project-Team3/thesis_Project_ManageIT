@@ -175,6 +175,7 @@ class Login extends React.Component {
       email: '',
       password: '',
     },
+    userError: ''
   };
 
   componentDidMount() {
@@ -192,6 +193,8 @@ class Login extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    let userError = 'invalid email or password'
+    this.setState({ userError })
     try {
       axios
         .post('http://localhost:5000/auth/', this.state.loginInformations)
@@ -202,6 +205,7 @@ class Login extends React.Component {
         });
     } catch (ex) {}
   };
+
 
   classes = () => {
     useStyles();
@@ -276,6 +280,9 @@ class Login extends React.Component {
               Get Started
             </Button>
           </form>
+        </div>
+        <div style={{ fontSize: 17, color: 'red', marginLeft: '24%' }}>
+          {this.state.userError}
         </div>
         <Box mt={8}>
           <Typography variant="body2" color="textSecondary" align="center">

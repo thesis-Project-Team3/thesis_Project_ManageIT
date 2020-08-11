@@ -35,7 +35,7 @@ class ProjectInfoHeads extends React.Component {
   }
 
   toggle1 = () => {
-    this.setState({ modal: !this.state.modal1 });
+    this.setState({ modal1: !this.state.modal1 });
   };
 
   toggle = () => {
@@ -44,7 +44,7 @@ class ProjectInfoHeads extends React.Component {
 
   handleDecline(featureTitle, e) {
     e.preventDefault();
-    this.setState({ modal: !this.state.modal1 });
+    this.setState({ modal1: !this.state.modal1 });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       status: 'Finished',
       progress: 'Declined by the Head of Department',
@@ -216,11 +216,13 @@ class ProjectInfoHeads extends React.Component {
                     {' '}
                     <br />{' '}
                     <center>
-                      <Label for="exampleText">Reason :</Label>
-                      <Input type="textarea" name="text" id="exampleText" />
+                      <img
+                        src="https://fotomelia.com/wp-content/uploads/edd/2015/03/croix-rouge-logo-1560x1548.png"
+                        alt="logo" width="200px"
+                      />
                       <br />
-                        Project has been declined !
-                      </center>
+                         Project has been Declined !
+                        </center>
                   </ModalBody>
                   <ModalFooter>
                     <Button
@@ -229,7 +231,7 @@ class ProjectInfoHeads extends React.Component {
                       href="/admin/projects-history-heads"
                     >
                       Close
-                      </Button>
+                        </Button>
                   </ModalFooter>
                 </Modal>
               </div>
@@ -255,7 +257,7 @@ class ProjectInfoHeads extends React.Component {
                     <Button
                       color="secondary"
                       onClick={this.toggle}
-                      href="/admin/ScheduleMeeting"
+                      href="/admin/projects-history-heads"
                     >
                       Close
                         </Button>
