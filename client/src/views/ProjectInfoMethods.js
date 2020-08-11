@@ -135,6 +135,7 @@ class ProjectInfoMethods extends React.Component {
     const defaultImageURL =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
     const { infoView } = this.props;
+
     const { oneProjectInfo, profileInformations } = this.state;
     const externalCloseBtn = (
       <button

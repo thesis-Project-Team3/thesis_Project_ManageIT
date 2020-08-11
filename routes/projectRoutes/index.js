@@ -171,20 +171,23 @@ router.get('/methods', (req, res) => {
       for (var i = 0; i < result.length; i++) {
         if (result[i].department === 'Methods') {
           arr1.push(result[i]);
-        } else if (
-          result[i].progress === 'Sent from IT back to Methods Department'
-        ) {
-          arr3.push(result[i]);
         }
-
-        for (var j in result[i].feature) {
-          if (
-            result[i].feature[j].featureStatus !== 'Created' &&
-            result[i].feature[j].featureProgress !==
-              'Sent to the Head of Department'
-          ) {
-            if (!arr2.includes(result[i])) {
-              arr2.push(result[i]);
+        if (result[i].feature) {
+          for (var j in result[i].feature) {
+            if (
+              result[i].feature[j].featureStatus !== 'Created' &&
+              result[i].feature[j].featureProgress !==
+                'Sent to the Head of Department'
+            ) {
+              if (!arr2.includes(result[i])) {
+                arr2.push(result[i]);
+              }
+            }
+            if (
+              result[i].feature[j].featureProgress ===
+              'Estimate Sent back from IT'
+            ) {
+              arr3.push(result[i]);
             }
           }
         }
