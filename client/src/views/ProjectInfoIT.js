@@ -166,7 +166,8 @@ class ProjectInfoMethods extends React.Component {
             (feat.featureProgress === 'Sent to IT Department' &&
               infoView === 'data2') ||
             (feat.featureProgress === 'Estimate Sent back from IT' &&
-              infoView === 'data2')
+              infoView === 'data2') ||
+            (feat.featureProgress === 'Sent to CEO' && infoView === 'data2')
           ) {
             return (
               <div key={key}>

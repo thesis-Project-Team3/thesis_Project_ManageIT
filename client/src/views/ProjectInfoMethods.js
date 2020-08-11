@@ -74,7 +74,7 @@ class ProjectInfoMethods extends React.Component {
 
   handleAccept = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
-    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
+    axios.patch(`http://localhost:5000/project/update/spec/${featureTitle}`, {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to IT Department',
       featureSpecificationsFile: this.state.featureSpecificationsFile,
@@ -98,6 +98,18 @@ class ProjectInfoMethods extends React.Component {
       receiveddepartment: 'IT',
       sentdepartment: user.department,
     });
+  };
+
+  handleSendToCEO = (featureTitle) => {
+    this.setState({ modal: !this.state.modal });
+    axios
+      .patch(`http://localhost:5000/project/update/${featureTitle}`, {
+        featureStatus: 'In Progress',
+        featureProgress: 'Sent to CEO',
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
   };
 
   componentDidMount() {
@@ -156,7 +168,8 @@ class ProjectInfoMethods extends React.Component {
               infoView === 'data2') ||
             (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
             (feat.featureProgress === 'Estimate Sent back from IT' &&
-              infoView === 'data3')
+              infoView === 'data3') ||
+            (feat.featureProgress === 'Sent to CEO' && infoView === 'data3')
           ) {
             return (
               <div key={key}>
@@ -205,39 +218,54 @@ class ProjectInfoMethods extends React.Component {
                   </tbody>
                 </Table>
                 <br></br>
-                <Row>
-                  <Col className="pr-md-1" md="6">
-                    <FormGroup>
-                      <Label for="exampleFile">Upload your files :</Label>
-                      <CustomInput
-                        type="file"
-                        id="exampleFile"
-                        name="customFile"
-                        onChange={this.onChangeFile}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pr-md-1" md="4">
+
+                {infoView === 'data3' ? (
+                  <>
                     <Button
-                      style={{ marginTop: 24 }}
                       className="btn-fill"
                       color="primary"
                       type="submit"
-                      onClick={this.onClickHandler}
+                      onClick={() => this.handleSendToCEO(feat._id)}
                     >
-                      Upload
-                    </Button>
-                  </Col>
-                </Row>
-                <Button
-                  className="btn-fill"
-                  color="primary"
-                  type="submit"
-                  onClick={() => this.handleAccept(feat._id)}
-                >
-                  Submit To IT
-                </Button>
-
+                      Submit To CEO
+                    </Button>{' '}
+                  </>
+                ) : (
+                  <>
+                    <Row>
+                      <Col className="pr-md-1" md="6">
+                        <FormGroup>
+                          <Label for="exampleFile">Upload your files :</Label>
+                          <CustomInput
+                            type="file"
+                            id="exampleFile"
+                            name="customFile"
+                            onChange={this.onChangeFile}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col className="pr-md-1" md="4">
+                        <Button
+                          style={{ marginTop: 24 }}
+                          className="btn-fill"
+                          color="primary"
+                          type="submit"
+                          onClick={this.onClickHandler}
+                        >
+                          Upload
+                        </Button>
+                      </Col>
+                    </Row>
+                    <Button
+                      className="btn-fill"
+                      color="primary"
+                      type="submit"
+                      onClick={() => this.handleAccept(feat._id)}
+                    >
+                      Submit To IT
+                    </Button>{' '}
+                  </>
+                )}
                 <div>
                   <Modal
                     isOpen={this.state.modal}

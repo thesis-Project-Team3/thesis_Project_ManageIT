@@ -122,6 +122,26 @@ router.patch('/update/:featureTitle', (req, res) => {
       $set: {
         'feature.$.featureStatus': req.body.featureStatus,
         'feature.$.featureProgress': req.body.featureProgress,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+// Router for updating status and specifications file of projects features
+router.patch('/update/spec/:featureTitle', (req, res) => {
+  console.log(req.body);
+  Project.findOneAndUpdate(
+    { 'feature._id': req.params.featureTitle },
+    {
+      $set: {
+        'feature.$.featureStatus': req.body.featureStatus,
+        'feature.$.featureProgress': req.body.featureProgress,
         'feature.$.featureSpecificationsFile':
           req.body.featureSpecificationsFile,
       },
@@ -185,7 +205,8 @@ router.get('/methods', (req, res) => {
             }
             if (
               result[i].feature[j].featureProgress ===
-              'Estimate Sent back from IT'
+                'Estimate Sent back from IT' ||
+              result[i].feature[j].featureProgress === 'Sent to CEO'
             ) {
               arr3.push(result[i]);
             }
@@ -220,7 +241,8 @@ router.get('/it', (req, res) => {
           if (
             result[i].feature[j].featureProgress === 'Sent to IT Department' ||
             result[i].feature[j].featureProgress ===
-              'Estimate Sent back from IT'
+              'Estimate Sent back from IT' ||
+            result[i].feature[j].featureProgress === 'Sent to CEO'
           ) {
             if (!arr2.includes(result[i])) {
               arr2.push(result[i]);
