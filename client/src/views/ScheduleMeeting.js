@@ -32,11 +32,13 @@ class ScheduleMeeting extends React.Component {
       subject: '',
       // singleSelect: null,
       date: '',
+      time: '',
       employees: [],
       modal: false,
       subjectError: '',
       employeeError: '',
       dateError: '',
+      timeError: '',
     };
   }
 
@@ -46,7 +48,7 @@ class ScheduleMeeting extends React.Component {
 
   handleChange = (e) => {
     this.setState(
-      { [e.target.id]: e.target.value, [e.target.id]: e.target.value },
+      { [e.target.id]: e.target.value, [e.target.id]: e.target.value, [e.target.id]: e.target.value },
       () => {
         // console.log(this.state);
       }
@@ -70,12 +72,14 @@ class ScheduleMeeting extends React.Component {
       const socket = socketIOClient(ENDPOINT);
       var subject = this.state.subject;
       var date = this.state.date;
+      var time = this.state.time;
       var employees = this.state.employees;
-      socket.emit('messageSent', { subject, date, employees });
+      socket.emit('messageSent', { subject, date, time, employees });
 
       axios.post('http://localhost:5000/notification/store', {
         subject,
         date,
+        time,
         employees,
         department: this.state.profileInformations.department,
       });
@@ -86,6 +90,7 @@ class ScheduleMeeting extends React.Component {
         .post('http://localhost:5000/meeting/create', {
           subject,
           date,
+          time,
           employees,
           department: this.state.profileInformations.department,
         })
@@ -135,6 +140,7 @@ class ScheduleMeeting extends React.Component {
     let subjectError = '';
     let employeeError = '';
     let dateError = '';
+    let timeError = '';
     if (this.state.subject.length < 6) {
       subjectError = 'invalid subject';
     }
@@ -144,8 +150,11 @@ class ScheduleMeeting extends React.Component {
     if (!this.state.date) {
       dateError = 'you need to pick a date';
     }
-    if (subjectError || employeeError || dateError) {
-      this.setState({ subjectError, employeeError, dateError });
+    if (!this.state.time) {
+      timeError = 'you need to pick a time';
+    }
+    if (subjectError || employeeError || dateError || timeError) {
+      this.setState({ subjectError, employeeError, dateError, timeError });
       return false;
     }
     return true;
@@ -226,26 +235,46 @@ class ScheduleMeeting extends React.Component {
                     </Row>
                     <Row>
                       <Col xs={5} md={10} className="px-md-1">
-                        <Card>
-                          <CardBody>
-                            <FormGroup>
-                              <Label className="label-control">Date :</Label>
-                              <Input
-                                className="form-control datetimepicker"
-                                type="date"
-                                id="date"
-                                name="deadline"
-                                min="2020-07-18"
-                                value={this.state.date}
-                                onChange={this.handleChange}
-                                placeholder="date placeholder"
-                              />
-                              <div style={{ fontSize: 12, color: 'red' }}>
-                                {this.state.dateError}
-                              </div>
-                            </FormGroup>
-                          </CardBody>
-                        </Card>
+                        <CardBody>
+                          <FormGroup>
+                            <Label className="label-control">Date :</Label>
+                            <Input
+                              className="form-control datetimepicker"
+                              type="date"
+                              id="date"
+                              name="deadline"
+                              min="2020-07-18"
+                              value={this.state.date}
+                              onChange={this.handleChange}
+                              placeholder="date placeholder"
+                            />
+                            <div style={{ fontSize: 12, color: 'red' }}>
+                              {this.state.dateError}
+                            </div>
+                          </FormGroup>
+                        </CardBody>
+                      </Col>
+                      {/* </Row>
+                    <Row> */}
+                      <Col xs={5} md={10} className="px-md-1">
+                        <CardBody>
+                          <FormGroup>
+                            <Label className="label-control">Time :</Label>
+                            <Input
+                              className="form-control datetimepicker"
+                              type="time"
+                              name="time"
+                              id="time"
+                              // min="12:00"
+                              value={this.state.time}
+                              onChange={this.handleChange}
+                              placeholder="time placeholder"
+                            />
+                            <div style={{ fontSize: 12, color: 'red' }}>
+                              {this.state.timeError}
+                            </div>
+                          </FormGroup>
+                        </CardBody>
                       </Col>
                     </Row>
                   </Form>

@@ -78,7 +78,7 @@ class AdminNavbar extends React.Component {
           , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
       }
       // creating project notif sent to head
-      else if (user.role === "Head" && msg.department === user.department) {
+      else if (user.role === "Head" && msg.department === user.department && msg.status === 'Created') {
         notify.show("New message : You have received a new project " + msg.progress
           , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
       }
@@ -128,7 +128,8 @@ class AdminNavbar extends React.Component {
             arr.push(notifs[i])
           }
           // filter project creation notif
-          else if (user.role === "Head" && notifs[i].department === user.department && arr.length < 5) {
+          else if (user.role === "Head" && notifs[i].department === user.department &&
+            notifs[i].status === "Created" && arr.length < 5) {
             arr.push(notifs[i])
           }
         }
@@ -163,7 +164,8 @@ class AdminNavbar extends React.Component {
           arr.push(notifs[i])
         }
         // filter project creation notif
-        else if (user.role === "Head" && notifs[i].department === user.department && arr.length < 5) {
+        else if (user.role === "Head" && notifs[i].department === user.department &&
+          notifs[i].status === "Created" && arr.length < 5) {
           arr.push(notifs[i])
         }
       }
