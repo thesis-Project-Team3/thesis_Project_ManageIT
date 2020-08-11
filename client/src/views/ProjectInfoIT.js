@@ -1,15 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import socketIOClient from 'socket.io-client';
 import {
   Button,
   Card,
   CardHeader,
-  CustomInput,
   CardBody,
   CardFooter,
   CardText,
-  FormGroup,
   Form,
   Input,
   Label,
@@ -20,7 +19,10 @@ import {
   ModalFooter,
   UncontrolledCollapse,
   Table,
+  FormGroup,
+  CustomInput,
 } from 'reactstrap';
+const ENDPOINT = 'http://127.0.0.1:5000';
 
 class ProjectInfoMethods extends React.Component {
   constructor(props) {
@@ -67,6 +69,24 @@ class ProjectInfoMethods extends React.Component {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
     });
+
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit('messageSent', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to Methods Department',
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
+    });
+    axios.post('http://localhost:5000/notification/store', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to Methods Department',
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
+    });
   };
 
   handleReturnBackToMethods = (featureTitle) => {
@@ -74,6 +94,23 @@ class ProjectInfoMethods extends React.Component {
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
       featureProgress: 'Estimate Sent back from IT',
+    });
+    const jwt = localStorage.getItem('token');
+    const user = jwtDecode(jwt);
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit('messageSent', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Estimate Sent back from IT',
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
+    });
+    axios.post('http://localhost:5000/notification/store', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Estimate Sent back from IT',
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
     });
   };
 
@@ -216,7 +253,6 @@ class ProjectInfoMethods extends React.Component {
                     </Button>{' '}
                   </>
                 )}
-
                 <div>
                   <Modal
                     isOpen={this.state.modal}

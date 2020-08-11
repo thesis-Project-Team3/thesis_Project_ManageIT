@@ -41,24 +41,24 @@ class RegisterHead extends React.Component {
     var isValid = this.validate();
     if (isValid) {
       e.preventDefault();
-      var firstName = document.getElementById('firstName').value;
-      var lastName = document.getElementById('lastName').value;
-      var fullname = firstName + ' ' + lastName;
-      var email = document.getElementById('email').value;
-      var headDepartment = document.getElementById('department').value;
-      const department = '';
-      if (headDepartment === 'Head of Financial Department') {
-        department = 'Financial';
-      } else if (headDepartment === 'Head of Accounting Department') {
-        department = 'Accounting';
-      } else if (headDepartment === 'Head of Marketing Department') {
-        department = 'Marketing';
-      } else if (headDepartment === 'Head of Human Ressources Department') {
-        department = 'Human Ressources';
-      } else if (headDepartment === 'Head of Methods Department') {
-        department = 'Methods';
-      } else if (headDepartment === 'Head of IT Department') {
-        department = 'IT';
+      var firstName = document.getElementById("firstName").value;
+      var lastName = document.getElementById("lastName").value;
+      var fullname = firstName + " " + lastName;
+      var email = document.getElementById("email").value;
+      var headDepartment = document.getElementById("department").value;
+      var department = "";
+      if (headDepartment === "Head of Financial Department") {
+        department = "Financial"
+      } else if (headDepartment === "Head of Accounting Department") {
+        department = "Accounting"
+      } else if (headDepartment === "Head of Marketing Department") {
+        department = "Marketing"
+      } else if (headDepartment === "Head of Human Ressources Department") {
+        department = "Human Ressources"
+      } else if (headDepartment === "Head of Methods Department") {
+        department = "Methods"
+      } else if (headDepartment === "Head of IT Department") {
+        department = "IT"
       }
       var role = 'Head';
       var dateOfBirth = document.getElementById('dateOfBirth').value;

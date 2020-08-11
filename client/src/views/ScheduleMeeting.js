@@ -53,7 +53,7 @@ class ScheduleMeeting extends React.Component {
     );
   };
   handleChange1 = (e) => {
-    this.setState({ employees: e }, () => {});
+    this.setState({ employees: e }, () => { });
   };
 
   makeOptions() {
@@ -73,7 +73,7 @@ class ScheduleMeeting extends React.Component {
       var employees = this.state.employees;
       socket.emit('messageSent', { subject, date, employees });
 
-      axios.post('http://localhost:5000/meeting/store', {
+      axios.post('http://localhost:5000/notification/store', {
         subject,
         date,
         employees,
@@ -272,7 +272,7 @@ class ScheduleMeeting extends React.Component {
                         <center>
                           <img
                             src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                            width="200px"
+                            alt="logo" width="200px"
                           />
                           <br />
                           Meeting has been Scheduled !

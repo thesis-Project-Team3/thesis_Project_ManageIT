@@ -1,9 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import Dashboard from 'views/Dashboard.js';
-// import Icons from "views/Icons.js";
-// import Map from "views/Map.js";
 import Notifications from 'views/Notifications.js';
-// import Rtl from "views/Rtl.js";
 //Projects Histories
 import ProjectHistoryEmployees from 'views/ProjectHistoryEmployees';
 import ProjectHistoryHeads from 'views/ProjectHistoryHeads';
@@ -11,13 +8,12 @@ import ProjectHistoryMethods from 'views/ProjectHistoryMethods.js';
 import ProjectHistoryIT from 'views/ProjectHistoryIT.js';
 import ProjectHistoryCEO from 'views/ProjectHistoryCEO.js';
 // Projects Informations
-import ProjectInfoEmployees from 'views/ProjectInfoEmployees.js';
 import ProjectInfoHeads from 'views/ProjectInfoHeads.js';
 
 import CreateProject from 'views/CreateProject.js';
 import ChangePassword from 'views/ChangePassword.js';
 
-import Login from 'views/Login.js';
+// import Login from 'views/Login.js';
 import AddEmployee from 'views/AddEmployee.js';
 import AddHead from 'views/AddHead.js';
 import RemoveEmployee from 'views/RemoveEmployee.js';

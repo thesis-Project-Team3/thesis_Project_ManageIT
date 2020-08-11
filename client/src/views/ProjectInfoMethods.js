@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import socketIOClient from "socket.io-client";
 import {
   Button,
   Card,
@@ -11,7 +12,6 @@ import {
   CardText,
   FormGroup,
   Form,
-  Input,
   Label,
   Row,
   Col,
@@ -21,6 +21,7 @@ import {
   UncontrolledCollapse,
   Table,
 } from 'reactstrap';
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class ProjectInfoMethods extends React.Component {
   constructor(props) {
@@ -75,6 +76,24 @@ class ProjectInfoMethods extends React.Component {
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to IT Department',
+    });
+
+    const jwt = localStorage.getItem("token");
+    const user = jwtDecode(jwt);
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit("messageSent", {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to IT Department',
+      receiveddepartment: "IT",
+      sentdepartment: user.department
+    })
+    axios.post('http://localhost:5000/notification/store', {
+      featureTitle,
+      featureStatus: 'In Progress',
+      featureProgress: 'Sent to IT Department',
+      receiveddepartment: "IT",
+      sentdepartment: user.department
     });
   };
 
@@ -166,32 +185,30 @@ class ProjectInfoMethods extends React.Component {
                   </tbody>
                 </Table>
                 <br></br>
-
-                <Row>
-                  <Col className="pr-md-1" md="6">
-                    <FormGroup>
-                      <Label for="exampleFile">Upload your files :</Label>
-                      <CustomInput
-                        type="file"
-                        id="exampleFile"
-                        name="customFile"
-                        onChange={this.onChangeFile}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col className="pr-md-1" md="4">
-                    <Button
-                      style={{ marginTop: 24 }}
-                      className="btn-fill"
-                      color="primary"
-                      type="submit"
-                      onClick={this.onClickHandler}
-                    >
-                      Upload
+              <Row>
+                <Col className="pr-md-1" md="6">
+                  <FormGroup>
+                    <Label for="exampleFile">Upload your files :</Label>
+                    <CustomInput
+                      type="file"
+                      id="exampleFile"
+                      name="customFile"
+                      onChange={this.onChangeFile}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col className="pr-md-1" md="4">
+                  <Button
+                    style={{ marginTop: 24 }}
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={this.onClickHandler}
+                  >
+                    Upload
                     </Button>
-                  </Col>
-                </Row>
-
+                </Col>
+              </Row>
                 <Button
                   className="btn-fill"
                   color="primary"
@@ -201,38 +218,42 @@ class ProjectInfoMethods extends React.Component {
                   Submit To IT
                 </Button>
 
-                <div>
-                  <Modal
-                    isOpen={this.state.modal}
-                    toggle={this.toggle}
-                    external={externalCloseBtn}
-                  >
-                    <ModalBody>
-                      {' '}
-                      <br />{' '}
-                      <center>
-                        <Label for="exampleText">Reason :</Label>
-                        <Input type="textarea" name="text" id="exampleText" />
-                        <br />
-                        Project has been declined !
-                      </center>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button
-                        color="secondary"
-                        onClick={this.toggle}
-                        href="/admin/projects-history"
-                      >
-                        Close
-                      </Button>
-                    </ModalFooter>
-                  </Modal>
-                </div>
-                <br></br>
+              <div>
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  external={externalCloseBtn}
+                >
+                  {/* <ModalHeader>Adding Alert !</ModalHeader> */}
+                  <ModalBody>
+                    {' '}
+                    <br />{' '}
+                    <center>
+                      <img
+                        src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                        alt="logo" width="200px"
+                      />
+                      <br />
+                          Feature has been successfully sent to IT department !
+                        </center>
+                  </ModalBody>
+                  <ModalFooter>
+                    {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle}
+                      href="/admin/Update-Project"
+                    >
+                      Close
+                        </Button>
+                  </ModalFooter>
+                </Modal>
               </div>
-            );
-          }
-        }))
+              <br></br>
+            </div>
+          );
+        }
+      }))
       : (list = undefined);
     return (
       <>

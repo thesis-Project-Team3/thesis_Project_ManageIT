@@ -190,7 +190,9 @@ router.get('/it', (req, res) => {
 
         for (var j in result[i].feature) {
           if (
-            result[i].feature[j].featureProgress === 'Sent to IT Department'
+            result[i].feature[j].featureProgress === 'Sent to IT Department' ||
+            result[i].feature[j].featureProgress ===
+              'Estimate Sent back from IT'
           ) {
             if (!arr2.includes(result[i])) {
               arr2.push(result[i]);

@@ -60,52 +60,115 @@ class AdminNavbar extends React.Component {
     const token = localStorage.getItem('token');
     const user = jwtDecode(token);
     const socket = socketIOClient(ENDPOINT);
-    socket.on('messageSent', (msg) => {
-      for (var i = 0; i < msg.employees.length; i++) {
-        if (msg.employees[i].label === user.fullname) {
-          notify.show(
-            'New message : ' +
-              msg.subject +
-              ' meeting in ' +
-              msg.date +
-              ' From Amine',
-            'custom',
-            5000,
-            { background: '#00ed04', text: '#FFFFFF' }
-          );
+    console.log(user)
+    socket.on("messageSent", (msg) => {
+      // meeting notif sent to employees
+      if (msg.employees && msg.employees.length !== 0) {
+        for (var i = 0; i < msg.employees.length; i++) {
+          if (msg.employees[i].label === user.fullname) {
+            notify.show("New message : " + msg.subject + " meeting in " + msg.date + " From Amine"
+              , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
+          }
         }
       }
-      axios.get('http://localhost:5000/notification/store').then((response) => {
+      // adding feature notif sent to head
+      else if (msg.featureProgress === 'Sent to the Head of Department'
+        && msg.department === user.department && user.role === "Head") {
+        notify.show("New message : You have received a new feature"
+          , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
+      }
+      // creating project notif sent to head
+      else if (user.role === "Head" && msg.department === user.department) {
+        notify.show("New message : You have received a new project " + msg.progress
+          , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
+      }
+
+      // declining project notif sent to employee
+      else if (user.role !== "Head" && msg.department === user.department && msg.status === 'Finished') {
+        notify.show("New message : Your project has been declined by your head of department"
+          , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
+      }
+
+      // sending to methods notif
+      else if (user.role === "Head" && msg.receiveddepartment === user.department && msg.receiveddepartment === 'Methods') {
+        notify.show("New message :  You have received a project from " + msg.sentdepartment + " department"
+          , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
+      }
+      // sending to IT notif
+      else if (user.role === "Head" && msg.receiveddepartment === user.department && msg.receiveddepartment === 'IT') {
+        notify.show("New message :  You have received a project from " + msg.sentdepartment + " department"
+          , "custom", 5000, { background: '#00ed04', text: "#FFFFFF" });
+      }
+
+      axios.get('http://localhost:5000/notification/retrieve').then((response) => {
         var notifs = response.data;
         console.log(notifs);
         var arr = [];
         for (var i = notifs.length - 1; i >= 0; i--) {
-          for (var j = 0; j < notifs[i].employees.length; j++)
-            if (
-              notifs[i].employees[j].label === user.fullname &&
-              arr.length < 5
-            ) {
-              arr.push(notifs[i]);
-            }
+          if (user.role !== "Head") {
+            for (var j = 0; j < notifs[i].employees.length; j++)
+              // filter meeting notif
+              if (notifs[i].employees[j].label === user.fullname && arr.length < 5) {
+                arr.push(notifs[i])
+              }
+          }
+          // filter feature creation notif
+          else if (user.role === "Head" && notifs[i].department === user.department
+            && notifs[i].singleSelect && arr.length < 5) {
+            arr.push(notifs[i])
+          }
+          // filter project sent to methods notif
+          else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
+            && notifs[i].receiveddepartment === "Methods" && arr.length < 5) {
+            arr.push(notifs[i])
+          }
+          // filter project sent to IT notif
+          else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
+            && notifs[i].receiveddepartment === "IT" && arr.length < 5) {
+            arr.push(notifs[i])
+          }
+          // filter project creation notif
+          else if (user.role === "Head" && notifs[i].department === user.department && arr.length < 5) {
+            arr.push(notifs[i])
+          }
         }
         this.setState({ notifs: arr });
-      });
+      })
     });
-    axios.get('http://localhost:5000/notification/store').then((response) => {
+    axios.get('http://localhost:5000/notification/retrieve').then((response) => {
       var notifs = response.data;
       console.log(notifs);
       var arr = [];
       for (var i = notifs.length - 1; i >= 0; i--) {
-        for (var j = 0; j < notifs[i].employees.length; j++)
-          if (
-            notifs[i].employees[j].label === user.fullname &&
-            arr.length < 5
-          ) {
-            arr.push(notifs[i]);
-          }
+        if (user.role !== "Head") {
+          for (var j = 0; j < notifs[i].employees.length; j++)
+            // filter meeting notif
+            if (notifs[i].employees[j].label === user.fullname && arr.length < 5) {
+              arr.push(notifs[i])
+            }
+        }
+        // filter feature creation notif
+        else if (user.role === "Head" && notifs[i].department === user.department
+          && notifs[i].singleSelect && arr.length < 5) {
+          arr.push(notifs[i])
+        }
+        // filter project sent to methods notif
+        else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
+          && notifs[i].receiveddepartment === "Methods" && arr.length < 5) {
+          arr.push(notifs[i])
+        }
+        // filter project sent to IT notif
+        else if (user.role === "Head" && notifs[i].receiveddepartment === user.department
+          && notifs[i].receiveddepartment === "IT" && arr.length < 5) {
+          arr.push(notifs[i])
+        }
+        // filter project creation notif
+        else if (user.role === "Head" && notifs[i].department === user.department && arr.length < 5) {
+          arr.push(notifs[i])
+        }
       }
       this.setState({ notifs: arr });
-    });
+    })
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateColor);
@@ -150,15 +213,45 @@ class AdminNavbar extends React.Component {
     window.location = '/login';
   };
   render() {
+    console.log(this.state.notifs)
     var notification = this.state.notifs.map((notif, key) => {
-      return (
-        <NavLink key={key} tag="li">
-          <DropdownItem className="nav-item">
-            You have a new meeting scheduled for {notif.date}
-          </DropdownItem>
-        </NavLink>
-      );
-    });
+      if (notif.employees.length !== 0) {
+        return (
+          <NavLink key={key} tag="li">
+            <DropdownItem className="nav-item">
+              You have a new meeting scheduled for {notif.date}
+            </DropdownItem>
+          </NavLink>
+        )
+      }
+      else if (notif.status) {
+        return (
+          <NavLink key={key} tag="li">
+            <DropdownItem className="nav-item">
+              You received a new project {notif.progress}
+            </DropdownItem>
+          </NavLink>
+        )
+      }
+      else if (notif.singleSelect) {
+        return (
+          <NavLink key={key} tag="li">
+            <DropdownItem className="nav-item">
+              You received a new feature {notif.featureProgress}
+            </DropdownItem>
+          </NavLink>
+        )
+      }
+      else if (notif.receiveddepartment) {
+        return (
+          <NavLink key={key} tag="li">
+            <DropdownItem className="nav-item">
+              You received a new feature from {notif.sentdepartment} department
+            </DropdownItem>
+          </NavLink>
+        )
+      }
+    })
     return (
       <>
         <Navbar
