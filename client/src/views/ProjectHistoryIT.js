@@ -24,9 +24,15 @@ class Tables extends React.Component {
       view: 'false',
       projects1: [],
       projects2: [],
+      users: [],
       ProjHistory: 'data1',
     };
   }
+
+  findUser = (projectUser) => {
+    var user = this.state.users.find((u) => u._id === projectUser);
+    if (user) return user.fullname;
+  };
 
   setProject = (name) => {
     this.setState({
@@ -40,6 +46,12 @@ class Tables extends React.Component {
       var projects2 = response.data[1];
       console.log(response.data);
       this.setState({ projects1, projects2 });
+    });
+
+    //get the the list of users
+    axios.get('http://localhost:5000/users').then((response) => {
+      console.log(response.data);
+      this.setState({ users: response.data });
     });
   }
 
@@ -64,6 +76,8 @@ class Tables extends React.Component {
       return (
         <tr key={i}>
           <td>{proj.title}</td>
+          <td>{this.findUser(proj.user)}</td>
+          <td>{proj.department}</td>
           <td>{proj.deadline}</td>
           <th>{proj.status}</th>
           <th>{proj.progress}</th>
@@ -85,6 +99,31 @@ class Tables extends React.Component {
       return (
         <tr key={i}>
           <td>{proj.title}</td>
+          <td>{this.findUser(proj.user)}</td>
+          <td>{proj.department}</td>
+          <td>{proj.deadline}</td>
+          <th>{proj.status}</th>
+          <th>{proj.progress}</th>
+          <td className="text-center">
+            <Button
+              onClick={() => this.handleInfo(proj._id)}
+              color="link"
+              id="buttonInfo"
+              title=""
+              type="button"
+            >
+              <i className="tim-icons icon-notes" />
+            </Button>
+          </td>
+        </tr>
+      );
+    });
+    var ProjectHistory3 = this.state.projects2.map((proj, i) => {
+      return (
+        <tr key={i}>
+          <td>{proj.title}</td>
+          <td>{this.findUser(proj.user)}</td>
+          <td>{proj.department}</td>
           <td>{proj.deadline}</td>
           <th>{proj.status}</th>
           <th>{proj.progress}</th>
@@ -163,6 +202,29 @@ class Tables extends React.Component {
                               <i className="tim-icons icon-gift-2" />
                             </span>
                           </Button>
+
+                          <Button
+                            color="info"
+                            id="1"
+                            size="sm"
+                            tag="label"
+                            className={classNames('btn-simple', {
+                              active: this.state.ProjHistory === 'data3',
+                            })}
+                            onClick={() => this.setProject('data3')}
+                          >
+                            <input
+                              className="d-none"
+                              name="options"
+                              type="radio"
+                            />
+                            <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                              Validated by CEO
+                            </span>
+                            <span className="d-block d-sm-none">
+                              <i className="tim-icons icon-gift-2" />
+                            </span>
+                          </Button>
                         </ButtonGroup>
                       </Col>
                     </Row>
@@ -172,6 +234,8 @@ class Tables extends React.Component {
                       <thead className="text-primary">
                         <tr>
                           <th>Title</th>
+                          <th>Creator</th>
+                          <th>Department</th>
                           <th>Do it before</th>
                           <th>Status</th>
                           <th>Progress</th>
@@ -183,7 +247,7 @@ class Tables extends React.Component {
                           ? ProjectHistory1
                           : this.state.ProjHistory === 'data2'
                           ? ProjectHistory2
-                          : null}
+                          : ProjectHistory3}
                       </tbody>
                     </Table>
                   </CardBody>
