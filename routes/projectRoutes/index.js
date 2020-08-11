@@ -249,10 +249,20 @@ router.get('/it', (req, res) => {
               arr2.push(result[i]);
             }
           }
+
+          if (
+            result[i].feature[j].featureProgress ===
+            'Validated and planned for production'
+          ) {
+            if (!arr3.includes(result[i])) {
+              arr3.push(result[i]);
+            }
+          }
         }
       }
       arr4.push(arr1);
       arr4.push(arr2);
+      arr4.push(arr3);
       res.send(arr4);
     }
   });
