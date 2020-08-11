@@ -284,7 +284,7 @@ class UpdateProject extends React.Component {
                                 name="featureDeadline"
                                 id="inputDate"
                                 placeholder="date placeholder"
-                                min="2020-07-18"
+                                min="2020-08-08"
                                 value={newFeature.featureDeadline}
                                 onChange={this.handleChange}
                               />

@@ -126,7 +126,7 @@ class Notifications extends React.Component {
               data-notify="icon"
             />
             <span data-notify="message">
-              New message : You received a new project {notif.progress}
+              New message : You received a new project {notif.progress} with the name of {notif.title}
             </span>
           </UncontrolledAlert>
         )
@@ -139,7 +139,7 @@ class Notifications extends React.Component {
               data-notify="icon"
             />
             <span data-notify="message">
-              New message : You received a new feature {notif.featureProgress}
+              New message : You received a new feature {notif.featureProgress} with the name of {notif.featureTitle}
             </span>
           </UncontrolledAlert>
         )
@@ -152,7 +152,7 @@ class Notifications extends React.Component {
               data-notify="icon"
             />
             <span data-notify="message">
-              New message : You received a new feature from {notif.sentdepartment} department
+              New message : You received a new feature from {notif.sentdepartment} department with the name of {notif.featureTitle}
             </span>
           </UncontrolledAlert>
         )
@@ -165,7 +165,7 @@ class Notifications extends React.Component {
             <NotificationAlert ref="notificationAlert" />
           </div>
           <Row>
-            <Col md="6">
+            <Col md="10">
               <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Notifications</CardTitle>
@@ -175,7 +175,7 @@ class Notifications extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col md="6">
+            {/* <Col md="6">
               <Card>
                 <CardHeader>
                   <CardTitle tag="h4">Notification states</CardTitle>
@@ -296,7 +296,7 @@ class Notifications extends React.Component {
                   </div>
                 </CardBody>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </>
