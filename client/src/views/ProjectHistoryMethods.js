@@ -52,7 +52,7 @@ class ProjectHistoryMethods extends React.Component {
       console.log(response.data);
     });
 
-    //get the the list of projects by user
+    //get the the list of users
     axios.get('http://localhost:5000/users').then((response) => {
       console.log(response.data);
       this.setState({ users: response.data });

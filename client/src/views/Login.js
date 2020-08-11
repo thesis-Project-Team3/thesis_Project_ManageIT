@@ -173,7 +173,7 @@ class Login extends React.Component {
   state = {
     loginInformations: {
       email: '',
-      password: ''
+      password: '',
     },
     userError: ''
   };
@@ -203,14 +203,13 @@ class Login extends React.Component {
           localStorage.setItem('token', response.data);
           window.location = '/admin/user-profile';
         });
-    } catch (ex) { }
+    } catch (ex) {}
   };
 
 
   classes = () => {
     useStyles();
-  }
-
+  };
 
   render() {
     const { loginInformations } = this.state;
@@ -218,13 +217,25 @@ class Login extends React.Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={this.classes.paper} style={{ marginTop: '18%' }}>
-          <Avatar className={this.classes.avatar} style={{ backgroundColor: "red", marginLeft: '45%' }}>
+          <Avatar
+            className={this.classes.avatar}
+            style={{ backgroundColor: 'red', marginLeft: '45%' }}
+          >
             <LockOutlinedIcon />
             {/* <img src='https://files.slack.com/files-pri/TU6783FFV-F018WG0NPND/manageit.png' /> */}
           </Avatar>
-          <Typography component="h1" variant="h5" style={{ color: "black", marginLeft: '40%', marginTop: '3%', marginBottom: '3%' }}>
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              color: 'black',
+              marginLeft: '40%',
+              marginTop: '3%',
+              marginBottom: '3%',
+            }}
+          >
             Sign in
-        </Typography>
+          </Typography>
           <form className={this.classes.form} noValidate>
             <TextField
               variant="outlined"
@@ -263,11 +274,11 @@ class Login extends React.Component {
               color="primary"
               className={this.classes.submit}
               onClick={this.handleSubmit}
-            // href="/admin/dashboard"
-            // onClick={e => e.preventDefault()}
+              // href="/admin/dashboard"
+              // onClick={e => e.preventDefault()}
             >
               Get Started
-          </Button>
+            </Button>
           </form>
         </div>
         <div style={{ fontSize: 17, color: 'red', marginLeft: '24%' }}>
@@ -278,7 +289,7 @@ class Login extends React.Component {
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
               ManageIT
-      </Link>{' '}
+            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
           </Typography>
@@ -288,4 +299,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login
+export default Login;

@@ -65,6 +65,28 @@ router.get('/', (req, res) => {
   });
 });
 
+// get employees by department
+router.get('/usersByDepartment/:department', (req, res) => {
+  User.find({ department: req.params.department }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+// get employees email
+router.get('/usersByFullname/:fullname', (req, res) => {
+  User.find({ fullname: req.params.fullname }, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 router.get('/:id', (req, res) => {
   User.find({ _id: req.params.id }, function (err, result) {
     if (err) {
