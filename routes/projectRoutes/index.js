@@ -267,7 +267,11 @@ router.get('/ceo', (req, res) => {
       for (var i = 0; i < result.length; i++) {
         if (result[i].feature) {
           for (var j in result[i].feature) {
-            if (result[i].feature[j].featureProgress === 'Sent to CEO') {
+            if (
+              result[i].feature[j].featureProgress === 'Sent to CEO' ||
+              result[i].feature[j].featureProgress ===
+                'Validated and planned for production'
+            ) {
               if (!arr1.includes(result[i])) {
                 arr1.push(result[i]);
               }

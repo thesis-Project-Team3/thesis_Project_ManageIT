@@ -48,8 +48,8 @@ class ProjectInfoEmployees extends React.Component {
     this.setState({ modal: !this.state.modal });
     axios
       .patch(`http://localhost:5000/project/update/${featureTitle}`, {
-        featureStatus: 'In Progress',
-        featureProgress: 'Sent to the Head of Department',
+        featureStatus: 'Validated by CEO',
+        featureProgress: 'Validated and planned for production',
       })
       .then((response) => {
         console.log(response.data);
@@ -131,7 +131,10 @@ class ProjectInfoEmployees extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          if (feat.featureProgress === 'Sent to CEO') {
+          if (
+            feat.featureProgress === 'Sent to CEO' ||
+            feat.featureProgress === 'Validated and planned for production'
+          ) {
             return (
               <div key={key}>
                 <Table striped>
@@ -163,13 +166,22 @@ class ProjectInfoEmployees extends React.Component {
                   </tbody>
                 </Table>
                 <br></br>
+
                 <Button
                   className="btn-fill"
                   color="primary"
                   type="submit"
                   onClick={this.handleSubmit.bind(this, feat._id)}
                 >
-                  Submit To Head
+                  Final Validation
+                </Button>
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={this.handleDecline.bind(this, feat._id)}
+                >
+                  Decline
                 </Button>
                 <div>
                   <Modal
