@@ -9,7 +9,9 @@ import {
   CardBody,
   CardFooter,
   CardText,
+  CustomInput,
   Form,
+  FormGroup,
   Input,
   Label,
   Row,
@@ -230,8 +232,8 @@ class ProjectInfoMethods extends React.Component {
                     >
                       Submit To Methods
                     </Button>{' '}
-                  </>
-                ) : (
+                </>
+              ) : (
                   <>
                     <Row>
                       <Col className="pr-md-1" md="6">

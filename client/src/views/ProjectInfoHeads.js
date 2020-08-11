@@ -30,19 +30,24 @@ class ProjectInfoHeads extends React.Component {
       profileInformations: '',
       usersList: [],
       modal: false,
+      modal1: false,
     };
   }
+
+  toggle1 = () => {
+    this.setState({ modal: !this.state.modal1 });
+  };
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
 
-  handleDecline = () => {
-    this.setState({ modal: !this.state.modal });
-    axios.post('http://localhost:5000/project/decline', {
+  handleDecline(featureTitle, e) {
+    e.preventDefault();
+    this.setState({ modal: !this.state.modal1 });
+    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       status: 'Finished',
       progress: 'Declined by the Head of Department',
-      title: this.state.info.title,
     });
     const jwt = localStorage.getItem("token");
     const user = jwtDecode(jwt);
@@ -51,17 +56,18 @@ class ProjectInfoHeads extends React.Component {
       status: 'Finished',
       progress: 'Declined by the Head of Department',
       department: user.department,
-      title: this.state.info.title,
+      title: featureTitle,
     })
     axios.post('http://localhost:5000/notification/store', {
       status: 'Finished',
       progress: 'Declined by the Head of Department',
-      title: this.state.info.title,
+      featureTitle,
       department: user.department
     });
   };
 
-  handleAccept = (featureTitle) => {
+  handleAccept(featureTitle, e) {
+    e.preventDefault();
     this.setState({ modal: !this.state.modal });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
@@ -129,6 +135,15 @@ class ProjectInfoHeads extends React.Component {
     const defaultImageURL =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjGSxm1_lBkpyvSzWDPI9EPOmlwLCtxD0B_g&usqp=CAU';
     const { oneProjectInfo, profileInformations } = this.state;
+    const externalCloseBtn1 = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle1}
+      >
+        &times;
+      </button>
+    );
     const externalCloseBtn = (
       <button
         className="close"
@@ -179,7 +194,7 @@ class ProjectInfoHeads extends React.Component {
                 className="btn-fill"
                 color="primary"
                 type="submit"
-                onClick={() => this.handleAccept(feat._id)}
+                onClick={this.handleAccept.bind(this, feat._id)}
               >
                 Submit To Methods
                 </Button>
@@ -187,15 +202,15 @@ class ProjectInfoHeads extends React.Component {
                 className="btn-fill"
                 color="primary"
                 type="submit"
-                onClick={this.handleDecline}
+                onClick={this.handleDecline.bind(this, feat._id)}
               >
                 Decline
                 </Button>
               <div>
                 <Modal
-                  isOpen={this.state.modal}
-                  toggle={this.toggle}
-                  external={externalCloseBtn}
+                  isOpen={this.state.modal1}
+                  toggle={this.toggle1}
+                  external={externalCloseBtn1}
                 >
                   <ModalBody>
                     {' '}
@@ -210,11 +225,40 @@ class ProjectInfoHeads extends React.Component {
                   <ModalFooter>
                     <Button
                       color="secondary"
-                      onClick={this.toggle}
-                      href="/admin/projects-history"
+                      onClick={this.toggle1}
+                      href="/admin/projects-history-heads"
                     >
                       Close
                       </Button>
+                  </ModalFooter>
+                </Modal>
+              </div>
+              <div>
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  external={externalCloseBtn}
+                >
+                  <ModalBody>
+                    {' '}
+                    <br />{' '}
+                    <center>
+                      <img
+                        src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                        alt="logo" width="200px"
+                      />
+                      <br />
+                         Project has been sent to Methods !
+                        </center>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle}
+                      href="/admin/ScheduleMeeting"
+                    >
+                      Close
+                        </Button>
                   </ModalFooter>
                 </Modal>
               </div>
