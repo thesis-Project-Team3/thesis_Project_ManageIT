@@ -9,7 +9,9 @@ import {
   CardBody,
   CardFooter,
   CardText,
+  CustomInput,
   Form,
+  FormGroup,
   Input,
   Label,
   Row,
@@ -185,18 +187,18 @@ class ProjectInfoMethods extends React.Component {
                 </tbody>
               </Table>
               <br></br>
-                {infoView === 'data1' ? (
-                  <>
-                    <Button
-                      className="btn-fill"
-                      color="primary"
-                      type="submit"
-                      onClick={() => this.handleSendToMethods(feat._id)}
-                    >
-                      Submit To Methods
+              {infoView === 'data1' ? (
+                <>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={() => this.handleSendToMethods(feat._id)}
+                  >
+                    Submit To Methods
                     </Button>{' '}
-                  </>
-                ) : (
+                </>
+              ) : (
                   <>
                     <Row>
                       <Col className="pr-md-1" md="6">

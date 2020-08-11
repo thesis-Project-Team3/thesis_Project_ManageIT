@@ -281,10 +281,10 @@ class UpdateProject extends React.Component {
                               <Label for="exampleDate">Do it before :</Label>
                               <Input
                                 type="date"
-                                name="date"
+                                name="featureDeadline"
                                 id="inputDate"
                                 placeholder="date placeholder"
-                                min="2020-07-18"
+                                min="2020-08-08"
                                 value={newFeature.featureDeadline}
                                 onChange={this.handleChange}
                               />
