@@ -56,17 +56,17 @@ class AddEmployee extends React.Component {
   };
 
   handleSubmit = (e) => {
-    var isValid = this.validate();
-    if (isValid) {
-      e.preventDefault();
-      console.log(this.state.RegisterInformations);
-      axios
-        .post('http://localhost:5000/users', this.state.RegisterInformations)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => console.log('Error', err));
-    }
+    // var isValid = this.validate();
+    // if (isValid) {
+    e.preventDefault();
+    console.log(this.state.RegisterInformations);
+    axios
+      .post('http://localhost:5000/users', this.state.RegisterInformations)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((err) => console.log('Error', err));
+    // }
   };
 
   validate = () => {
@@ -80,8 +80,12 @@ class AddEmployee extends React.Component {
     if (this.state.RegisterInformations.fullname.length < 6) {
       fullnameError = 'invalid fullName';
     }
-    if (!((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(this.state.RegisterInformations.email))) {
-      emailError = "invalid or existing email"
+    if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        this.state.RegisterInformations.email
+      )
+    ) {
+      emailError = 'invalid or existing email';
     }
     if (
       !this.state.RegisterInformations.password.match(
