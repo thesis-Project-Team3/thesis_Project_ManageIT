@@ -174,7 +174,9 @@ class ProjectInfoMethods extends React.Component {
               infoView === 'data2') ||
             (feat.featureProgress === 'Estimate Sent back from IT' &&
               infoView === 'data2') ||
-            (feat.featureProgress === 'Sent to CEO' && infoView === 'data2')
+            (feat.featureProgress === 'Sent to CEO' && infoView === 'data2') ||
+            (feat.featureProgress === 'Validated and planned for production' &&
+              infoView === 'data3')
           ) {
             return (
               <div key={key}>
@@ -231,7 +233,7 @@ class ProjectInfoMethods extends React.Component {
                       Submit To Methods
                     </Button>{' '}
                   </>
-                ) : (
+                ) : infoView === 'data2' ? (
                   <>
                     <Row>
                       <Col className="pr-md-1" md="6">
@@ -282,7 +284,7 @@ class ProjectInfoMethods extends React.Component {
                       Submit Estimate To Methods
                     </Button>{' '}
                   </>
-                )}
+                ) : null}
                 <div>
                   <Modal
                     isOpen={this.state.modal}

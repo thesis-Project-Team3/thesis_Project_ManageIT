@@ -24,6 +24,7 @@ class Tables extends React.Component {
       view: 'false',
       projects1: [],
       projects2: [],
+      projects3: [],
       users: [],
       ProjHistory: 'data1',
     };
@@ -44,8 +45,9 @@ class Tables extends React.Component {
     axios.get('http://localhost:5000/project/it/').then((response) => {
       var projects1 = response.data[0];
       var projects2 = response.data[1];
+      var projects3 = response.data[2];
       console.log(response.data);
-      this.setState({ projects1, projects2 });
+      this.setState({ projects1, projects2, projects3 });
     });
 
     //get the the list of users
@@ -118,7 +120,7 @@ class Tables extends React.Component {
         </tr>
       );
     });
-    var ProjectHistory3 = this.state.projects2.map((proj, i) => {
+    var ProjectHistory3 = this.state.projects3.map((proj, i) => {
       return (
         <tr key={i}>
           <td>{proj.title}</td>
