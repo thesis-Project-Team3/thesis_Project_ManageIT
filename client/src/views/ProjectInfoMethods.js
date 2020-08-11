@@ -193,6 +193,14 @@ class ProjectInfoMethods extends React.Component {
                         </td>
                       </tr>
                     ) : null}
+                    {feat.featureEstimateFile ? (
+                      <tr>
+                        <th scope="row">Estimate File</th>
+                        <td>
+                          <a href={feat.featureEstimateFile}>Download</a>
+                        </td>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </Table>
                 <br></br>

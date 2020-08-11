@@ -32,7 +32,8 @@ class ProjectInfoMethods extends React.Component {
       profileInformations: '',
       modal: false,
       selectedFile: null,
-      fileGeneratedUrl: '',
+      EstimateFileStatus: 'false',
+      featureEstimateFile: '',
     };
   }
 
@@ -59,7 +60,7 @@ class ProjectInfoMethods extends React.Component {
       .then((response) => {
         // then print response status
         console.log(response.data.data[0].url);
-        this.setState({ fileGeneratedUrl: response.data.data[0].url });
+        this.setState({ featureEstimateFile: response.data.data[0].url });
       });
   };
 
@@ -91,10 +92,15 @@ class ProjectInfoMethods extends React.Component {
 
   handleReturnBackToMethods = (featureTitle) => {
     this.setState({ modal: !this.state.modal });
-    axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
-      featureStatus: 'In Progress',
-      featureProgress: 'Estimate Sent back from IT',
-    });
+    axios.patch(
+      `http://localhost:5000/project/update/estimate/${featureTitle}`,
+      {
+        featureStatus: 'In Progress',
+        featureProgress: 'Estimate Sent back from IT',
+        featureEstimateFile: this.state.featureEstimateFile,
+      }
+    );
+    this.setState({ EstimateFileStatus: 'true' });
     const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     const socket = socketIOClient(ENDPOINT);
@@ -191,6 +197,14 @@ class ProjectInfoMethods extends React.Component {
                         <th scope="row">Specifications File</th>
                         <td>
                           <a href={feat.featureSpecificationsFile}>Download</a>
+                        </td>
+                      </tr>
+                    ) : null}
+                    {feat.featureEstimateFile ? (
+                      <tr>
+                        <th scope="row">Estimate File</th>
+                        <td>
+                          <a href={feat.featureEstimateFile}>Download</a>
                         </td>
                       </tr>
                     ) : null}
