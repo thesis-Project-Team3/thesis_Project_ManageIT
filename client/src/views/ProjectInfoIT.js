@@ -70,7 +70,8 @@ class ProjectInfoMethods extends React.Component {
       });
   };
 
-  handleSendToMethods = (featureTitle) => {
+  handleSendToMethods(featureTitle, e) {
+    e.preventDefault()
     this.setState({ modal: !this.state.modal });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
       featureStatus: 'In Progress',
@@ -96,7 +97,8 @@ class ProjectInfoMethods extends React.Component {
     });
   };
 
-  handleReturnBackToMethods = (featureTitle) => {
+  handleReturnBackToMethods(featureTitle, e) {
+    e.preventDefault()
     this.setState({ modal: !this.state.modal });
     axios.patch(
       `http://localhost:5000/project/update/estimate/${featureTitle}`,
@@ -226,12 +228,12 @@ class ProjectInfoMethods extends React.Component {
                     className="btn-fill"
                     color="primary"
                     type="submit"
-                    onClick={() => this.handleSendToMethods(feat._id)}
+                    onClick={this.handleSendToMethods(this, feat._id)}
                   >
                     Submit To Methods
                     </Button>{' '}
-                  </>
-                ) : (
+                </>
+              ) : (
                   <>
                     <Row>
                       <Col className="pr-md-1" md="6">
@@ -277,7 +279,7 @@ class ProjectInfoMethods extends React.Component {
                       className="btn-fill"
                       color="primary"
                       type="submit"
-                      onClick={() => this.handleReturnBackToMethods(feat._id)}
+                      onClick={this.handleReturnBackToMethods.bind(this, feat._id)}
                     >
                       Submit Estimate To Methods
                     </Button>{' '}
@@ -293,20 +295,22 @@ class ProjectInfoMethods extends React.Component {
                     {' '}
                     <br />{' '}
                     <center>
-                      <Label for="exampleText">Reason :</Label>
-                      <Input type="textarea" name="text" id="exampleText" />
+                      <img
+                        src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                        alt="logo" width="200px"
+                      />
                       <br />
-                        Project has been declined !
-                      </center>
+                         Project has been sent back to Methods !
+                        </center>
                   </ModalBody>
                   <ModalFooter>
                     <Button
                       color="secondary"
                       onClick={this.toggle}
-                      href="/admin/projects-history"
+                      href="/admin/projects-history-IT"
                     >
                       Close
-                      </Button>
+                        </Button>
                   </ModalFooter>
                 </Modal>
               </div>
