@@ -123,6 +123,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: UserProfile,
       layout: '/admin',
     },
+    {
+      path: '/change-password',
+      name: 'Change Password',
+      rtlName: 'تحديث مشروع',
+      icon: 'tim-icons icon-key-25',
+      component: ChangePassword,
+      layout: '/admin',
+    },
 
     {
       path: '/create-project',
@@ -202,6 +210,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       rtlName: 'ملف تعريفي للمستخدم',
       icon: 'tim-icons icon-single-02',
       component: UserProfile,
+      layout: '/admin',
+    },
+    {
+      path: '/change-password',
+      name: 'Change Password',
+      rtlName: 'تحديث مشروع',
+      icon: 'tim-icons icon-key-25',
+      component: ChangePassword,
       layout: '/admin',
     },
 
@@ -302,6 +318,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: UserProfile,
       layout: '/admin',
     },
+    {
+      path: '/change-password',
+      name: 'Change Password',
+      rtlName: 'تحديث مشروع',
+      icon: 'tim-icons icon-key-25',
+      component: ChangePassword,
+      layout: '/admin',
+    },
 
     {
       path: '/create-project',
@@ -383,6 +407,14 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: UserProfile,
       layout: '/admin',
     },
+    {
+      path: '/change-password',
+      name: 'Change Password',
+      rtlName: 'تحديث مشروع',
+      icon: 'tim-icons icon-key-25',
+      component: ChangePassword,
+      layout: '/admin',
+    },
 
     {
       path: '/create-project',
@@ -460,21 +492,21 @@ if (user && jwtDecode(user).role === 'Employee') {
       component: UserProfile,
       layout: '/admin',
     },
+    {
+      path: '/change-password',
+      name: 'Change Password',
+      rtlName: 'تحديث مشروع',
+      icon: 'tim-icons icon-key-25',
+      component: ChangePassword,
+      layout: '/admin',
+    },
 
     {
       path: '/projects-history-CEO',
-      name: 'Recieved Projects',
+      name: 'Projects Validation',
       rtlName: 'أرشيف المشاريع',
       icon: 'tim-icons icon-single-copy-04',
       component: ProjectHistoryCEO,
-      layout: '/admin',
-    },
-    {
-      path: '/project-info-heads',
-      name: 'Project Info',
-      rtlName: 'أرشيف المشاريع',
-      icon: 'tim-icons icon-notes',
-      component: ProjectInfoHeads,
       layout: '/admin',
     },
     {

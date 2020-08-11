@@ -258,4 +258,26 @@ router.get('/it', (req, res) => {
   });
 });
 
+router.get('/ceo', (req, res) => {
+  Project.find({}, function (err, result) {
+    if (err) {
+      res.send(err);
+    } else {
+      var arr1 = [];
+      for (var i = 0; i < result.length; i++) {
+        if (result[i].feature) {
+          for (var j in result[i].feature) {
+            if (result[i].feature[j].featureProgress === 'Sent to CEO') {
+              if (!arr1.includes(result[i])) {
+                arr1.push(result[i]);
+              }
+            }
+          }
+        }
+      }
+      res.send(arr1);
+    }
+  });
+});
+
 module.exports = router;
