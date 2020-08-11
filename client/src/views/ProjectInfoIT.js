@@ -21,8 +21,6 @@ import {
   ModalFooter,
   UncontrolledCollapse,
   Table,
-  FormGroup,
-  CustomInput,
 } from 'reactstrap';
 const ENDPOINT = 'http://127.0.0.1:5000';
 
@@ -170,67 +168,67 @@ class ProjectInfoMethods extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-          if (
-            (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
-            (feat.featureProgress === 'Sent to IT Department' &&
-              infoView === 'data2') ||
-            (feat.featureProgress === 'Estimate Sent back from IT' &&
-              infoView === 'data2') ||
-            (feat.featureProgress === 'Sent to CEO' && infoView === 'data2')
-          ) {
-            return (
-              <div key={key}>
-                <Table striped>
-                  <tbody>
+        if (
+          (feat.featureStatus === 'In Progress' && infoView === 'data1') ||
+          (feat.featureProgress === 'Sent to IT Department' &&
+            infoView === 'data2') ||
+          (feat.featureProgress === 'Estimate Sent back from IT' &&
+            infoView === 'data2') ||
+          (feat.featureProgress === 'Sent to CEO' && infoView === 'data2')
+        ) {
+          return (
+            <div key={key}>
+              <Table striped>
+                <tbody>
+                  <tr>
+                    <th scope="row">Title</th>
+                    <td>{feat.featureTitle}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Description</th>
+                    <td>{feat.featureDescription}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Deadline</th>
+                    <td>{feat.featureDeadline}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Status</th>
+                    <td>{feat.featureStatus}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Progress</th>
+                    <td>{feat.featureProgress}</td>
+                  </tr>
+                  {feat.featureSpecificationsFile ? (
                     <tr>
-                      <th scope="row">Title</th>
-                      <td>{feat.featureTitle}</td>
+                      <th scope="row">Specifications File</th>
+                      <td>
+                        <a href={feat.featureSpecificationsFile}>Download</a>
+                      </td>
                     </tr>
+                  ) : null}
+                  {feat.featureEstimateFile ? (
                     <tr>
-                      <th scope="row">Description</th>
-                      <td>{feat.featureDescription}</td>
+                      <th scope="row">Estimate File</th>
+                      <td>
+                        <a href={feat.featureEstimateFile}>Download</a>
+                      </td>
                     </tr>
-                    <tr>
-                      <th scope="row">Deadline</th>
-                      <td>{feat.featureDeadline}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Status</th>
-                      <td>{feat.featureStatus}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Progress</th>
-                      <td>{feat.featureProgress}</td>
-                    </tr>
-                    {feat.featureSpecificationsFile ? (
-                      <tr>
-                        <th scope="row">Specifications File</th>
-                        <td>
-                          <a href={feat.featureSpecificationsFile}>Download</a>
-                        </td>
-                      </tr>
-                    ) : null}
-                    {feat.featureEstimateFile ? (
-                      <tr>
-                        <th scope="row">Estimate File</th>
-                        <td>
-                          <a href={feat.featureEstimateFile}>Download</a>
-                        </td>
-                      </tr>
-                    ) : null}
-                  </tbody>
-                </Table>
-                <br></br>
+                  ) : null}
+                </tbody>
+              </Table>
+              <br></br>
 
-                {infoView === 'data1' ? (
-                  <>
-                    <Button
-                      className="btn-fill"
-                      color="primary"
-                      type="submit"
-                      onClick={() => this.handleSendToMethods(feat._id)}
-                    >
-                      Submit To Methods
+              {infoView === 'data1' ? (
+                <>
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    type="submit"
+                    onClick={() => this.handleSendToMethods(feat._id)}
+                  >
+                    Submit To Methods
                     </Button>{' '}
                 </>
               ) : (
@@ -285,38 +283,38 @@ class ProjectInfoMethods extends React.Component {
                     </Button>{' '}
                   </>
                 )}
-                <div>
-                  <Modal
-                    isOpen={this.state.modal}
-                    toggle={this.toggle}
-                    external={externalCloseBtn}
-                  >
-                    <ModalBody>
-                      {' '}
-                      <br />{' '}
-                      <center>
-                        <Label for="exampleText">Reason :</Label>
-                        <Input type="textarea" name="text" id="exampleText" />
-                        <br />
+              <div>
+                <Modal
+                  isOpen={this.state.modal}
+                  toggle={this.toggle}
+                  external={externalCloseBtn}
+                >
+                  <ModalBody>
+                    {' '}
+                    <br />{' '}
+                    <center>
+                      <Label for="exampleText">Reason :</Label>
+                      <Input type="textarea" name="text" id="exampleText" />
+                      <br />
                         Project has been declined !
                       </center>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button
-                        color="secondary"
-                        onClick={this.toggle}
-                        href="/admin/projects-history"
-                      >
-                        Close
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="secondary"
+                      onClick={this.toggle}
+                      href="/admin/projects-history"
+                    >
+                      Close
                       </Button>
-                    </ModalFooter>
-                  </Modal>
-                </div>
-                <br></br>
+                  </ModalFooter>
+                </Modal>
               </div>
-            );
-          }
-        }))
+              <br></br>
+            </div>
+          );
+        }
+      }))
       : (list = undefined);
     return (
       <>
