@@ -166,6 +166,7 @@ router.patch('/update/estimate/:featureTitle', (req, res) => {
         'feature.$.featureStatus': req.body.featureStatus,
         'feature.$.featureProgress': req.body.featureProgress,
         'feature.$.featureEstimateFile': req.body.featureEstimateFile,
+        'feature.$.featureEstimatedPrice': req.body.featureEstimatedPrice,
       },
     },
     (err, result) => {

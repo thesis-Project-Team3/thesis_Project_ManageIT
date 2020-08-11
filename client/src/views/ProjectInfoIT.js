@@ -34,11 +34,17 @@ class ProjectInfoMethods extends React.Component {
       selectedFile: null,
       EstimateFileStatus: 'false',
       featureEstimateFile: '',
+      featureEstimatedPrice: '',
     };
   }
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
+  };
+
+  handleChange = (e) => {
+    const featureEstimatedPrice = e.currentTarget.value;
+    this.setState({ featureEstimatedPrice });
   };
 
   onChangeFile = (e) => {
@@ -98,6 +104,7 @@ class ProjectInfoMethods extends React.Component {
         featureStatus: 'In Progress',
         featureProgress: 'Estimate Sent back from IT',
         featureEstimateFile: this.state.featureEstimateFile,
+        featureEstimatedPrice: this.state.featureEstimatedPrice,
       }
     );
     this.setState({ EstimateFileStatus: 'true' });
@@ -258,8 +265,8 @@ class ProjectInfoMethods extends React.Component {
                             placeholder="Enter the estimated budget"
                             type="number"
                             step="100"
-                            // value={newFeature.featureTitle}
-                            // onChange={this.handleChange}
+                            value={this.state.featureEstimatedPrice}
+                            onChange={this.handleChange}
                             name="featureTitle"
                           />
                           <div style={{ fontSize: 12, color: 'red' }}></div>
