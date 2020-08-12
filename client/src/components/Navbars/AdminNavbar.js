@@ -99,7 +99,7 @@ class AdminNavbar extends React.Component {
         msg.status === 'Created'
       ) {
         notify.show(
-          'New message : You have received a new project ' + msg.progress,
+          'New message : You have received a new project',
           'custom',
           5000,
           { background: '#00ed04', text: '#FFFFFF' }
@@ -139,7 +139,7 @@ class AdminNavbar extends React.Component {
         msg.receiveddepartment === 'Methods'
       ) {
         notify.show(
-          'New message :  You have received a project from ' +
+          'New message :  You have received a new feature from ' +
             msg.sentdepartment +
             ' department',
           'custom',
@@ -150,7 +150,7 @@ class AdminNavbar extends React.Component {
       // sending to CEO notif
       else if (user.role === 'CEO' && msg.receiveddepartment === 'CEO') {
         notify.show(
-          'New message :  You have received a project from ' +
+          'New message :  You have received a new feature from ' +
             msg.sentdepartment +
             ' department',
           'custom',
@@ -166,7 +166,7 @@ class AdminNavbar extends React.Component {
         msg.sentdepartment === 'CEO'
       ) {
         notify.show(
-          'New message :  You have received a project from ' +
+          'New message :  You have received a new feature from ' +
             msg.sentdepartment +
             ' department',
           'custom',
@@ -181,7 +181,7 @@ class AdminNavbar extends React.Component {
         msg.receiveddepartment === 'IT'
       ) {
         notify.show(
-          'New message :  You have received a project from ' +
+          'New message :  You have received a new feature from ' +
             msg.sentdepartment +
             ' department',
           'custom',
@@ -395,7 +395,7 @@ class AdminNavbar extends React.Component {
         return (
           <NavLink key={key} tag="li">
             <DropdownItem className="nav-item">
-              You received a new project {notif.progress}
+              You have received a new project {notif.progress}
             </DropdownItem>
           </NavLink>
         );
@@ -411,7 +411,7 @@ class AdminNavbar extends React.Component {
         return (
           <NavLink key={key} tag="li">
             <DropdownItem className="nav-item">
-              You received a new feature {notif.featureProgress}
+              You have received a new feature {notif.featureProgress}
             </DropdownItem>
           </NavLink>
         );
@@ -419,7 +419,8 @@ class AdminNavbar extends React.Component {
         return (
           <NavLink key={key} tag="li">
             <DropdownItem className="nav-item">
-              You received a new feature from {notif.sentdepartment} department
+              You have received a new feature from {notif.sentdepartment}{' '}
+              department
             </DropdownItem>
           </NavLink>
         );
@@ -427,7 +428,7 @@ class AdminNavbar extends React.Component {
         return (
           <NavLink key={key} tag="li">
             <DropdownItem className="nav-item">
-              You received a new feature from {notif.sentdepartment}
+              You have received a new feature from {notif.sentdepartment}
             </DropdownItem>
           </NavLink>
         );

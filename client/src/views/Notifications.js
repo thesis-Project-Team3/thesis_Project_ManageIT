@@ -138,8 +138,8 @@ class Notifications extends React.Component {
           <UncontrolledAlert className="alert-with-icon" color="info">
             <span className="tim-icons icon-bell-55" data-notify="icon" />
             <span data-notify="message">
-              New message : you have a {notif.subject} meeting in {notif.date}{' '}
-              From your head of department
+              New message : you have a new meeting entitled {notif.subject} at{' '}
+              {notif.date} from the head of your department
             </span>
           </UncontrolledAlert>
         );
@@ -148,8 +148,8 @@ class Notifications extends React.Component {
           <UncontrolledAlert className="alert-with-icon" color="info">
             <span className="tim-icons icon-bell-55" data-notify="icon" />
             <span data-notify="message">
-              New message : You received a new project {notif.progress} with the
-              name of {notif.title}
+              New message : You have received a new project entitled{' '}
+              {notif.title} {notif.progress}
             </span>
           </UncontrolledAlert>
         );
@@ -158,7 +158,7 @@ class Notifications extends React.Component {
           <UncontrolledAlert className="alert-with-icon" color="info">
             <span className="tim-icons icon-bell-55" data-notify="icon" />
             <span data-notify="message">
-              New message : You feature has been declined by CEO
+              New message : Your feature has been declined by CEO
             </span>
           </UncontrolledAlert>
         );
@@ -167,8 +167,8 @@ class Notifications extends React.Component {
           <UncontrolledAlert className="alert-with-icon" color="info">
             <span className="tim-icons icon-bell-55" data-notify="icon" />
             <span data-notify="message">
-              New message : You received a new feature {notif.featureProgress}{' '}
-              with the name of {notif.featureTitle}
+              New message : You have received a new project entitled{' '}
+              {notif.featureTitle} {notif.featureProgress}
             </span>
           </UncontrolledAlert>
         );
@@ -177,9 +177,8 @@ class Notifications extends React.Component {
           <UncontrolledAlert className="alert-with-icon" color="info">
             <span className="tim-icons icon-bell-55" data-notify="icon" />
             <span data-notify="message">
-              New message : You received a new feature from{' '}
-              {notif.sentdepartment} department with the name of{' '}
-              {notif.featureTitle}
+              New message : You have received a new feature from{' '}
+              {notif.sentdepartment} department entitled {notif.featureTitle}
             </span>
           </UncontrolledAlert>
         );
@@ -188,8 +187,8 @@ class Notifications extends React.Component {
           <UncontrolledAlert className="alert-with-icon" color="info">
             <span className="tim-icons icon-bell-55" data-notify="icon" />
             <span data-notify="message">
-              New message : You received a new feature from{' '}
-              {notif.sentdepartment} with the name of {notif.featureTitle}
+              New message : You have received a new feature from{' '}
+              {notif.sentdepartment} entitled {notif.featureTitle}
             </span>
           </UncontrolledAlert>
         );
