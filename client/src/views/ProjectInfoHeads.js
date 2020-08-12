@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import socketIOClient from "socket.io-client";
+import socketIOClient from 'socket.io-client';
 import {
   Button,
   Card,
@@ -20,7 +20,7 @@ import {
   UncontrolledCollapse,
   Table,
 } from 'reactstrap';
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = 'http://127.0.0.1:5000';
 
 class ProjectInfoHeads extends React.Component {
   constructor(props) {
@@ -46,25 +46,25 @@ class ProjectInfoHeads extends React.Component {
     e.preventDefault();
     this.setState({ modal1: !this.state.modal1 });
     axios.patch(`http://localhost:5000/project/update/${featureTitle}`, {
-      status: 'Finished',
-      progress: 'Declined by the Head of Department',
+      featureStatus: 'Finished',
+      featureProgress: 'Declined by the Head of Department',
     });
-    const jwt = localStorage.getItem("token");
+    const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     const socket = socketIOClient(ENDPOINT);
-    socket.emit("messageSent", {
+    socket.emit('messageSent', {
       status: 'Finished',
       progress: 'Declined by the Head of Department',
       department: user.department,
       title: featureTitle,
-    })
+    });
     axios.post('http://localhost:5000/notification/store', {
       status: 'Finished',
       progress: 'Declined by the Head of Department',
       featureTitle,
-      department: user.department
+      department: user.department,
     });
-  };
+  }
 
   handleAccept(featureTitle, e) {
     e.preventDefault();
@@ -73,24 +73,24 @@ class ProjectInfoHeads extends React.Component {
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
     });
-    const jwt = localStorage.getItem("token");
+    const jwt = localStorage.getItem('token');
     const user = jwtDecode(jwt);
     const socket = socketIOClient(ENDPOINT);
-    socket.emit("messageSent", {
+    socket.emit('messageSent', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
-      receiveddepartment: "Methods",
-      sentdepartment: user.department
-    })
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
+    });
     axios.post('http://localhost:5000/notification/store', {
       featureTitle,
       featureStatus: 'In Progress',
       featureProgress: 'Sent to Methods Department',
-      receiveddepartment: "Methods",
-      sentdepartment: user.department
+      receiveddepartment: 'Methods',
+      sentdepartment: user.department,
     });
-  };
+  }
 
   getFeatureCreator = (id) => {
     for (var i in this.state.usersList) {
@@ -157,118 +157,120 @@ class ProjectInfoHeads extends React.Component {
     var list;
     oneProjectInfo.feature
       ? (list = oneProjectInfo.feature.map((feat, key) => {
-        if (feat.featureStatus === 'In Progress') {
-          return (
-            <div key={key}>
-              <Table striped>
-                <tbody>
-                  <tr>
-                    <th scope="row">Creator</th>
-                    <td>{this.getFeatureCreator(feat.featureCreator)}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Title</th>
-                    <td>{feat.featureTitle}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Description</th>
-                    <td>{feat.featureDescription}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Deadline</th>
-                    <td>{feat.featureDeadline}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Status</th>
-                    <td>{feat.featureStatus}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Progress</th>
-                    <td>{feat.featureProgress}</td>
-                  </tr>
-                </tbody>
-              </Table>
-              <br></br>
+          if (feat.featureStatus === 'In Progress') {
+            return (
+              <div key={key}>
+                <Table striped>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Creator</th>
+                      <td>{this.getFeatureCreator(feat.featureCreator)}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Title</th>
+                      <td>{feat.featureTitle}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Description</th>
+                      <td>{feat.featureDescription}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Deadline</th>
+                      <td>{feat.featureDeadline}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Status</th>
+                      <td>{feat.featureStatus}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Progress</th>
+                      <td>{feat.featureProgress}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <br></br>
 
-              <Button
-                className="btn-fill"
-                color="primary"
-                type="submit"
-                onClick={this.handleAccept.bind(this, feat._id)}
-              >
-                Submit To Methods
-                </Button>
-              <Button
-                className="btn-fill"
-                color="primary"
-                type="submit"
-                onClick={this.handleDecline.bind(this, feat._id)}
-              >
-                Decline
-                </Button>
-              <div>
-                <Modal
-                  isOpen={this.state.modal1}
-                  toggle={this.toggle1}
-                  external={externalCloseBtn1}
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={this.handleAccept.bind(this, feat._id)}
                 >
-                  <ModalBody>
-                    {' '}
-                    <br />{' '}
-                    <center>
-                      <img
-                        src="https://fotomelia.com/wp-content/uploads/edd/2015/03/croix-rouge-logo-1560x1548.png"
-                        alt="logo" width="200px"
-                      />
-                      <br />
-                         Project has been Declined !
-                        </center>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      color="secondary"
-                      onClick={this.toggle1}
-                      href="/admin/projects-history-heads"
-                    >
-                      Close
-                        </Button>
-                  </ModalFooter>
-                </Modal>
-              </div>
-              <div>
-                <Modal
-                  isOpen={this.state.modal}
-                  toggle={this.toggle}
-                  external={externalCloseBtn}
+                  Submit To Methods
+                </Button>
+                <Button
+                  className="btn-fill"
+                  color="primary"
+                  type="submit"
+                  onClick={this.handleDecline.bind(this, feat._id)}
                 >
-                  <ModalBody>
-                    {' '}
-                    <br />{' '}
-                    <center>
-                      <img
-                        src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
-                        alt="logo" width="200px"
-                      />
-                      <br />
-                         Project has been sent to Methods !
-                        </center>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      color="secondary"
-                      onClick={this.toggle}
-                      href="/admin/projects-history-heads"
-                    >
-                      Close
-                        </Button>
-                  </ModalFooter>
-                </Modal>
+                  Decline
+                </Button>
+                <div>
+                  <Modal
+                    isOpen={this.state.modal1}
+                    toggle={this.toggle1}
+                    external={externalCloseBtn1}
+                  >
+                    <ModalBody>
+                      {' '}
+                      <br />{' '}
+                      <center>
+                        <img
+                          src="https://fotomelia.com/wp-content/uploads/edd/2015/03/croix-rouge-logo-1560x1548.png"
+                          alt="logo"
+                          width="200px"
+                        />
+                        <br />
+                        Project has been Declined !
+                      </center>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        color="secondary"
+                        onClick={this.toggle1}
+                        href="/admin/projects-history-heads"
+                      >
+                        Close
+                      </Button>
+                    </ModalFooter>
+                  </Modal>
+                </div>
+                <div>
+                  <Modal
+                    isOpen={this.state.modal}
+                    toggle={this.toggle}
+                    external={externalCloseBtn}
+                  >
+                    <ModalBody>
+                      {' '}
+                      <br />{' '}
+                      <center>
+                        <img
+                          src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                          alt="logo"
+                          width="200px"
+                        />
+                        <br />
+                        Project has been sent to Methods !
+                      </center>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button
+                        color="secondary"
+                        onClick={this.toggle}
+                        href="/admin/projects-history-heads"
+                      >
+                        Close
+                      </Button>
+                    </ModalFooter>
+                  </Modal>
+                </div>
+                <br></br>
               </div>
-              <br></br>
-            </div>
-          );
-        }
-      }))
+            );
+          }
+        }))
       : (list = undefined);
     return (
       <>
