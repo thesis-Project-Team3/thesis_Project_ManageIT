@@ -193,8 +193,14 @@ class Login extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let userError = 'invalid email or password'
-    this.setState({ userError })
+    if (this.state.loginInformations.password !== "AZERTYazerty0000") {
+      let userError = 'invalid email or password'
+      this.setState({ userError })
+    }
+    if (this.state.loginInformations.password === "AZERTYazerty0000") {
+      let userError = ''
+      this.setState({ userError })
+    }
     try {
       axios
         .post('http://localhost:5000/auth/', this.state.loginInformations)
@@ -203,7 +209,7 @@ class Login extends React.Component {
           localStorage.setItem('token', response.data);
           window.location = '/admin/user-profile';
         });
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
 
@@ -274,8 +280,8 @@ class Login extends React.Component {
               color="primary"
               className={this.classes.submit}
               onClick={this.handleSubmit}
-              // href="/admin/dashboard"
-              // onClick={e => e.preventDefault()}
+            // href="/admin/dashboard"
+            // onClick={e => e.preventDefault()}
             >
               Get Started
             </Button>

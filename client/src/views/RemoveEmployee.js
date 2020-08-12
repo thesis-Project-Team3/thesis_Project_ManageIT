@@ -220,6 +220,9 @@ import {
   Container,
   Row,
   Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 
 class RemoveEmployee extends React.Component {
@@ -231,8 +234,13 @@ class RemoveEmployee extends React.Component {
       email: '',
       message: '',
       employees: [],
+      modal: false,
     };
   }
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
 
   getEmployees = (e) => {
     e.preventDefault();
@@ -278,6 +286,7 @@ class RemoveEmployee extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.setState({ modal: !this.state.modal });
     fetch('http://localhost:5000/deleteEmployee', {
       method: 'POST',
       body: JSON.stringify(this.state),
@@ -307,6 +316,15 @@ class RemoveEmployee extends React.Component {
         );
       }
     });
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
     return (
       <>
         <div className="content">
@@ -390,6 +408,36 @@ class RemoveEmployee extends React.Component {
                     >
                       Confirm
                     </Button>
+                    <div>
+                      <Modal
+                        isOpen={this.state.modal}
+                        toggle={this.toggle}
+                        external={externalCloseBtn}
+                      >
+                        <ModalBody>
+                          {' '}
+                          <br />{' '}
+                          <center>
+                            <img
+                              src="https://fotomelia.com/wp-content/uploads/edd/2015/03/croix-rouge-logo-1560x1548.png"
+                              alt="logo"
+                              width="200px"
+                            />
+                            <br />
+                        Employee has been successfully removed !
+                      </center>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button
+                            color="secondary"
+                            onClick={this.toggle}
+                            href="/admin/RemoveEmployee"
+                          >
+                            Close
+                      </Button>
+                        </ModalFooter>
+                      </Modal>
+                    </div>
                   </CardFooter>
                 </Card>
               </Form>
