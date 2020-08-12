@@ -20,6 +20,9 @@ import {
   Container,
   Row,
   Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
 } from 'reactstrap';
 
 class AddEmployee extends React.Component {
@@ -35,7 +38,13 @@ class AddEmployee extends React.Component {
     fullnameError: '',
     emailError: '',
     passwordError: '',
+    modal: false,
   };
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
   componentDidMount() {
     document.body.classList.toggle('register-page');
   }
@@ -59,6 +68,7 @@ class AddEmployee extends React.Component {
     // var isValid = this.validate();
     // if (isValid) {
     e.preventDefault();
+    this.setState({ modal: !this.state.modal });
     console.log(this.state.RegisterInformations);
     axios
       .post('http://localhost:5000/users', this.state.RegisterInformations)
@@ -108,6 +118,15 @@ class AddEmployee extends React.Component {
 
   render() {
     const { RegisterInformations } = this.state;
+    const externalCloseBtn = (
+      <button
+        className="close"
+        style={{ position: 'absolute', top: '15px', right: '15px' }}
+        onClick={this.toggle}
+      >
+        &times;
+      </button>
+    );
     return (
       <>
         <div className="content">
@@ -275,6 +294,36 @@ class AddEmployee extends React.Component {
                     >
                       Confirm
                     </Button>
+                    <div>
+                      <Modal
+                        isOpen={this.state.modal}
+                        toggle={this.toggle}
+                        external={externalCloseBtn}
+                      >
+                        <ModalBody>
+                          {' '}
+                          <br />{' '}
+                          <center>
+                            <img
+                              src="https://images.assetsdelivery.com/compings_v2/alonastep/alonastep1605/alonastep160500181.jpg"
+                              alt="logo"
+                              width="200px"
+                            />
+                            <br />
+                        Employee has been successfully added !
+                      </center>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button
+                            color="secondary"
+                            onClick={this.toggle}
+                            href="/admin/AddEmployee"
+                          >
+                            Close
+                      </Button>
+                        </ModalFooter>
+                      </Modal>
+                    </div>
                   </CardFooter>
                 </Card>
               </Form>
